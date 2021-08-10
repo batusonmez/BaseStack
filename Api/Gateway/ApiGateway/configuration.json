@@ -1,0 +1,45 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/book/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Delete",
+        "Put",
+        "Patch",
+        "OPTIONS"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/comment/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Delete",
+        "Put",
+        "Patch",
+        "OPTIONS"
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5000"
+  }
+}

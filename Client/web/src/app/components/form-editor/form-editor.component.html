@@ -1,0 +1,31 @@
+<div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+    <div *ngFor="let field of Fields"  class="mb-3" >
+      <div [formGroup]="form">
+        <label [attr.for]="field.key"  class="form-label">{{field.label}}</label>
+
+        <ng-container [ngSwitch]="field.controlType">
+
+          <input *ngSwitchCase="'textbox'" class="form-control" [formControlName]="field.key"
+                 [id]="field.key" [type]="field.type">
+
+          <select [id]="field.key" class="form-select" *ngSwitchCase="'dropdown'" [formControlName]="field.key">
+            <option *ngFor="let opt of field.options" [value]="opt.key">{{opt.value}}</option>
+          </select>
+
+        </ng-container>
+
+        <div class="errorMessage" *ngIf="!field.isValid">{{field.label}} is required</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+    </div>
+  </form>
+
+  <div *ngIf="payLoad" class="form-row">
+    <strong>Saved the following values</strong><br>{{payLoad}}
+  </div>
+</div>
