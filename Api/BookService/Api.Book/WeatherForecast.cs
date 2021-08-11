@@ -1,6 +1,6 @@
 using System;
 
-namespace Api.Book
+namespace Api.BookManagement
 {
     public class WeatherForecast
     {

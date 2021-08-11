@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Book
+namespace Api.BookManagement
 {
     public class Program
     {
