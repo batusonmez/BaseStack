@@ -17,7 +17,7 @@ namespace Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T GetById(Object[] id);
+        T GetById(params Object[] id);
 
         /// <summary>
         /// Get whole data set

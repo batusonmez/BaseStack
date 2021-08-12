@@ -1,3 +1,5 @@
+using BookManagementModels.Entities;
+using Business.Book;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnitOfWork;
+using UOW;
 
 namespace Api.BookManagement
 {
@@ -25,6 +29,7 @@ namespace Api.BookManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Configuration>(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -46,6 +51,14 @@ namespace Api.BookManagement
                         Url = new Uri("https://opensource.org/licenses/MIT"),
                     }
                 });
+            });
+            
+            //Map Depenecies 
+            services.AddTransient<IBookBusiness, BookBusiness>();
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>(sp =>
+            {
+                var context = new BookManagementContext(Configuration["ConnectionString"]);
+                return new EFUnitOfWork(context);
             });
         }
 

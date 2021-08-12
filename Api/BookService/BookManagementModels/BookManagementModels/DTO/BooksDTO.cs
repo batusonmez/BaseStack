@@ -1,19 +1,19 @@
-﻿using System;
+﻿using BookManagementModels.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManagementModels.Entities
+namespace BookManagementModels.DTO
 {
     /// <summary>
-    /// Sample Entity
+    /// DTO for clients
     /// </summary>
-    public class Books : EntityBase
+    public class BooksDTO : DTOBase
     {
         public string Title { get; set; }
         public string Description { get; set; }
 
-        //...etc
     }
 }

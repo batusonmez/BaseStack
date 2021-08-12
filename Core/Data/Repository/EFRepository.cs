@@ -38,7 +38,7 @@ namespace Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual T GetById(object[] id)
+        public virtual T GetById(params object[] id)
         {
             return Set.Find(id);
         }

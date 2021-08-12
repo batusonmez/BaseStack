@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 namespace BookManagementModels.Entities
 {
     /// <summary>
-    /// Sample Entity
+    /// Common properties for entities
     /// </summary>
-    public class Books : EntityBase
+    public abstract class EntityBase
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public Guid ID { get; set; }
+        public DateTime CreationDate { get; set; }
 
-        //...etc
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Repository;
 using System;
+using System.Threading.Tasks;
 
 namespace UnitOfWork
 {
@@ -14,5 +15,11 @@ namespace UnitOfWork
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         IRepository<T> CreateRepository<T>() where T : class;
+
+        /// <summary>
+        /// Save changes
+        /// </summary>
+        /// <returns></returns>
+        Task<int> Commit();
     }
 }

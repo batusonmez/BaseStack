@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository;
 using System;
+using System.Threading.Tasks;
 using UnitOfWork;
 
 namespace UOW
@@ -31,6 +32,16 @@ namespace UOW
         IRepository<T> IUnitOfWork.CreateRepository<T>()
         {
             return new EFRepository<T>(context);
+        }
+
+
+        /// <summary>
+        /// Save changes
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> Commit()
+        {
+           return context.SaveChangesAsync();
         }
     }
 }
