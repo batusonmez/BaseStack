@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  postgres: 
+    image: "postgres"
+    ports:
+    - "5432:5432"
+    environment:
+     POSTGRES_PASSWORD: "1234qqqQ"
+   
+  PGAdmin:
+    image: "dpage/pgadmin4"
+    ports:
+    - "5555:80"
+    environment:
+     PGADMIN_DEFAULT_EMAIL: "super@user.com"
+     PGADMIN_DEFAULT_PASSWORD: "1234qqqQ"
+  
+  ElasticSearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.14.0"
+    ports:
+    - "9200:9200"
+    environment:
+     discovery.type: "single-node" 

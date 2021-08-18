@@ -2,9 +2,10 @@
 using BookManagementModels.DTO.Maps;
 using BookManagementModels.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnitOfWork;
-
+using System.Linq;
 namespace Business.Book
 {
     /// <summary>
@@ -26,7 +27,7 @@ namespace Business.Book
         /// <returns></returns>
         public Task<int> SaveBook(BooksDTO book)
         {
-            var bookRepo = uow.CreateRepository<Books>();            
+            var bookRepo = uow.CreateRepository<Books>();
             if (book.HasID)
             {
                 var entity = bookRepo.GetById(book.ID);
@@ -38,11 +39,19 @@ namespace Business.Book
             }
             else
             {
-                
+
                 bookRepo.Insert(book.Map());
             }
 
             return uow.Commit();
+        }
+
+
+        public void Search(string Context)
+        {
+             
+
+
         }
 
     }

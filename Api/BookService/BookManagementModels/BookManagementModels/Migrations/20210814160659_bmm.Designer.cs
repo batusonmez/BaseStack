@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookManagementModels.Migrations
 {
     [DbContext(typeof(BookManagementContext))]
-    [Migration("20210811211923_initc")]
-    partial class initc
+    [Migration("20210814160659_bmm")]
+    partial class bmm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

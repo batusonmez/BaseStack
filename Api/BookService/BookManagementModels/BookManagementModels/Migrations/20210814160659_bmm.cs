@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookManagementModels.Migrations
 {
-    public partial class initc : Migration
+    public partial class bmm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
