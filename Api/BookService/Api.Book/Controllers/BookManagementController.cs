@@ -1,5 +1,6 @@
 ﻿using BookManagementModels.DTO;
 using Business.Book;
+using Indexer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +16,12 @@ namespace Api.BookManagement.Controllers
     public class BookManagementController : ControllerBase
     {
         private readonly IBookBusiness business;
+        private readonly IIndexer indexer;
 
-        public BookManagementController(IBookBusiness business)
+        public BookManagementController(IBookBusiness business, IIndexer indexer)
         {
             this.business = business;
+            this.indexer = indexer;
         }
 
         [HttpPost]
@@ -31,7 +34,9 @@ namespace Api.BookManagement.Controllers
             {
                 return BadRequest();
             }
+            var tcx=indexer.Search<BooksDTO>("");
             await business.SaveBook(book);
+            indexer.Index<BooksDTO>(book);
             return Ok();
         }
     }

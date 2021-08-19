@@ -1,5 +1,7 @@
+using BookManagementModels.DTO;
 using BookManagementModels.Entities;
 using Business.Book;
+using Indexer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +63,30 @@ namespace Api.BookManagement
                 var context = new BookManagementContext(Configuration["ConnectionString"]);
                 return new EFUnitOfWork(context);
             });
+            AddIndexer(services);
+        }
+
+        /// <summary>
+        /// Document Indexer Client
+        /// </summary>
+        /// <param name="services"></param>
+        void AddIndexer(IServiceCollection services)
+        {
+            var url = Configuration["elasticsearch:url"];
+            var defaultIndex = Configuration["elasticsearch:index"];
+
+            var settings = new ConnectionSettings(new Uri(url))
+                .DefaultIndex(defaultIndex)
+                .DefaultMappingFor<BooksDTO>(m => m
+                    .Ignore(p => p.HasID)
+                    .PropertyName(p => p.ID, "id")
+                );
+
+            
+            var client = new ElasticClient(settings);
+            var indexer = new ElasticSearchIndexer(client);
+
+            services.AddSingleton<IIndexer>(indexer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Indexer
 {
+    /// <summary>
+    /// Elastic Search Index Implamentation
+    /// </summary>
     public class ElasticSearchIndexer : IIndexer
     {
         private readonly ElasticClient client;
@@ -14,21 +17,35 @@ namespace Indexer
             this.client = client;
         }
 
-        public void Index<T>(T document) where T:class
+        /// <summary>
+        /// Save Index
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="document"></param>
+        public void Index<T>(T document) where T : class
         {
             client.IndexDocument<T>(document);
         }
 
-        public IEnumerable<T> Search<T>(string query, int page = 1, int pageSize = 5) where T:class
+        /// <summary>
+        /// search index by string
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public IEnumerable<T> Search<T>(string query) where T : class
         {
-            IElasticClient t;
+            return client.Search<T>(s => s
+    .Query(q => q
+        .MatchAll()
+    )
+).Documents;
 
-            t.Search<mdw>(
-       s => s.Query(q => q.QueryString(d => d.Query(query)))
-           .From((page - 1) * pageSize)
-           .Size(pageSize).d
 
-            return null;
+            //    return client.Search<T>(
+            //s => s.Query(q => q.QueryString(d => d.Query(query)))).Documents;
+
+             
         }
     }
 }
