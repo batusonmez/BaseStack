@@ -33,11 +33,21 @@ namespace Api.BookManagement.Controllers
             if (book == null)
             {
                 return BadRequest();
-            }
-            var tcx=indexer.Search<BooksDTO>("");
+            } 
             await business.SaveBook(book);
             indexer.Index<BooksDTO>(book);
             return Ok();
         }
+
+
+        [HttpPost]
+        [Route("search")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Search(string term)
+        {
+            return Ok(indexer.Search<BooksDTO>(term));
+        }
+
     }
 }

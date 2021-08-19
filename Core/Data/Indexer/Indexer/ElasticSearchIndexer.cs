@@ -35,15 +35,12 @@ namespace Indexer
         /// <returns></returns>
         public IEnumerable<T> Search<T>(string query) where T : class
         {
-            return client.Search<T>(s => s
-    .Query(q => q
-        .MatchAll()
-    )
-).Documents;
+    //        return client.Search<T>(s => s
+    //.Query(q => q.MatchAll())).Documents;
 
 
-            //    return client.Search<T>(
-            //s => s.Query(q => q.QueryString(d => d.Query(query)))).Documents;
+                return client.Search<T>(
+            s => s.Query(q => q.QueryString(d => d.Query(query)))).Documents;
 
              
         }
