@@ -1,6 +1,8 @@
-using BookManagementModels.DTO;
+
+using AutoMapper;
 using BookManagementModels.Entities;
 using Business.Book;
+using Business.Book.DTO.Maps;
 using Elasticsearch.Net;
 using Indexer;
 using Microsoft.AspNetCore.Builder;
@@ -65,6 +67,13 @@ namespace Api.BookManagement
                 return new EFUnitOfWork(context);
             });
             AddIndexer(services);
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         /// <summary>

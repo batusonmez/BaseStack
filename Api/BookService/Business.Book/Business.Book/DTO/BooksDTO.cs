@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManagementModels.DTO
+namespace Business.Book.DTO
 {
     /// <summary>
     /// DTO for clients

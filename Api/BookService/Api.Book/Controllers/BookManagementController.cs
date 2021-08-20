@@ -1,11 +1,9 @@
-﻿using BookManagementModels.DTO;
+﻿
 using Business.Book;
+using Business.Book.DTO;
 using Indexer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 

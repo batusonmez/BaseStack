@@ -1,23 +1,25 @@
-﻿using BookManagementModels.DTO;
-using BookManagementModels.DTO.Maps;
+﻿ 
 using BookManagementModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnitOfWork;
 using System.Linq;
+using Business.Book.DTO;
+using Business.Book.DTO.Maps;
+using AutoMapper;
+
 namespace Business.Book
 {
     /// <summary>
     /// Functions for book management
     /// </summary>
-    public class BookBusiness : IBookBusiness
+    public class BookBusiness : BaseController, IBookBusiness
     {
-        private readonly IUnitOfWork uow;
-
-        public BookBusiness(IUnitOfWork uow)
+        
+        public BookBusiness(IUnitOfWork uow, IMapper mapper) :base(uow,mapper)
         {
-            this.uow = uow;
+            
         }
 
         /// <summary>
@@ -27,25 +29,8 @@ namespace Business.Book
         /// <returns></returns>
         public async Task<BooksDTO> SaveBook(BooksDTO book)
         {
-            var bookRepo = uow.CreateRepository<Books>();
-            if (book.HasID)
-            {
-                var entity = bookRepo.GetById(book.ID);
-                entity.Title = book.Title;
-                entity.Description = book.Description;
-                //etc...
-
-                bookRepo.Update(entity);
-            }
-            else
-            {
-                var entity = book.Map();
-                bookRepo.Insert(entity);
-                book.ID = entity.ID;
-            }
-
-            await uow.Commit();
-            return book;
+           return await Upsert<BooksDTO,Books>(book);
+             
         }
 
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManagementModels.DTO.Maps
+namespace Business.Book.DTO.Maps
 {
     /// <summary>
     /// Mapping extansions for entities and DTO's
