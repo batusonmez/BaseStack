@@ -25,7 +25,7 @@ namespace Business.Book
         /// </summary>
         /// <param name="book">book to save</param>
         /// <returns></returns>
-        public Task<int> SaveBook(BooksDTO book)
+        public async Task<BooksDTO> SaveBook(BooksDTO book)
         {
             var bookRepo = uow.CreateRepository<Books>();
             if (book.HasID)
@@ -39,18 +39,19 @@ namespace Business.Book
             }
             else
             {
-
-                bookRepo.Insert(book.Map());
+                var entity = book.Map();
+                bookRepo.Insert(entity);
+                book.ID = entity.ID;
             }
 
-            return uow.Commit();
+            await uow.Commit();
+            return book;
         }
 
 
         public void Search(string Context)
         {
              
-
 
         }
 

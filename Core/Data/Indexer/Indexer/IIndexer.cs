@@ -10,18 +10,23 @@ namespace Indexer
   public  interface IIndexer
     {
         /// <summary>
-        /// Index Document
+        /// Save index document
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="indexName"></param>
+        /// <param name="id"></param>
         /// <param name="document"></param>
-        void Index<T>(T document) where T : class;
+        /// <returns></returns>
+        string Index<T>(string indexName, string id, T document) where T : class;
+
         /// <summary>
-        /// Seach Index 
+        /// seach indexed documents
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="index"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        IEnumerable<T> Search<T>(string query) where T : class;
+        IEnumerable<T> Search<T>(string index, string query) where T : class;
 
     }
 }

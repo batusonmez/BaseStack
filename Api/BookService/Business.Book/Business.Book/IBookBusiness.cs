@@ -16,6 +16,6 @@ namespace Business.Book
         /// </summary>
         /// <param name="book">book to save</param>
         /// <returns></returns>
-        Task<int> SaveBook(BooksDTO book);
+        Task<BooksDTO> SaveBook(BooksDTO book);
     }
 }

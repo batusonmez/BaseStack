@@ -1,6 +1,7 @@
 using BookManagementModels.DTO;
 using BookManagementModels.Entities;
 using Business.Book;
+using Elasticsearch.Net;
 using Indexer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Nest;
+ 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace Api.BookManagement
                     }
                 });
             });
-            
+
             //Map Depenecies 
             services.AddTransient<IBookBusiness, BookBusiness>();
             services.AddScoped<IUnitOfWork, EFUnitOfWork>(sp =>
@@ -72,18 +73,12 @@ namespace Api.BookManagement
         /// <param name="services"></param>
         void AddIndexer(IServiceCollection services)
         {
-            var url = Configuration["elasticsearch:url"];
-            var defaultIndex = Configuration["elasticsearch:index"];
+            var url = Configuration["elasticsearch:url"]; 
+              
+            var settings = new ConnectionConfiguration(new Uri(url));
 
-            var settings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex(defaultIndex)
-                .DefaultMappingFor<BooksDTO>(m => m
-                    .Ignore(p => p.HasID)
-                    .PropertyName(p => p.ID, "id")
-                );
-
-            
-            var client = new ElasticClient(settings);
+            var client = new ElasticLowLevelClient(settings);
+             
             var indexer = new ElasticSearchIndexer(client);
 
             services.AddSingleton<IIndexer>(indexer);

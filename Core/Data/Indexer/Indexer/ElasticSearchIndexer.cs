@@ -1,8 +1,10 @@
-﻿using Nest;
+﻿using Elasticsearch.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace Indexer
 {
     /// <summary>
@@ -10,39 +12,52 @@ namespace Indexer
     /// </summary>
     public class ElasticSearchIndexer : IIndexer
     {
-        private readonly ElasticClient client;
+        private readonly ElasticLowLevelClient client;
 
-        public ElasticSearchIndexer(ElasticClient client)
+        public ElasticSearchIndexer(ElasticLowLevelClient client)
         {
             this.client = client;
         }
 
+
         /// <summary>
-        /// Save Index
+        /// Save index document
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="indexName"></param>
+        /// <param name="id"></param>
         /// <param name="document"></param>
-        public void Index<T>(T document) where T : class
+        /// <returns></returns>
+        public string Index<T>(string indexName, string id, T document) where T : class
         {
-            client.IndexDocument<T>(document);
+            var response= client.Index<StringResponse>(indexName, id, PostData.Serializable<T>(document));
+            if (!response.Success)
+            {
+                throw new Exception(response.DebugInformation);
+            }
+            return response.Body;
+
         }
 
         /// <summary>
-        /// search index by string
+        /// seach indexed documents
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="index"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        public IEnumerable<T> Search<T>(string query) where T : class
+        public IEnumerable<T> Search<T>(string index, string query) where T : class
         {
-    //        return client.Search<T>(s => s
-    //.Query(q => q.MatchAll())).Documents;
+            var searchResponse = client.Search<StringResponse>(index, query);
 
+           return JToken.Parse(searchResponse.Body)
+                    .SelectTokens("hits.hits[*]._source")
+                    .Select(t => t.ToObject<T>())
+                    .ToList();
+ 
 
-                return client.Search<T>(
-            s => s.Query(q => q.QueryString(d => d.Query(query)))).Documents;
-
-             
         }
+
+  
     }
 }

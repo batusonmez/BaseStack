@@ -33,9 +33,9 @@ namespace Api.BookManagement.Controllers
             if (book == null)
             {
                 return BadRequest();
-            } 
+            }             
             await business.SaveBook(book);
-            indexer.Index<BooksDTO>(book);
+            var resp=indexer.Index<BooksDTO>(BooksDTO.IndexName,book.ID.ToString(),book);
             return Ok();
         }
 
@@ -46,7 +46,7 @@ namespace Api.BookManagement.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Search(string term)
         {
-            return Ok(indexer.Search<BooksDTO>(term));
+            return Ok(indexer.Search<BooksDTO>(BooksDTO.IndexName,term));
         }
 
     }
