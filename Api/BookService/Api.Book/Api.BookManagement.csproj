@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Elasticsearch.Net" Version="7.14.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Data\Indexer\Indexer\Indexer.csproj" />
     <ProjectReference Include="..\Business.Book\Business.Book\Business.Book.csproj" />
   </ItemGroup>
  

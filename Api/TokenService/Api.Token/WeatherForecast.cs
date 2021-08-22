@@ -1,6 +1,6 @@
 using System;
 
-namespace Api.BookManagement
+namespace Api.Token
 {
     public class WeatherForecast
     {

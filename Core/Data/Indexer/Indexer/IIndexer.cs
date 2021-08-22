@@ -26,7 +26,7 @@ namespace Indexer
         /// <param name="index"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        IEnumerable<T> Search<T>(string index, string query) where T : class;
+        IndexReult<T> Search<T>(string index, string query) where T : class;
 
     }
 }

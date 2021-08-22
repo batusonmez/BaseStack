@@ -8,6 +8,7 @@ using System.Linq;
 using Business.Book.DTO;
 using Business.Book.DTO.Maps;
 using AutoMapper;
+using Indexer;
 
 namespace Business.Book
 {
@@ -16,10 +17,11 @@ namespace Business.Book
     /// </summary>
     public class BookBusiness : BaseController, IBookBusiness
     {
-        
-        public BookBusiness(IUnitOfWork uow, IMapper mapper) :base(uow,mapper)
+        private readonly IIndexer indexer;
+
+        public BookBusiness(IUnitOfWork uow, IMapper mapper, IIndexer indexer) :base(uow,mapper)
         {
-            
+            this.indexer = indexer;
         }
 
         /// <summary>
@@ -29,8 +31,9 @@ namespace Business.Book
         /// <returns></returns>
         public async Task<BooksDTO> SaveBook(BooksDTO book)
         {
-           return await Upsert<BooksDTO,Books>(book);
-             
+           var result= await Upsert<BooksDTO,Books>(book);
+            indexer.Index<BooksDTO>(BooksDTO.IndexName, result.ID.ToString(), result);
+            return result;
         }
 
 

@@ -2,6 +2,7 @@
 using Business.Book;
 using Business.Book.DTO;
 using Indexer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -23,29 +24,31 @@ namespace Api.BookManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(BooksDTO book)
+        public async Task<IActionResult> Post([FromBody]BooksDTO book)
         {
             if (book == null)
             {
                 return BadRequest();
             }             
             await business.SaveBook(book);
-            var resp=indexer.Index<BooksDTO>(BooksDTO.IndexName,book.ID.ToString(),book);
-            return Ok();
+       
+            return Ok(book);
         }
 
 
         [HttpPost]
-        [Route("search")]
-        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("search")] 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Search(string term)
+        public IActionResult Search([FromBody]string term)
         {
             return Ok(indexer.Search<BooksDTO>(BooksDTO.IndexName,term));
         }
 
+
+      
     }
 }

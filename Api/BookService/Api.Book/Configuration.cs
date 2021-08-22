@@ -13,6 +13,8 @@ namespace Api.BookManagement
         /// <summary>
         /// Datasource connection string
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; set; } 
     }
+ 
+
 }

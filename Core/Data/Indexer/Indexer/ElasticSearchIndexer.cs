@@ -46,16 +46,21 @@ namespace Indexer
         /// <param name="index"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        public IEnumerable<T> Search<T>(string index, string query) where T : class
+        public IndexReult<T> Search<T>(string index, string query) where T : class
         {
-            var searchResponse = client.Search<StringResponse>(index, query);
+            var result = new IndexReult<T>();
 
-           return JToken.Parse(searchResponse.Body)
+            var searchResponse = client.Search<StringResponse>(index, query);
+            var token = JToken.Parse(searchResponse.Body);
+
+             result.Data= token
                     .SelectTokens("hits.hits[*]._source")
                     .Select(t => t.ToObject<T>())
                     .ToList();
- 
 
+            result.Count = token.SelectToken("hits.total.value").ToObject<int>();
+
+            return result;
         }
 
   

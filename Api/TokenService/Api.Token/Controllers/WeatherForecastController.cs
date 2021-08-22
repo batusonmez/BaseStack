@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Comment.Controllers
+namespace Api.Token.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -24,7 +23,7 @@ namespace Api.Comment.Controllers
             _logger = logger;
         }
 
-        [HttpGet] 
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

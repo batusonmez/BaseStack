@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\Data\Indexer\Indexer\Indexer.csproj" />
     <ProjectReference Include="..\..\..\..\Core\Data\UnitOfWork\UnitOfWork\UnitOfWork.csproj" />
     <ProjectReference Include="..\..\BookManagementModels\BookManagementModels\BookManagementModels.csproj" />
   </ItemGroup>

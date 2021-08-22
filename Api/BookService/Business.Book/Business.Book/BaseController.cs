@@ -19,7 +19,7 @@ namespace Business.Book
         }
 
         public IUnitOfWork Uow { get; }
-        public IMapper Mapper { get; }
+        public IMapper Mapper { get; set; }
 
        
         /// <summary>
