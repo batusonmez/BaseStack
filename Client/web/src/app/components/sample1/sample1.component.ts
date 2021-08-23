@@ -8,8 +8,24 @@ import { Component, OnInit } from '@angular/core';
 export class Sample1Component implements OnInit {
 
   constructor() { }
-
+  data: any[] = [];
   ngOnInit(): void {
+
+   this.data= [
+      {
+        Name: 'Osman',
+        Surname: 'Hakkı',
+        Link: '<a href="#"> Link </a>'
+      },
+      {
+        Name: 'İbrahim',
+        Surname: 'Deli'
+      },
+      {
+        Name: 'Ya Habbib',
+        Surname: 'mmc'
+      }
+    ]
   }
 
 }

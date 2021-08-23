@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FormEditorComponent implements OnInit {
   @Input() Fields: any[] = [];
   payLoad = '';
+ 
   form!: FormGroup;
   constructor() { }
 

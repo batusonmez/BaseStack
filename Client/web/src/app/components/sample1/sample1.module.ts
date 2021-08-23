@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Sample1Component } from './sample1.component'  
 import { FormEditorModule } from '../form-editor/form-editor.module';
 import { RouterModule, Routes } from '@angular/router';
+import { DataTableModule } from '../data-table/data-table.module';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule, 
-    FormEditorModule
+    FormEditorModule,
+    DataTableModule
     
   ]
 })

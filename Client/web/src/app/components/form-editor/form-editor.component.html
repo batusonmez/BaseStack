@@ -1,9 +1,9 @@
-<div>
+<div> 
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
-
-    <div *ngFor="let field of Fields"  class="mb-3" >
+     
+    <div *ngFor="let field of Fields" class="mb-3">
       <div [formGroup]="form">
-        <label [attr.for]="field.key"  class="form-label">{{field.label}}</label>
+        <label [attr.for]="field.key" class="form-label">{{field.label}}</label>
 
         <ng-container [ngSwitch]="field.controlType">
 
