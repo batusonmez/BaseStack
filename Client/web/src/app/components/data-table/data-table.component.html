@@ -29,17 +29,19 @@
       <td [attr.colspan]="Columns.length">
         <div class="row">
           <div class="col-6">
-            <table>
+            <table style="font-size:small">
 
               <tr> 
                 <td>Page </td>
                 <td>
-                  <select class="form-select form-select-sm">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                  <select [(ngModel)]="Page" class="form-select form-select-sm" (change)="pageChanged()">
+
+                    <option *ngFor="let item of [].constructor(PageCount); let i = index" [value]="i+1" >
+                      {{i+1}}
+                    </option>                
                   </select>
                 </td>
+                <td> Total: {{Total}}</td>
               </tr>
             </table>
 

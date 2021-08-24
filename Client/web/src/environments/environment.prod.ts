@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  ApiDomain: "http://localhost:5000"
 };

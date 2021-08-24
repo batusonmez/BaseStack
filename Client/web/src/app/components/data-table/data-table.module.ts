@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { DataTableComponent } from './data-table.component' 
@@ -8,7 +8,8 @@ import { DataTableComponent } from './data-table.component'
 @NgModule({
   imports: [
     ReactiveFormsModule,
-    CommonModule 
+    CommonModule,
+    FormsModule
   ],
   declarations: [
     DataTableComponent

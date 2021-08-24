@@ -43,9 +43,9 @@ namespace Api.BookManagement.Controllers
         [HttpPost]
         [Route("search")] 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Search([FromBody]string term)
+        public IActionResult Search([FromBody]SearchQueryDTO query)
         {
-            return Ok(indexer.Search<BooksDTO>(BooksDTO.IndexName,term));
+            return Ok(indexer.Search<BooksDTO>(BooksDTO.IndexName,query.Query));
         }
 
 

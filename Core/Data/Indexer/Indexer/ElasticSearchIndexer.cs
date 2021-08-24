@@ -49,8 +49,8 @@ namespace Indexer
         public IndexReult<T> Search<T>(string index, string query) where T : class
         {
             var result = new IndexReult<T>();
-
-            var searchResponse = client.Search<StringResponse>(index, query);
+             
+            var searchResponse = client.Search<StringResponse>(index,query);
             var token = JToken.Parse(searchResponse.Body);
 
              result.Data= token
