@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../services/base.service'; 
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpService } from '../../services/base.service';
 
 @Component({
   selector: 'app-sample1',
@@ -8,31 +9,51 @@ import { HttpService } from '../../services/base.service';
 })
 export class Sample1Component implements OnInit {
 
-  constructor(private service: HttpService) { }
+  constructor(private service: HttpService, private route: ActivatedRoute, private router: Router) {
+
+
+  }
   books: any = {
     data: []
   };
-  query: any = {
-    from: 0,
-    size: 2,
-    query: {
-      match_all: {}
-    }
-  };
+  query: any = {};
+  page: number = 1; 
+  size: number = 3;
 
   ngOnInit(): void {
-    this.loadData();
+    this.route.queryParams.subscribe(params => {
+      this.page = params.page ?? 1;
+      this.query = {
+        from: this.size * (params.page - 1),
+        size: this.size,
+        query: {
+          match_all: {}
+        }
+      };
+      this.loadData();
+    });
+
   }
 
   loadData() {
-    this.service.Post("/book/api/BookManagement/search", { Query: JSON.stringify(this.query)}).subscribe(result => {
+    this.service.Post("/book/api/BookManagement/search", { Query: JSON.stringify(this.query) }).subscribe(result => {
       this.books = result;
-    });   
-  }   
+    });
+  }
 
   pageChanged(page: number): void {
-    this.query.from = this.query.size * (page - 1);
-    this.loadData();
+
+    const queryParams: Params = { page: page };
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: queryParams,
+        queryParamsHandling: 'merge', 
+      }); 
   }
-  
+
+
+
 }

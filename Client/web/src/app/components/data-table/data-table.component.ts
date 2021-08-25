@@ -17,13 +17,12 @@ export class DataTableComponent implements OnInit {
   @Output() PageChange = new EventEmitter<number>();
   ngOnInit(): void {
 
-
-
   }
 
   get PageCount(): number {
-    if (!this.Total  || !this.Pageize) { return 1; }
-    return this.Total / this.Pageize;
+    if (!this.Total || !this.Pageize) { return 1; }
+
+    return Math.ceil(this.Total / this.Pageize);
   }
 
   pageChanged(): void {
