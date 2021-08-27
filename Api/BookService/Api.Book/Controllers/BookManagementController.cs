@@ -24,7 +24,7 @@ namespace Api.BookManagement.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+      //  [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

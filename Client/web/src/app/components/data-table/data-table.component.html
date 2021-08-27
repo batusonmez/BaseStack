@@ -10,8 +10,8 @@
             <td class="col-2">
 
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" aria-label="Input group example" aria-describedby="btnGroupAddon">
-                <div class="input-group-text" >@</div>
+                <input type="text" [(ngModel)]="Term" class="form-control" placeholder="Search" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                <div (click)="search()" class="input-group-text" style="cursor:pointer" ><i class="fas fa-search"></i></div>
               </div>
               
             </td>

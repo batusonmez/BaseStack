@@ -13,8 +13,10 @@ export class DataTableComponent implements OnInit {
   @Input() Pageize: number = 2;
   @Input() Total: number = 0;
   @Input() Page: number = 1;
+  @Input() Term: string = "";
 
   @Output() PageChange = new EventEmitter<number>();
+  @Output() Search = new EventEmitter<string>();
   ngOnInit(): void {
 
   }
@@ -27,6 +29,10 @@ export class DataTableComponent implements OnInit {
 
   pageChanged(): void {
     this.PageChange.emit(this.Page);
+  }
+
+  search() {
+    this.Search.emit(this.Term)
   }
 
 }

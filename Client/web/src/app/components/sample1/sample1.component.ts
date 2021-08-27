@@ -22,9 +22,10 @@ export class Sample1Component implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      debugger
       this.page = params.page ?? 1;
       this.query = {
-        from: this.size * (params.page - 1),
+        from: this.size * (this.page - 1),
         size: this.size,
         query: {
           match_all: {}
@@ -41,19 +42,26 @@ export class Sample1Component implements OnInit {
     });
   }
 
-  pageChanged(page: number): void {
-
-    const queryParams: Params = { page: page };
+  navigate(query: any): void{
+    const queryParams: Params = query;
 
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
         queryParams: queryParams,
-        queryParamsHandling: 'merge', 
-      }); 
+        queryParamsHandling: 'merge',
+      });
   }
 
+  pageChanged(page: number): void {
+    this.navigate( { page: page });     
+  }
+
+
+  search(term: string) {
+    this.navigate({ term: term });
+  }
 
 
 }
