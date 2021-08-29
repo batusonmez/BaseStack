@@ -62,10 +62,6 @@ namespace Business.Book
 
         }
 
-
-        public void Get<T>(object id) where T:DTOBase
-        {
-          Mapper.Map<T>( Uow.CreateRepository<T>().GetById(id));
-        }
+ 
     }
 }

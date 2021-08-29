@@ -36,6 +36,15 @@ namespace Business.Book
         }
 
    
+        /// <summary>
+        /// Get Book by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public  BooksDTO GetBook(Guid id)
+        { 
+           return Mapper.Map<BooksDTO>(Uow.CreateRepository<Books>().GetById(id));
+        }
 
 
         public  void ReIndexBooks()

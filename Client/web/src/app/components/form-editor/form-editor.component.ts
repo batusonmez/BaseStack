@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Field } from './Models/Field';
 
 @Component({
   selector: 'form-editor',
@@ -7,19 +9,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./form-editor.component.css']
 })
 export class FormEditorComponent implements OnInit {
-  @Input() Fields: any[] = [];
+  @Input() Fields: Field[] = [];
   payLoad = '';
  
   form!: FormGroup;
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 
     const group: any = {};
 
-    this.Fields.forEach(f => {
-      group[f.key] = f.required ? new FormControl(f.value || '', Validators.required)
-        : new FormControl(f.value || '');
+    this.Fields.forEach(f => {      
+      group[f.Key] =   new FormControl(f.Value || '', f.Required ? Validators.required : null)
+        
     });
     this.form= new FormGroup(group);
      

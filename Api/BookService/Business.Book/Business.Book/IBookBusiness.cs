@@ -18,6 +18,13 @@ namespace Business.Book
         /// <param name="book">book to save</param>
         /// <returns></returns>
         Task<BooksDTO> SaveBook(BooksDTO book);
+
+        /// <summary>
+        /// Get book by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        BooksDTO GetBook(Guid id);
         void ReIndexBooks();
     }
 }

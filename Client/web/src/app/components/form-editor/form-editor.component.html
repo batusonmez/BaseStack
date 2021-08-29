@@ -3,30 +3,31 @@
     <div [formGroup]="form">
       <div *ngFor="let field of Fields" class="mb-3">
 
-        <label [attr.for]="field.key" class="form-label">
-          {{field.label}}
+        <label [attr.for]="field.Key" class="form-label">
+          {{field.Label}}
 
-        </label> <div  *ngIf="form.controls[field.key].errors?.required" class="badge bg-danger" style="float:right" >
+        </label> <div *ngIf="form.controls[field.Key].errors?.required" class="badge bg-danger" style="float:right">
           required
         </div>
 
-        <ng-container [ngSwitch]="field.controlType">
 
-          <input *ngSwitchCase="'textbox'" class="form-control" [formControlName]="field.key"
-                 [id]="field.key" [type]="field.type" required>
+        <ng-container [ngSwitch]="field.ControlType">
 
-          <textarea *ngSwitchCase="'textarea'" class="form-control" [formControlName]="field.key"
-                    [id]="field.key" [rows]="field.rows??2" required></textarea>
+          <input *ngSwitchCase="'textbox'" class="form-control" [formControlName]="field.Key"
+                 [id]="field.Key" [type]="field.Type" required>
 
-          <select [id]="field.key"
+          <textarea *ngSwitchCase="'textarea'" class="form-control" [formControlName]="field.Key"
+                    [id]="field.Key" [rows]="field.Rows??2" required></textarea>
+
+          <!--<select [id]="field.Key"
                   class="form-select"
                   *ngSwitchCase="'dropdown'"
-                  [formControlName]="field.key"
+                  [formControlName]="field.Key"
                   required>
-            <option *ngFor="let opt of field.options" [value]="opt.key">{{opt.value}}</option>
-          </select>
+            <option *ngFor="let opt of field.Options" [value]="opt.key">{{opt.value}}</option>
+          </select>-->
 
-        </ng-container>
+        </ng-container> 
 
       </div>
     </div>

@@ -5,6 +5,7 @@ using Indexer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
@@ -21,27 +22,40 @@ namespace Api.BookManagement.Controllers
         }
 
         [HttpPost]
-      //  [Authorize]
+        //  [Authorize]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody]BooksDTO book)
+        public async Task<IActionResult> Post([FromBody] BooksDTO book)
         {
             if (book == null)
             {
                 return BadRequest();
-            }             
+            }
             await business.SaveBook(book);
-       
+
             return Ok(book);
         }
 
 
-        [HttpPost]
-        [Route("search")] 
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Search([FromBody]SearchQueryDTO query)
-        {            
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Get(Guid id)
+        {
+            var book = business.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return Ok(book);
+        }
+
+        [HttpPost]
+        [Route("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Search([FromBody] SearchQueryDTO query)
+        {
             return Ok(business.Search<BooksDTO>(query.Query));
         }
 
