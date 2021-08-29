@@ -10,7 +10,7 @@ namespace Business.Book
     /// <summary>
     /// Functions for book management
     /// </summary>
-    public interface IBookBusiness
+    public interface IBookBusiness : IBusiness
     {
         /// <summary>
         /// Save Book Info
@@ -18,5 +18,6 @@ namespace Business.Book
         /// <param name="book">book to save</param>
         /// <returns></returns>
         Task<BooksDTO> SaveBook(BooksDTO book);
+        void ReIndexBooks();
     }
 }

@@ -15,12 +15,9 @@ namespace Api.BookManagement.Controllers
     public class BookManagementController : ControllerBase
     {
         private readonly IBookBusiness business;
-        private readonly IIndexer indexer;
-
-        public BookManagementController(IBookBusiness business, IIndexer indexer)
+        public BookManagementController(IBookBusiness business)
         {
             this.business = business;
-            this.indexer = indexer;
         }
 
         [HttpPost]
@@ -44,11 +41,19 @@ namespace Api.BookManagement.Controllers
         [Route("search")] 
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Search([FromBody]SearchQueryDTO query)
-        {
-            return Ok(indexer.Search<BooksDTO>(BooksDTO.IndexName,query.Query));
+        {            
+            return Ok(business.Search<BooksDTO>(query.Query));
         }
 
 
-      
+        [HttpGet]
+        [Route("reindex")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult reIndex()
+        {
+            business.ReIndexBooks();
+            return Ok();
+        }
+
     }
 }

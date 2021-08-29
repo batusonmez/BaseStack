@@ -3,8 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'sample1',
-    loadChildren: () => import('./components/sample1/sample1.module').then(m => m.Sample1Module)
+    path: 'books',
+    loadChildren: () => import('./components/BookList/book.list.module').then(m => m.BookListModule)
+  },
+  {
+    path: 'books/edit',
+    loadChildren: () => import('./components/BookEdit/book.edit.module').then(m => m.BookEditModule)
   }
 ];
 

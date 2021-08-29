@@ -1,0 +1,13 @@
+<p>Sample Listing</p>
+ 
+
+<data-table [Columns]="columns"
+            [Total]="books.count"
+            [Data]="books.data"
+            [Page]="page"
+            [Pageize]="size"
+            (PageChange)="pageChanged($event)"
+            (Search)="search($event)"
+            >
+
+</data-table>

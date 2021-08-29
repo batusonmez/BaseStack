@@ -1,27 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
  
-import { Sample1Component } from './sample1.component'  
-import { FormEditorModule } from '../form-editor/form-editor.module';
+import { BookListComponent } from './book.list.component'   
 import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from '../data-table/data-table.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: Sample1Component
+    component: BookListComponent
   }
 ];
 @NgModule({
   declarations: [
-    Sample1Component 
+    BookListComponent 
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule, 
-    FormEditorModule,
-    DataTableModule
-    
+    CommonModule,  
+    DataTableModule    
   ]
 })
-export class Sample1Module { }
+export class BookListModule { }

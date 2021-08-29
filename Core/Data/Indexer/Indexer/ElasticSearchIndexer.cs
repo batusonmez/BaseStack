@@ -30,7 +30,7 @@ namespace Indexer
         /// <returns></returns>
         public string Index<T>(string indexName, string id, T document) where T : class
         {
-            var response= client.Index<StringResponse>(indexName, id, PostData.Serializable<T>(document));
+            var response= client.Index<StringResponse>(indexName, id, PostData.Serializable<T>(document));            
             if (!response.Success)
             {
                 throw new Exception(response.DebugInformation);
@@ -46,13 +46,12 @@ namespace Indexer
         /// <param name="index"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        public IndexReult<T> Search<T>(string index, string query) where T : class
+        public IndexResult<T> Search<T>(string index, string query) where T : class
         {
-            var result = new IndexReult<T>();
+            var result = new IndexResult<T>();
              
             var searchResponse = client.Search<StringResponse>(index,query);
-            var token = JToken.Parse(searchResponse.Body);
-
+            var token = JToken.Parse(searchResponse.Body);            
              result.Data= token
                     .SelectTokens("hits.hits[*]._source")
                     .Select(t => t.ToObject<T>())
@@ -62,6 +61,8 @@ namespace Indexer
 
             return result;
         }
+
+
 
   
     }

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { HttpService } from '../../services/base.service';
+import { Column } from '../data-table/Models/Column';
 
 @Component({
-  selector: 'app-sample1',
-  templateUrl: './sample1.component.html',
-  styleUrls: ['./sample1.component.css']
+  selector: 'book-list',
+  templateUrl: './book.list.component.html',
+  styleUrls: ['./book.list.component.css']
 })
-export class Sample1Component implements OnInit {
+export class BookListComponent implements OnInit {
 
   constructor(private service: HttpService, private route: ActivatedRoute, private router: Router) {
 
@@ -20,9 +21,14 @@ export class Sample1Component implements OnInit {
   page: number = 1; 
   size: number = 3;
 
+  columns: Column[] = [
+    new Column("title", "Name", "Title"),
+    new Column("description", "Description", "Description"),
+    new Column("EditLink")
+  ]
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      debugger
+    this.route.queryParams.subscribe(params => {      
       this.page = params.page ?? 1;
       this.query = {
         from: this.size * (this.page - 1),
@@ -31,6 +37,16 @@ export class Sample1Component implements OnInit {
           match_all: {}
         }
       };
+      if (params.term) {
+        var filterColumns = this.columns.filter(d => d.FilterParameter.length > 0).map(d => d.FilterParameter);
+        this.query.query = {
+          multi_match: {
+            query: params.term,
+            fields: filterColumns
+          }
+        }
+      }
+
       this.loadData();
     });
 
@@ -39,6 +55,11 @@ export class Sample1Component implements OnInit {
   loadData() {
     this.service.Post("/book/api/BookManagement/search", { Query: JSON.stringify(this.query) }).subscribe(result => {
       this.books = result;
+      for (var i = 0; i < this.books.data.length; i++) {
+        var book = this.books.data[i];
+        book.EditLink = "<a class=\"btn btn-light\" href=\"" + this.router.url+"/edit/"+ book.id + "\">Edit</a>";
+        
+      }
     });
   }
 
@@ -60,7 +81,7 @@ export class Sample1Component implements OnInit {
 
 
   search(term: string) {
-    this.navigate({ term: term });
+    this.navigate({ term: term,page:1 });
   }
 
 

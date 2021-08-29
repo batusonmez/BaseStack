@@ -15,13 +15,12 @@ namespace Business.Book
     /// <summary>
     /// Functions for book management
     /// </summary>
-    public class BookBusiness : BaseController, IBookBusiness
+    public class BookBusiness : BaseBusiness, IBookBusiness
     {
-        private readonly IIndexer indexer;
 
-        public BookBusiness(IUnitOfWork uow, IMapper mapper, IIndexer indexer) :base(uow,mapper)
-        {
-            this.indexer = indexer;
+
+        public BookBusiness(IUnitOfWork uow, IMapper mapper, IIndexer indexer) :base(uow,mapper, indexer)
+        {         
         }
 
         /// <summary>
@@ -32,16 +31,23 @@ namespace Business.Book
         public async Task<BooksDTO> SaveBook(BooksDTO book)
         {
            var result= await Upsert<BooksDTO,Books>(book);
-            indexer.Index<BooksDTO>(BooksDTO.IndexName, result.ID.ToString(), result);
+            indexer.Index<BooksDTO>(book.IndexName, result.ID.ToString(), result);
             return result;
         }
 
+   
 
-        public void Search(string Context)
+
+        public  void ReIndexBooks()
         {
+            var rs= Uow.CreateRepository<Books>().List();
+            foreach (var item in rs)
+            {
+                var sc= Mapper.Map<BooksDTO>(item);
+                indexer.Index<BooksDTO>(sc.IndexName, sc.ID.ToString(),sc);
+            }
              
-
         }
-
+         
     }
 }

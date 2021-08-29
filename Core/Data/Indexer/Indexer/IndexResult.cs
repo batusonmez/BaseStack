@@ -8,7 +8,7 @@ namespace Indexer
     /// Index data result summary
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class IndexReult<T> where T:class
+    public class IndexResult<T> where T:class
     {
         /// <summary>
         /// List of pagineted data 
@@ -21,7 +21,7 @@ namespace Indexer
         public int Count { get; set; }
 
 
-        public IndexReult()
+        public IndexResult()
         {
                 
         }
