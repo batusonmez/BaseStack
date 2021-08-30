@@ -14,7 +14,7 @@
         <ng-container [ngSwitch]="field.ControlType">
 
           <input *ngSwitchCase="'textbox'" class="form-control" [formControlName]="field.Key"
-                 [id]="field.Key" [type]="field.Type" required>
+                 [id]="field.Key" required>
 
           <textarea *ngSwitchCase="'textarea'" class="form-control" [formControlName]="field.Key"
                     [id]="field.Key" [rows]="field.Rows??2" required></textarea>

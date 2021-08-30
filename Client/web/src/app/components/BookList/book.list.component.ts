@@ -57,7 +57,9 @@ export class BookListComponent implements OnInit {
       this.books = result;
       for (var i = 0; i < this.books.data.length; i++) {
         var book = this.books.data[i];
-        book.EditLink = "<a class=\"btn btn-light\" href=\"" + this.router.url+"/edit/"+ book.id + "\">Edit</a>";
+        debugger
+       
+        book.EditLink = "<a class=\"btn btn-light\" href=\"" + location.pathname+"/edit/"+ book.id + "\">Edit</a>";
         
       }
     });

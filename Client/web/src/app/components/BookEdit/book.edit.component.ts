@@ -13,16 +13,25 @@ import { TextBox } from '../form-editor/Models/TextBox';
 export class BookEditComponent implements OnInit {
   id: string | null = null;
   apiPath: string | null = null;
-  fields: Field[] = [
-    new TextBox("Title", "Title"),
-    new TextArea("Description", "Description", 4)
-  ];
+  fields: Field[] = [];
+
   constructor(private route: ActivatedRoute, private service: HttpService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.service.Get("/api/BookManagement?id=" + this.id).subscribe(result => {
+      
+      this.service.Get("/book/api/BookManagement?id=" + this.id).subscribe(result => {
+        debugger
+        this.fields = [
+          new TextBox("title", "Title", true),
+          new TextArea("description", "Description", 4, true)
+        ];
+
+        for (var i = 0; i < this.fields.length; i++) {
+          var field = this.fields[i];
+          field.Value = result[field.Key]
+        }
 
       });
     }
