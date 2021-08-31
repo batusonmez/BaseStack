@@ -1,2 +1,2 @@
 <p>sample editor!</p>
-<form-editor *ngIf="fields.length" [Fields]="fields" ></form-editor> 
+<form-editor *ngIf="fields.length" [Fields]="fields" (OnSubmit)="OnSubmit($event)" ></form-editor> 

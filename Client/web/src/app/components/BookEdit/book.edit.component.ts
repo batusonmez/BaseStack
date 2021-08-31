@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '../../services/base.service';
-import { Field } from '../form-editor/Models/Field';
+import { Button } from '../form-editor/Models/Button';
+import { Field } from '../form-editor/Models/Field'; 
 import { TextArea } from '../form-editor/Models/TextArea';
 import { TextBox } from '../form-editor/Models/TextBox';
 
@@ -25,7 +26,11 @@ export class BookEditComponent implements OnInit {
         debugger
         this.fields = [
           new TextBox("title", "Title", true),
-          new TextArea("description", "Description", 4, true)
+          new TextArea("description", "Description", 4, true),
+          new Button( "Save", "submit", "btn btn-primary", "footer" ),
+          new Button("Delete", "button", "btn btn-danger", "footer", () => {
+            alert(this.id)
+          })
         ];
 
         for (var i = 0; i < this.fields.length; i++) {
@@ -35,6 +40,14 @@ export class BookEditComponent implements OnInit {
 
       });
     }
+  }
+
+  OnSubmit(data: any) {
+    data.ID = this.id;
+    this.service.Post("/book/api/BookManagement", data).subscribe(result => {
+
+    })
+
   }
 
 }

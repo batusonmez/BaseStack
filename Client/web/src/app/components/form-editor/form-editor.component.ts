@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Field } from './Models/Field';
@@ -10,7 +10,9 @@ import { Field } from './Models/Field';
 })
 export class FormEditorComponent implements OnInit {
   @Input() Fields: any[] = [];
-  
+  @Output() OnSubmit = new EventEmitter();
+  FooterFields: any[] = [];
+  EditorFields: any[] = [];
   payLoad = '';
  
   form!: FormGroup;
@@ -20,17 +22,25 @@ export class FormEditorComponent implements OnInit {
 
     const group: any = {};
 
-    this.Fields.forEach(f => {
+    this.EditorFields = this.Fields.filter(d => d.Section == "body");
+    this.FooterFields = this.Fields.filter(d => d.Section == "footer");
+    this.EditorFields.forEach(f => {
        
       group[f.Key] =   new FormControl(f.Value || '', f.Required ? Validators.required : null)
         
     });
+    
     this.form= new FormGroup(group);
      
   }
 
-  onSubmit() {
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+  onSubmit(): void {
+    this.OnSubmit.emit(this.form.getRawValue());
+//    this.payLoad = JSON.stringify(this.form.getRawValue());
+  }
+
+  FieldAction(sender: any): void {
+    sender.Action();
   }
 
  
