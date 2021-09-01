@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../services/base.service';
+import { ConfirmationService } from '../../services/confirmation.service';
 import { Button } from '../form-editor/Models/Button';
 import { Field } from '../form-editor/Models/Field'; 
 import { TextArea } from '../form-editor/Models/TextArea';
@@ -16,7 +17,7 @@ export class BookEditComponent implements OnInit {
   apiPath: string | null = null;
   fields: Field[] = [];
 
-  constructor(private route: ActivatedRoute, private service: HttpService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private service: HttpService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -29,7 +30,12 @@ export class BookEditComponent implements OnInit {
           new TextArea("description", "Description", 4, true),
           new Button( "Save", "submit", "btn btn-primary", "footer" ),
           new Button("Delete", "button", "btn btn-danger", "footer", () => {
-            alert(this.id)
+            this.confirmationService.Confirm("Are You Sure?", () => {
+              this.service.Delete("/book/api/BookManagement?id=" + this.id).subscribe(result => {
+                this.Navigate("/books");
+              })
+            });
+          
           })
         ];
 
@@ -40,6 +46,10 @@ export class BookEditComponent implements OnInit {
 
       });
     }
+  }
+
+  Navigate(url: string): void {
+    this.router.navigateByUrl(url);
   }
 
   OnSubmit(data: any) {

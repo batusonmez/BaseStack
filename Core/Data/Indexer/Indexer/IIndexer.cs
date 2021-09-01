@@ -28,5 +28,13 @@ namespace Indexer
         /// <returns></returns>
         IndexResult<T> Search<T>(string index, string query) where T : class;
 
+        /// <summary>
+        /// Remove document from index
+        /// </summary>
+        /// <param name="indexName"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        string Delete(string indexName, string id);
+
     }
 }

@@ -51,6 +51,15 @@ namespace Api.BookManagement.Controllers
             return Ok(book);
         }
 
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]        
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await business.Delete(id);            
+            return Ok();
+        }
+
         [HttpPost]
         [Route("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -25,6 +25,14 @@ namespace Business.Book
         /// <param name="id"></param>
         /// <returns></returns>
         BooksDTO GetBook(Guid id);
+
+        /// <summary>
+        /// Delete Book by ID
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<int> Delete(params object[] id);
         void ReIndexBooks();
     }
 }

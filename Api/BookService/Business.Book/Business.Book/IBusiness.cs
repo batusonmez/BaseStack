@@ -8,5 +8,6 @@ namespace Business.Book
     public interface IBusiness
     { 
         IndexResult<T> Search<T>(string term) where T : DTOBase;
+
     }
 }

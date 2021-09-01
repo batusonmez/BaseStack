@@ -30,13 +30,30 @@ namespace Indexer
         /// <returns></returns>
         public string Index<T>(string indexName, string id, T document) where T : class
         {
-            var response= client.Index<StringResponse>(indexName, id, PostData.Serializable<T>(document));            
+            var response = client.Index<StringResponse>(indexName, id, PostData.Serializable<T>(document));
             if (!response.Success)
             {
                 throw new Exception(response.DebugInformation);
             }
             return response.Body;
 
+        }
+
+
+        /// <summary>
+        /// Remove from Index
+        /// </summary>
+        /// <param name="indexName"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string Delete(string indexName, string id)
+        {
+            var response = client.Delete<StringResponse>(indexName, id);
+            if (!response.Success)
+            {
+                throw new Exception(response.DebugInformation);
+            }
+            return response.Body;
         }
 
         /// <summary>
@@ -49,13 +66,13 @@ namespace Indexer
         public IndexResult<T> Search<T>(string index, string query) where T : class
         {
             var result = new IndexResult<T>();
-             
-            var searchResponse = client.Search<StringResponse>(index,query);
-            var token = JToken.Parse(searchResponse.Body);            
-             result.Data= token
-                    .SelectTokens("hits.hits[*]._source")
-                    .Select(t => t.ToObject<T>())
-                    .ToList();
+
+            var searchResponse = client.Search<StringResponse>(index, query);
+            var token = JToken.Parse(searchResponse.Body);
+            result.Data = token
+                   .SelectTokens("hits.hits[*]._source")
+                   .Select(t => t.ToObject<T>())
+                   .ToList();
 
             result.Count = token.SelectToken("hits.total.value").ToObject<int>();
 
@@ -64,6 +81,6 @@ namespace Indexer
 
 
 
-  
+
     }
 }

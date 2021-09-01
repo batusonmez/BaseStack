@@ -46,6 +46,19 @@ namespace Business.Book
            return Mapper.Map<BooksDTO>(Uow.CreateRepository<Books>().GetById(id));
         }
 
+        /// <summary>
+        /// Delete Book By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<int> Delete(params object[] id)
+        {
+            
+            indexer.Delete(new BooksDTO().IndexName, id.FirstOrDefault().ToString());
+            return base.Delete<Books>(id);
+            
+        }
+
 
         public  void ReIndexBooks()
         {

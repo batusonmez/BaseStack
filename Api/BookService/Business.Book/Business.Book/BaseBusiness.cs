@@ -62,6 +62,13 @@ namespace Business.Book
 
         }
 
+        public Task<int> Delete<T>(params object[] id) where T:EntityBase
+        {
+         var repo=   Uow.CreateRepository<T>();
+           var entity= repo.GetById(id);
+            repo.Delete(entity);
+           return Uow.Commit();
+        }
  
     }
 }

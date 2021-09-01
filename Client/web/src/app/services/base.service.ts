@@ -19,6 +19,10 @@ export class HttpService {
     return this.httpClient.get(this.root+url);
   }
 
+  Delete(url: string): Observable<any> {
+    return this.httpClient.delete(this.root + url);
+  }
+
   Post(url: string, payload: any): Observable<any> {
     return this.httpClient.post(this.root + url, payload);
   }
