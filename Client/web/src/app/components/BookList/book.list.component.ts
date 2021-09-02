@@ -53,12 +53,10 @@ export class BookListComponent implements OnInit {
   }
 
   loadData() {
-    this.service.Post("/book/api/BookManagement/search", { Query: JSON.stringify(this.query) }).subscribe(result => {
+    this.service.Post("/book/api/BookManagement/search", { Query: JSON.stringify(this.query) }, false).then(result => {
       this.books = result;
       for (var i = 0; i < this.books.data.length; i++) {
-        var book = this.books.data[i];
-        debugger
-       
+        var book = this.books.data[i]; 
         book.EditLink = "<a class=\"btn btn-light\" href=\"" + location.pathname+"/edit/"+ book.id + "\">Edit</a>";
         
       }

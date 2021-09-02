@@ -1,10 +1,10 @@
  
 import { Injectable } from '@angular/core';  
- 
+declare var toastr: any;
 @Injectable({
   providedIn: 'root'
 })
-export class ConfirmationService {
+export class NotifyService {
   
   constructor() {
     
@@ -13,8 +13,15 @@ export class ConfirmationService {
   Confirm(title: string, callBack: Function) {
     if (confirm(title)) {
       callBack();
-    }
-    
+    }    
+  }
+
+  Notify(title: string) {
+    toastr.success(title);
+  }
+
+  Error(title: string) {
+    toastr.error(title);
   }
    
 }
