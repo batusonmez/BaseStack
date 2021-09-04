@@ -63,9 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitOfWork", "Core\Data\Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexer", "Core\Data\Indexer\Indexer\Indexer.csproj", "{FD81E95D-8A1E-44FF-B09C-A29420D0210D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TolenService", "TolenService", "{041BAFAE-3525-41A5-AB11-E72FA5542A30}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TokenService", "TokenService", "{041BAFAE-3525-41A5-AB11-E72FA5542A30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Token", "Api\TokenService\Api.Token\Api.Token.csproj", "{64BC15D6-581E-4910-AF92-B1C37DEC992B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Token", "Api\TokenService\Api.Token\Api.Token.csproj", "{64BC15D6-581E-4910-AF92-B1C37DEC992B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
