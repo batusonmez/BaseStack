@@ -1,3 +1,4 @@
+using Business.Comment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -43,12 +44,22 @@ namespace Api.Comment
                     }
                 });
             });
+
+
+            //Map Depenecies 
+            services.AddSingleton<ICommentBusiness, CommentBusiness>();
         }
          
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(x => x
+       .AllowAnyMethod()
+       .AllowAnyHeader()
+       .SetIsOriginAllowed(origin => true) // allow any origin
+       .AllowCredentials());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

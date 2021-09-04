@@ -14,6 +14,8 @@ export class DataTableComponent implements OnInit {
   @Input() Total: number = 0;
   @Input() Page: number = 1;
   @Input() Term: string = "";
+  @Input() Title: string = "";
+  @Input() CreateLink: string = "";
 
   @Output() PageChange = new EventEmitter<number>();
   @Output() Search = new EventEmitter<string>();

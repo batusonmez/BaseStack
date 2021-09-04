@@ -21,8 +21,7 @@ namespace Api.BookManagement.Controllers
             this.business = business;
         }
 
-        [HttpPost]
-        //  [Authorize]
+        [HttpPost] 
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,8 +68,9 @@ namespace Api.BookManagement.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet]        
         [Route("reindex")]
+        [Authorize(Policy = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult reIndex()
         {

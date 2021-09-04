@@ -20,31 +20,33 @@ export class BookEditComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private service: HttpService, private confirmationService: NotifyService) { }
 
   ngOnInit(): void {
+    debugger
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) {
-      debugger
-      this.service.Get("/book/api/BookManagement?id=" + this.id).then(result => {
-        
-        this.fields = [
-          new TextBox("title", "Title", true),
-          new TextArea("description", "Description", 4, true),
-          new Button( "Save", "submit", "btn btn-primary", "footer" ),
-          new Button("Delete", "button", "btn btn-danger", "footer", () => {
-            this.confirmationService.Confirm("Are You Sure?", () => {
-              this.service.Delete("/book/api/BookManagement?id=" + this.id).then(result => {
-                this.Navigate("/books");
-              })
-            });
-          
-          })
-        ];
+   let filelds = [
+      new TextBox("title", $localize`:@@be.Title:Name`, true),
+      new TextArea("description", $localize`:@@be.Description:Description`, 4, true),
+      new Button($localize`:@@be.Save:Save`, "submit", "btn btn-primary", "footer"),
 
+    ];
+    if (this.id) {
+      filelds.push(new Button($localize`:@@be.Delete:Delete`, "button", "btn btn-danger", "footer", () => {
+        this.confirmationService.Confirm($localize`:@@be.Confirm:Are You Sure?`, () => {
+          this.service.Delete("/book/api/BookManagement?id=" + this.id).then(result => {
+            this.Navigate("/books");
+          })
+        });
+
+      }));
+      this.service.Get("/book/api/BookManagement?id=" + this.id).then(result => {
+        this.fields = filelds;
         for (var i = 0; i < this.fields.length; i++) {
           var field = this.fields[i];
           field.Value = result[field.Key]
         }
 
       });
+    } else {
+      this.fields = filelds;
     }
   }
 
@@ -53,7 +55,10 @@ export class BookEditComponent implements OnInit {
   }
 
   OnSubmit(data: any) {
-    data.ID = this.id;
+    if (this.id) {
+      data.id = this.id;
+    }
+    
     this.service.Post("/book/api/BookManagement", data).then(result => {
 
     })

@@ -11,7 +11,7 @@ import { Column } from '../data-table/Models/Column';
 export class BookListComponent implements OnInit {
 
   constructor(private service: HttpService, private route: ActivatedRoute, private router: Router) {
-
+    
 
   }
   books: any = {
@@ -22,12 +22,14 @@ export class BookListComponent implements OnInit {
   size: number = 3;
 
   columns: Column[] = [
-    new Column("title", "Name", "Title"),
-    new Column("description", "Description", "Description"),
-    new Column("EditLink")
+    new Column("title", $localize`:@@bl.Name:Name`  , "Title"),
+    new Column("description", $localize`:@@bl.Description:Description`, "Description"),
+    new Column("EditLink"),
+    new Column("ViewLink")    
   ]
 
   ngOnInit(): void {
+
     this.route.queryParams.subscribe(params => {      
       this.page = params.page ?? 1;
       this.query = {
@@ -57,8 +59,8 @@ export class BookListComponent implements OnInit {
       this.books = result;
       for (var i = 0; i < this.books.data.length; i++) {
         var book = this.books.data[i]; 
-        book.EditLink = "<a class=\"btn btn-light\" href=\"" + location.pathname+"/edit/"+ book.id + "\">Edit</a>";
-        
+        book.EditLink = "<a  href=\"/edit/" + book.id + "\">" + $localize`:@@bl.Edit:Edit` +"</a>";
+        book.ViewLink = "<a href=\"/view/" + book.id + "\">" + $localize`:@@bl.View:View` + "</a>";
       }
     });
   }

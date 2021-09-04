@@ -2,38 +2,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Business.Comment
 {
-
     /// <summary>
     /// Sample InMemory Business
     /// </summary>
-    public class CommentBusiness: ICommentBusiness
+    public interface ICommentBusiness
     {
-        List<CommentDTO> comments;
-        public CommentBusiness()
-        {
-            comments = new List<CommentDTO>();
-        }
 
         /// <summary>
         /// Save Comment
         /// </summary>
         /// <param name="comment"></param>
-        public void SaveComment(CommentDTO comment)
-        {
-            comments.Add(comment);
-        }
+        void SaveComment(CommentDTO comment);
 
         /// <summary>
         /// Load Comment List
         /// </summary>
         /// <param name="contextID"></param>
         /// <returns></returns>
-        public IEnumerable<CommentDTO> Get(string contextID)
-        {
-            return comments.Where(d => d.ContextID == contextID);
-        }
-
+        IEnumerable<CommentDTO> Get(string contextID);
     }
 }

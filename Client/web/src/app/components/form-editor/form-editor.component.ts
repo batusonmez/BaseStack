@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Field } from './Models/Field';
+import { DomSanitizer } from '@angular/platform-browser'; 
 
 @Component({
   selector: 'form-editor',

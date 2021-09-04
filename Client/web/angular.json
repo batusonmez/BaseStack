@@ -5,6 +5,12 @@
   "projects": {
     "WebClient": {
       "projectType": "application",
+      "i18n": {
+        "locales": {
+          "tr": "src/locale/messages.tr.xlf",
+          "en": "src/locale/messages.en.xlf"
+        }
+      },
       "schematics": {
         "@schematics/angular:application": {
           "strict": true
@@ -60,6 +66,12 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "tr": {
+              "localize": [ "tr" ]
+            },
+            "en": {
+              "localize": [ "en" ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +84,12 @@
             },
             "development": {
               "browserTarget": "WebClient:build:development"
+            },
+            "tr": {
+              "browserTarget": "WebClient:build:tr"
+            },
+            "en": {
+              "browserTarget": "WebClient:build:en"
             }
           },
           "defaultConfiguration": "development"

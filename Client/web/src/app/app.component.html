@@ -7,18 +7,15 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/" i18n="@@nav.home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/books">Books</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
+          <a class="nav-link" routerLink="/books" i18n="@@nav.book">Books</a>
+        </li>        
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit" i18n="@@nav.Search">Search</button>
       </form>
     </div>
   </div>
