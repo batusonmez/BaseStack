@@ -1,44 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "Client\web\", "{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_54525"
-		Debug.AspNetCompiler.PhysicalPath = "Client\web\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54525\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_54525"
-		Release.AspNetCompiler.PhysicalPath = "Client\web\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54525\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "54525"
-		SlnRelativePath = "Client\web\"
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{3F2D63E6-5553-45C2-A428-F6936E3FF629}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{CDC7E5E2-0E56-421F-A816-4C3A21AA6CAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{39E65F23-3727-46CE-8EE4-203E6CE8006F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Gateway", "Api\Gateway\ApiGateway\Api.Gateway.csproj", "{5BCE0583-D252-4667-9689-419C2C6866E6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BookService", "BookService", "{00C56BAA-4180-4C73-8297-77FED7B3C5B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.BookManagement", "Api\BookService\Api.Book\Api.BookManagement.csproj", "{7B65E61E-B010-4187-B000-1C910C25131D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommentService", "CommentService", "{AAC7C16F-1B29-46C9-8608-1D488146B546}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Comment", "Api\CommentService\Api.Comment\Api.Comment.csproj", "{06751B66-5601-4F95-9ECB-D9664A075FB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{323103B3-5554-4C0F-9C4A-F509173151C7}"
 EndProject
@@ -65,7 +38,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indexer", "Core\Data\Indexe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TokenService", "TokenService", "{041BAFAE-3525-41A5-AB11-E72FA5542A30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Token", "Api\TokenService\Api.Token\Api.Token.csproj", "{64BC15D6-581E-4910-AF92-B1C37DEC992B}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "Client\web\", "{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54525"
+		Debug.AspNetCompiler.PhysicalPath = "Client\web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54525\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54525"
+		Release.AspNetCompiler.PhysicalPath = "Client\web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54525\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54525"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,21 +64,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{5BCE0583-D252-4667-9689-419C2C6866E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BCE0583-D252-4667-9689-419C2C6866E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BCE0583-D252-4667-9689-419C2C6866E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BCE0583-D252-4667-9689-419C2C6866E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B65E61E-B010-4187-B000-1C910C25131D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B65E61E-B010-4187-B000-1C910C25131D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B65E61E-B010-4187-B000-1C910C25131D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B65E61E-B010-4187-B000-1C910C25131D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06751B66-5601-4F95-9ECB-D9664A075FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06751B66-5601-4F95-9ECB-D9664A075FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06751B66-5601-4F95-9ECB-D9664A075FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06751B66-5601-4F95-9ECB-D9664A075FB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54E23E0D-DC31-4E6D-ADD3-CB0B195ED1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54E23E0D-DC31-4E6D-ADD3-CB0B195ED1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54E23E0D-DC31-4E6D-ADD3-CB0B195ED1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -112,22 +88,18 @@ Global
 		{FD81E95D-8A1E-44FF-B09C-A29420D0210D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD81E95D-8A1E-44FF-B09C-A29420D0210D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD81E95D-8A1E-44FF-B09C-A29420D0210D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64BC15D6-581E-4910-AF92-B1C37DEC992B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64BC15D6-581E-4910-AF92-B1C37DEC992B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64BC15D6-581E-4910-AF92-B1C37DEC992B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64BC15D6-581E-4910-AF92-B1C37DEC992B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF} = {3F2D63E6-5553-45C2-A428-F6936E3FF629}
 		{39E65F23-3727-46CE-8EE4-203E6CE8006F} = {CDC7E5E2-0E56-421F-A816-4C3A21AA6CAD}
-		{5BCE0583-D252-4667-9689-419C2C6866E6} = {39E65F23-3727-46CE-8EE4-203E6CE8006F}
 		{00C56BAA-4180-4C73-8297-77FED7B3C5B2} = {CDC7E5E2-0E56-421F-A816-4C3A21AA6CAD}
-		{7B65E61E-B010-4187-B000-1C910C25131D} = {00C56BAA-4180-4C73-8297-77FED7B3C5B2}
 		{AAC7C16F-1B29-46C9-8608-1D488146B546} = {CDC7E5E2-0E56-421F-A816-4C3A21AA6CAD}
-		{06751B66-5601-4F95-9ECB-D9664A075FB7} = {AAC7C16F-1B29-46C9-8608-1D488146B546}
 		{0547120F-7A3B-4838-A7EF-DB30B243862F} = {323103B3-5554-4C0F-9C4A-F509173151C7}
 		{54E23E0D-DC31-4E6D-ADD3-CB0B195ED1D4} = {0547120F-7A3B-4838-A7EF-DB30B243862F}
 		{FC1F0F00-9EE1-4026-AE1F-56886CE8F2C6} = {00C56BAA-4180-4C73-8297-77FED7B3C5B2}
@@ -137,7 +109,7 @@ Global
 		{5084500E-2C27-49C7-803B-A6ED4C5BE785} = {0547120F-7A3B-4838-A7EF-DB30B243862F}
 		{FD81E95D-8A1E-44FF-B09C-A29420D0210D} = {0547120F-7A3B-4838-A7EF-DB30B243862F}
 		{041BAFAE-3525-41A5-AB11-E72FA5542A30} = {CDC7E5E2-0E56-421F-A816-4C3A21AA6CAD}
-		{64BC15D6-581E-4910-AF92-B1C37DEC992B} = {041BAFAE-3525-41A5-AB11-E72FA5542A30}
+		{D5C2099B-2668-4AF1-B7B5-BDD16E8ED2FF} = {3F2D63E6-5553-45C2-A428-F6936E3FF629}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A094378-5160-4230-B971-46A7250D60C4}
