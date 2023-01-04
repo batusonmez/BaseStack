@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,12 +10,14 @@ import { TextInputComponent } from './Form/FormComponents/text-input/text-input.
 @NgModule({
   declarations: [
     AppComponent,
-    FormHostComponent,
+ 
     TextInputComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormHostComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
