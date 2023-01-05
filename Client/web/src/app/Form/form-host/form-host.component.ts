@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import {   FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilderService } from '../Core/FormBuilderService';
 import { FieldHostComponent } from '../field-host/field-host.component';
 import { FormConfig } from '../Models/FormConfig';
+import { IFormHost } from '../Models/IFormHost';
+import { FormHostEvents } from './FormHostEvents';
 
 @Component({
   standalone: true,
@@ -12,24 +14,23 @@ import { FormConfig } from '../Models/FormConfig';
   styleUrls: ['./form-host.component.scss'],
   imports: [FieldHostComponent, CommonModule, ReactiveFormsModule,]
 })
-export class FormHostComponent {
+export class FormHostComponent implements OnInit, IFormHost {
   @Input() public Config!: FormConfig;
-  form: FormGroup = new FormGroup({   }); 
+  public Form: FormGroup = new FormGroup({   }); 
   constructor(private formBuilder: FormBuilderService) {
 
   }
-
-  ngAfterViewInit(): void {
-
+  ngOnInit() {
     this.buildForm();
+ 
   }
+ 
 
   public buildForm(): void {
-    this.form = this.formBuilder.BuildForm(this.Config); 
+    this.Form = this.formBuilder.BuildForm(this); 
   
   }
   onSubmit() {
-   
-    console.warn(this.form.value);
+    this.Config.FormEvent(FormHostEvents.SUBMIT, this);    
   }
 }

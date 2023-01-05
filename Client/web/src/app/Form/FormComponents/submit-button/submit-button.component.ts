@@ -1,13 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { FieldConfig } from '../../Models/FieldConfig';
-import { IFormComponent } from '../../Models/IFormComponent';
+import { Component, Input } from '@angular/core'; 
+import { BaseFormControl } from '../BaseFormControl';
 
 @Component({
   selector: 'submit-button',
   templateUrl: './submit-button.component.html',
   styleUrls: ['./submit-button.component.scss']
 })
-export class SubmitButtonComponent implements IFormComponent {
-  @Input() Config?: FieldConfig;
+export class SubmitButtonComponent extends BaseFormControl {
+ 
   
 }

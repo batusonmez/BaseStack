@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { SubmitButtonComponent } from './Form/FormComponents/submit-button/submit-button.component';
 import { TextInputComponent } from './Form/FormComponents/text-input/text-input.component';
 import { FormConfig } from './Form/Models/FormConfig';
+import { IFormHost } from './Form/Models/IFormHost';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,7 @@ export class AppComponent {
         Component: TextInputComponent,
         ComponentData: {
           Label:"Label comp1"
-        }
+        } 
       },
       {
         Name: "Comp2",
@@ -42,6 +44,10 @@ export class AppComponent {
           Label: "Submit"
         }
       }
-    ]
+    ],
+    FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
+      debugger
+      this.Config.Fields[0].ComponentData.Label="xx"
+    }
   }
 }

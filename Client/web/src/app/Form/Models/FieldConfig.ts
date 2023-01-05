@@ -1,12 +1,12 @@
-import { Type } from "@angular/core";
+import { Type } from "@angular/core"; 
 import { FormControl } from "@angular/forms";
 import { IFormComponent } from "./IFormComponent";
 
 
 export interface FieldConfig {
   Name: string,
-  Component: Type<IFormComponent>,
+  Component: Type<IFormComponent>,  
   Value?: any,
   ComponentData?: any,
-
+  Controller?: FormControl
 }

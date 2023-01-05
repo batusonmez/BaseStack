@@ -1,5 +1,4 @@
 <div class="form-group">
   <label>{{Config?.ComponentData.Label}}</label>
-  <input type="email" class="form-control" name="{{Config?.Name}}" id="Config?.Name" placeholder="{{Config?.ComponentData.Placeholder}}"  >
+  <input type="email" class="form-control" name="{{Config?.Name}}" id="Config?.Name" placeholder="{{Config?.ComponentData.Placeholder}}" [formControl]="Controller">
 </div>
-<!--formControlName="email"--> 
