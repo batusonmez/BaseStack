@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component } from '@angular/core'; 
+import { CellType } from './DataTable/Models/CellType';
+import { DataTableConfig } from './DataTable/Models/DataTableConfig';
 import { SubmitButtonComponent } from './Form/FormComponents/submit-button/submit-button.component';
 import { TextInputComponent } from './Form/FormComponents/text-input/text-input.component';
 import { FormConfig } from './Form/Models/FormConfig';
@@ -49,5 +50,40 @@ export class AppComponent {
       debugger
       this.Config.Fields[0].ComponentData.Label="xx"
     }
+  }
+
+  TableConfig: DataTableConfig = {
+    Cells: [
+      {
+        CellType: CellType.Cell,
+        Key: "Name"
+      },
+      {
+        CellType: CellType.Cell,
+        Key: "Surname"
+      },
+      {
+        CellType: CellType.Cell,
+        Key: "City"
+      }
+    ],
+    Data: [
+      {
+        Name: "Engin",
+        Surname: "Özdemir",
+        City:"Ankara"
+      },
+      {
+        Name: "Emine",
+        Surname: "Yetkin",
+        City: "Antalya"
+      },
+      {
+        Name: "Richard",
+        Surname: "Lion",
+        City: "London"
+      }
+    ]
+    
   }
 }

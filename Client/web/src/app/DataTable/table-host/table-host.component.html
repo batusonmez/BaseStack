@@ -1,0 +1,14 @@
+<table [class]="Config.Class" >
+  <ng-container *ngFor="let data of Config.Data ">
+    <tr>
+      <ng-container *ngFor="let cell of Config.Cells ">
+        <td>
+          <ng-container [ngSwitch]="cell.CellType">
+
+            <cell *ngSwitchDefault [Config]="cell" [Data]="data"> </cell>
+          </ng-container>
+        </td>
+      </ng-container>
+    </tr>
+  </ng-container>
+</table>
