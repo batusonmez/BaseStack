@@ -2,5 +2,8 @@ import { CellType } from "./CellType";
 
 export interface CellConfig {
   CellType?: CellType,
-  Key: string
+  Key: string,
+  HeaderName: string,
+  HasFilter?: boolean,
+  HasSort?: boolean
 }

@@ -21,9 +21,9 @@ export class TableHostComponent implements OnInit{
   ngOnInit() {
     if (!this.Config.Class) {
       this.Config.Class="table"
-    }
- 
+    }    
   }
- 
+
+  
 
 }

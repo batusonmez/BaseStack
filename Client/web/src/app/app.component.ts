@@ -56,18 +56,22 @@ export class AppComponent {
     Cells: [
       {
         CellType: CellType.Cell,
-        Key: "Name"
+        Key: "Name",
+        HeaderName:"İsim"
       },
       {
         CellType: CellType.Cell,
-        Key: "Surname"
+        Key: "Surname",
+        HeaderName: "Soyisim"
       },
       {
         CellType: CellType.Cell,
-        Key: "City"
+        Key: "City",
+        HeaderName: "Şehir"
       }
     ],
     Data: [
+      
       {
         Name: "Engin",
         Surname: "Özdemir",
