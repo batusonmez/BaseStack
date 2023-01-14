@@ -1,7 +1,7 @@
 ﻿
 namespace Person.Domain.Entities
 {
-    public class Person
+    internal class Person:BaseEntity
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }

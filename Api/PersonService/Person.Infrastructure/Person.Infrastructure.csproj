@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Api\Dispatcher\Dispatcher\Dispatcher.csproj" />
     <ProjectReference Include="..\..\..\Core\Api\Dispatcher\MediaTR\MediatRDispatcher\MediatRDispatcher.csproj" />
+    <ProjectReference Include="..\..\..\Core\Data\EFAdapter\EFAdapter.csproj" />
+    <ProjectReference Include="..\..\..\Core\Data\Mapper\Mapper.csproj" />
   </ItemGroup>
 
 </Project>
