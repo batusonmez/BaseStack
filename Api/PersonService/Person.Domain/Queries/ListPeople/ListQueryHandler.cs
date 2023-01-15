@@ -1,32 +1,25 @@
 ﻿using AutoMapper;
 using MediatR;
 using Person.Domain.Entities;
+using Repository;
 
 namespace Person.Domain.Queries.ListPeople
 {
     internal class ListQueryHandler : IRequestHandler<ListPeopleQuery, ListQueryResponse>
     {
         private readonly IMapper mapper;
+        private readonly IRepository<Entities.Person> personRepository;
 
-        public ListQueryHandler(IMapper mapper)
+        public ListQueryHandler(IMapper mapper,
+            IRepository<Entities.Person> personRepository)
         {
             this.mapper = mapper;
+            this.personRepository = personRepository;
         }
         public Task<ListQueryResponse> Handle(ListPeopleQuery request, CancellationToken cancellationToken)
         {
-            var resp=new ListQueryResponse();
-            using (var db=new PersonAppContext())
-            {
-                db.Person.Add(new Person.Domain.Entities.Person()
-                {
-                    Name="Engin",
-                    Surname="Ozdemir",
-                    City="Ankara"
-                });
-                db.SaveChanges();
-                 resp.People= db.Person.ToList().Select(d => mapper.Map<ListPeopleDTO>(d));
-            }
-
+            var resp = new ListQueryResponse();
+            resp.People = personRepository.Get().Select(d => mapper.Map<ListPeopleDTO>(d));
             return Task.FromResult(resp);
         }
     }

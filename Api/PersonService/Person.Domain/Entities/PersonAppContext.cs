@@ -2,7 +2,7 @@
 
 namespace Person.Domain.Entities
 {
-    internal class PersonAppContext : DbContext
+    public class PersonAppContext : DbContext
     {
         protected override void OnConfiguring
      (DbContextOptionsBuilder optionsBuilder)

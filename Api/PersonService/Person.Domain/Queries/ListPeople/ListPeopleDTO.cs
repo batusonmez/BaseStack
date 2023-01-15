@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Person.Domain.DTO;
 
 namespace Person.Domain.Queries.ListPeople
 {
-    public class ListPeopleDTO
+    public class ListPeopleDTO:PersonDTO
     {
-        public string? Name { get; set; }
-        public string? Surname { get; set; }
-        public string? Email { get; set; }
+       
     }
 }

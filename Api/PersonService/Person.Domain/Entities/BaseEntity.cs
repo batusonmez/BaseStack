@@ -2,7 +2,7 @@
 
 namespace Person.Domain.Entities
 {
-    internal abstract class BaseEntity
+    public abstract class BaseEntity
     {
         [Key]
         public int ID { get; set; }

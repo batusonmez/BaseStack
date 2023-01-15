@@ -2,6 +2,10 @@ using Dispatcher;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Person.API.Controllers;
+using Person.API.Person.ListPople;
+using Person.API.Person.NewPerson;
+using Person.Domain.Commands.NewPerson;
+using Person.Domain.DTO;
 using Person.Domain.Queries.ListPeople;
 
 namespace Person.API.Person
@@ -27,16 +31,27 @@ namespace Person.API.Person
 
 
         [HttpGet(Name = "xxa")]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        public async Task<ListPeopleAPIResponse> Get()
         {
-           var rsp=await dispatcher.Send<ListQueryResponse>(new ListPeopleQuery());
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var response = new ListPeopleAPIResponse();
+            var people = await dispatcher.Send<ListQueryResponse>(new ListPeopleQuery());
+            if (people != null)
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                response.PersonList = people.People;
+            }
+            return response;
+        }
+
+        [HttpPut]
+        public async Task<NewPersonAPIResponse> Put([FromBody] NewPersonAPIRequest person)
+        {
+            var response = new NewPersonAPIResponse();
+            var inserted = await dispatcher.Send<NewPersonResponse>(new NewPersonCommand(person));
+            if (inserted != null)
+            {
+                response.Person = inserted.Person;
+            }
+            return response;
         }
     }
 }
