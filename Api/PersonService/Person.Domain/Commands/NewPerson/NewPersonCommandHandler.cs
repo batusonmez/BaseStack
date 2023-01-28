@@ -2,6 +2,7 @@
 using MediatR;
 using Person.Domain.DTO;
 using Person.Domain.Entities;
+using Person.Domain.Services.Outbox;
 using Repository;
 
 namespace Person.Domain.Commands.NewPerson
@@ -10,14 +11,17 @@ namespace Person.Domain.Commands.NewPerson
     {
         private readonly IMapper mapper;
         private readonly IRepository<Entities.Person> personRepository;
+        private readonly IOutBoxService outBoxService;
         private readonly IUOW uow;
 
         public NewPersonCommandHandler(IMapper mapper,
             IRepository<Entities.Person> personRepository,
+            IOutBoxService outBoxService,
             IUOW uow)
         {
             this.mapper = mapper;
             this.personRepository = personRepository;
+            this.outBoxService = outBoxService;
             this.uow = uow;
         }
         public async Task<NewPersonResponse> Handle(NewPersonCommand request, CancellationToken cancellationToken)
@@ -27,9 +31,17 @@ namespace Person.Domain.Commands.NewPerson
             personRepository.Insert(entity);
             var personDTO = mapper.Map<PersonDTO>(entity);
             var resp = new NewPersonResponse(personDTO);
+            outBoxService.SaveOutBox(new OutBoxDTO()
+            {
+                Data = personDTO,
+                ID = entity.ID,
+                DataType = personDTO.IndexName()                
+            });
             await uow.Save();
 
             return resp;
         }
+
+
     }
 }

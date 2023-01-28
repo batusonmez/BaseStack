@@ -1,23 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
+using Person.Domain.Entities.Configuration;
 
 namespace Person.Domain.Entities
 {
     public class PersonAppContext : DbContext
     {
-        protected override void OnConfiguring
-     (DbContextOptionsBuilder optionsBuilder)
+        public string? ConnectionString { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase(databaseName: "PersonDB");
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
         public DbSet<Person> Person { get; set; }
+        public DbSet<Outbox> Outbox { get; set; }
+
+        public PersonAppContext(string connection)
+        {
+
+            ConnectionString = connection; 
+        }
+
+        public PersonAppContext()
+        {
+
+        }
+
+        public PersonAppContext(DbContextOptions<PersonAppContext> options)
+        {
+            ConnectionString = options.FindExtension<SqlServerOptionsExtension>().ConnectionString;
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>().HasData(
-                new Person(){ID=1, Name = "Engin", Surname = "Özdemir", City = "Ankara" },
-                new Person(){ ID = 2, Name = "Emine", Surname = "Yetkin",City = "Ankara" },
-                new Person() { ID = 3, Name = "Mike", Surname = "Brown", City = "London" }
-                );
+            modelBuilder.ApplyConfiguration(new PersonConfig());
+            modelBuilder.ApplyConfiguration(new OutboxConfig());            
         }
 
     }
