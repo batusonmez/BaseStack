@@ -37,8 +37,7 @@ namespace Person.Domain.Commands.NewPerson
                 ID = entity.ID,
                 DataType = personDTO.IndexName()                
             });
-            await uow.Save();
-
+            await uow.Save(); 
             return resp;
         }
 

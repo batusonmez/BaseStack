@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Api\MessageBus\Domain\MessageBusDomainEvents\MessageBusDomainEvents.csproj" />
     <ProjectReference Include="..\Person.Infrastructure\Person.Infrastructure.csproj" />
   </ItemGroup>
 

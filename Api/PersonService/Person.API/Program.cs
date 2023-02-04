@@ -1,14 +1,15 @@
 using Dispatcher;
 using EFAdapter;
+using MassTransit;
 using MediatR;
-using MediatRDispatcher;
-using Microsoft.Extensions.DependencyInjection;
+using MediatRDispatcher;  
 using Person.API.Mapper;
 using Person.Domain.Entities;
+using Person.Domain.EventBus.Observers;
 using Person.Domain.Maps;
-using Person.Domain.Services.Outbox;
+using Person.Domain.Services.Outbox; 
 using Repository;
-
+ 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,6 +35,23 @@ builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
 });
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRePository<>));
 builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
+
+builder.Services.AddMassTransit(d =>
+{
+    d.UsingRabbitMq((context, config) =>
+    {
+        config.Host(configuration["EventBusConnection"]);
+    }); 
+   
+});
+
+builder.Services.AddSingleton<OutboxIntegrationService>();
+ 
+builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
+{
+    return provider.GetService<OutboxIntegrationService>();
+
+}); 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
