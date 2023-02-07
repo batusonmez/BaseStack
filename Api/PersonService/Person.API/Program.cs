@@ -2,10 +2,11 @@ using Dispatcher;
 using EFAdapter;
 using MassTransit;
 using MediatR;
-using MediatRDispatcher;  
+using MediatRDispatcher;
+using MessageBusDomainEvents;
 using Person.API.Mapper;
-using Person.Domain.Entities;
-using Person.Domain.EventBus.Observers;
+using Person.Domain.Consumers;
+using Person.Domain.Entities; 
 using Person.Domain.Maps;
 using Person.Domain.Services.Outbox; 
 using Repository;
@@ -38,12 +39,19 @@ builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
 
 builder.Services.AddMassTransit(d =>
 {
-    d.UsingRabbitMq((context, config) =>
+    d.AddConsumer<DataIndexedConsumer>();
+    d.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
     {
-        config.Host(configuration["EventBusConnection"]);
-    }); 
-   
-});
+        cfg.Host(configuration["EventBusConnection"]);
+        cfg.ReceiveEndpoint("IndexDataQueue", ep =>
+        {
+            ep.PrefetchCount = 16;
+            ep.UseMessageRetry(r => r.Interval(20, 500));
+            ep.ConfigureConsumer<DataIndexedConsumer>(provider);
+
+        });
+    })); 
+}); 
 
 builder.Services.AddSingleton<OutboxIntegrationService>();
  

@@ -1,5 +1,9 @@
+using Elasticsearch.Net;
 using Index.Domain.Consumers;
+using Index.Infrastructure;
 using MassTransit;
+using Nest;
+using static System.Reflection.Metadata.BlobBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +22,18 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("IndexDataQueue", ep =>
         {
             ep.PrefetchCount = 16;
-            ep.UseMessageRetry(r => r.Interval(2, 100));
+            ep.UseMessageRetry(r => r.Interval(20, 500));
             ep.ConfigureConsumer<IndexDataConsumer>(provider);
+     
         });
-    }));
+    })); 
 });
+
+var pool = new SingleNodeConnectionPool(new Uri(configuration["ElasticSearchUri"]));
+var settings = new ConnectionSettings(pool);
+var client = new ElasticClient(settings);
+builder.Services.AddSingleton(client); 
+builder.Services.AddScoped(typeof(IIndexer), typeof(ESIndexer));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

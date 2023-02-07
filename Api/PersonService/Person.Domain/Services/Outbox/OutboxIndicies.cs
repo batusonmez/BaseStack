@@ -8,7 +8,7 @@ namespace Person.Domain.Services.Outbox
         {
             if(source is PersonDTO)
             {
-                return "PersonInd";
+                return "person_ind";
             }
 
             return "";

@@ -21,24 +21,21 @@ namespace Person.API.Person
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IDispatcher dispatcher;
-        private readonly IPublishEndpoint eventBus;
+        private readonly IDispatcher dispatcher; 
 
         public PersonController(ILogger<WeatherForecastController> logger,
-            IDispatcher dispatcher,
-            IPublishEndpoint eventBus)
+            IDispatcher dispatcher 
+            )
         {
             _logger = logger;
-            this.dispatcher = dispatcher;
-            this.eventBus = eventBus;
+            this.dispatcher = dispatcher; 
         }
 
 
 
         [HttpGet(Name = "xxa")]
         public async Task<ListPeopleAPIResponse> Get()
-        {
-            await eventBus.Publish(new IndexData());
+        { 
             var response = new ListPeopleAPIResponse();
             var people = await dispatcher.Send<ListQueryResponse>(new ListPeopleQuery());
             if (people != null)
