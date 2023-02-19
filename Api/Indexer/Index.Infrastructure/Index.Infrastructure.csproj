@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Api\MessageBus\MessageBusManager\MessageBusManager.csproj" />
+    <ProjectReference Include="E:\Funland\BaseStackPackages\BaseStack.MessageBusManager\MessageBusManager.csproj" />
   </ItemGroup>
 
 </Project>

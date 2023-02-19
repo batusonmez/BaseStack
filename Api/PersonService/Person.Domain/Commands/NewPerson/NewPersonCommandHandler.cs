@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using MassTransit;
 using MediatR;
-using MessageBusDomainEvents;
 using Person.Domain.DTO;
-using Person.Domain.Entities;
 using Person.Domain.Services.Outbox;
 using Repository;
 

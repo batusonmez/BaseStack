@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Api\MessageBus\Domain\MessageBusDomainEvents\MessageBusDomainEvents.csproj" />
     <ProjectReference Include="..\Index.Infrastructure\Index.Infrastructure.csproj" />
+    <ProjectReference Include="E:\Funland\BaseStackPackages\BaseStack.MessageBusDomainEvents\MessageBusDomainEvents.csproj" />
   </ItemGroup>
 
   <ItemGroup>
