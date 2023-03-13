@@ -72,7 +72,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFAdapter", "E:\Funland\Bas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFAdapter.Test", "E:\Funland\BaseStackPackages\BaseStack.Repository.EFAdapter\Tests\EFAdapter.Test\EFAdapter.Test.csproj", "{033E044F-75D4-43ED-A179-19121FE25B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Person.Test", "E:\Funland\BaseStackPackages\BaseStack.Api.PersonAPI\Person.Test\Person.Test.csproj", "{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Person.Test", "E:\Funland\BaseStackPackages\BaseStack.Api.PersonAPI\Person.Test\Person.Test.csproj", "{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators", "E:\Funland\BaseStackPackages\BaseStack.Validation\Validators\Validators.csproj", "{3AF3A322-F2E1-4D33-81B7-813B4182D6A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Validator", "Validator", "{81BFBAB8-2182-47C2-B160-D33401CFF6B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators.Test", "E:\Funland\BaseStackPackages\BaseStack.Validation\Tests\Validators.Test.csproj", "{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Person.Application", "E:\Funland\BaseStackPackages\BaseStack.Api.PersonAPI\Person.Application\Person.Application.csproj", "{B42B2F1B-1A75-41A5-974A-6F886278A9BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Person.Persistence", "E:\Funland\BaseStackPackages\BaseStack.Api.PersonAPI\Person.Persistence\Person.Persistence.csproj", "{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,6 +154,22 @@ Global
 		{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF3A322-F2E1-4D33-81B7-813B4182D6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF3A322-F2E1-4D33-81B7-813B4182D6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF3A322-F2E1-4D33-81B7-813B4182D6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF3A322-F2E1-4D33-81B7-813B4182D6A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B42B2F1B-1A75-41A5-974A-6F886278A9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B42B2F1B-1A75-41A5-974A-6F886278A9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B42B2F1B-1A75-41A5-974A-6F886278A9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B42B2F1B-1A75-41A5-974A-6F886278A9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +204,11 @@ Global
 		{C924434D-A347-45F7-8F48-737388BE28A8} = {D7CDD982-2138-4C03-9ECD-9FFF7F4D49BF}
 		{033E044F-75D4-43ED-A179-19121FE25B41} = {D7CDD982-2138-4C03-9ECD-9FFF7F4D49BF}
 		{FA35A4A9-B27F-40A0-8F9A-8F4F9327E160} = {005ACE9B-8620-4854-A2C3-0BD5CCE566B2}
+		{3AF3A322-F2E1-4D33-81B7-813B4182D6A6} = {81BFBAB8-2182-47C2-B160-D33401CFF6B6}
+		{81BFBAB8-2182-47C2-B160-D33401CFF6B6} = {D75C5899-33EF-4AD7-AE9F-5682EDB6476E}
+		{F09DA989-8BD3-4F5E-B6B6-F962F8CD5DD6} = {81BFBAB8-2182-47C2-B160-D33401CFF6B6}
+		{B42B2F1B-1A75-41A5-974A-6F886278A9BD} = {005ACE9B-8620-4854-A2C3-0BD5CCE566B2}
+		{95DC9DC6-519E-4FCD-AFBC-BE5CF6C7F3AB} = {005ACE9B-8620-4854-A2C3-0BD5CCE566B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A094378-5160-4230-B971-46A7250D60C4}
