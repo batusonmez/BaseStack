@@ -1,0 +1,35 @@
+<div class="btn-group" role="group" >
+  <ng-container *ngFor="let command of Config.Commands">
+    
+    <a routerLink [class]="command.Class" [queryParams]="command.Command" queryParamsHandling="merge">
+      {{command.Title}}
+    </a>
+  </ng-container>  
+</div>
+<table [class]="Config.Class">    
+    <thead>      
+      <tr>
+        <ng-container *ngFor="let cell of Config.Cells">
+          <th>
+            {{cell.HeaderName}}
+          </th>
+        </ng-container>
+      </tr>
+    </thead>  
+  <tbody>
+    <ng-container *ngFor="let data of Config.Data ">
+      <tr>
+        <ng-container *ngFor="let cell of Config.Cells">
+          <td>
+            <ng-container [ngSwitch]="cell.CellType">
+
+              <cell *ngSwitchDefault [Config]="cell" [Data]="data"> </cell>
+            </ng-container>
+          </td>
+        </ng-container>
+      </tr>
+
+    </ng-container>
+  </tbody>
+  <tfoot></tfoot>
+</table>

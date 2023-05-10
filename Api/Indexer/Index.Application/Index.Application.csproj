@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\API\MessageBus\Domain\MessageBusDomainEvents\MessageBusDomainEvents.csproj" />
+    <ProjectReference Include="..\..\..\Core\API\MessageBus\MessageBusManager\MessageBusManager.csproj" />
+    <ProjectReference Include="..\..\..\Core\Helpers\Exceptions\Exceptions.csproj" />
+  </ItemGroup>
+
+</Project>

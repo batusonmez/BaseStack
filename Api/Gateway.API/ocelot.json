@@ -1,0 +1,16 @@
+{ 
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/personapi/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Delete", "Post" ],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    } 
+  ]
+}
