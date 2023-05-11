@@ -158,5 +158,48 @@ namespace EFAdapter.Tests
             Assert.IsNull(deleted);
         }
 
+
+        [TestMethod]
+        public  void Should_Paged_Valid()
+        {
+            // Arrange
+            var uow = GetUnitOfWork();
+            var repository = new EFRepository<TestEnity>(uow);
+            
+
+            var db = uow.Context as TestDBContext;
+
+            for (int i = 0; i < 100; i++)
+            {
+                var entity = new TestEnity()
+                {
+                    Age = i,
+                    Name = "paged",
+                    Surname = "test",
+                    ID = Guid.NewGuid(),
+                    CreatinDate = DateTime.Now
+                };
+                db.TestEnities.Add(entity);
+                db.SaveChanges();
+            }
+        
+
+            //Act
+           var test1= repository.GetPaged(3,10);
+            var test2 = repository.GetPaged(3, 10,d=>d.Age>50);
+
+
+            //Assert            
+            Assert.IsTrue( test1.Total == 100);
+            Assert.IsTrue(test2.Total == 49);
+
+            Assert.IsTrue(test1.Data.Count() == 10);
+            Assert.IsTrue(test2.Data.Count() == 10);
+
+            Assert.IsTrue(test1.Data.Any(d=>d.Age == 32));
+            Assert.IsTrue(test2.Data.Any(d => d.Age == 86));
+
+        }
+
     }
 }

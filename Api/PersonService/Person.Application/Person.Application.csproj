@@ -15,4 +15,8 @@
     <ProjectReference Include="C:\Users\Diwsi\source\repos\BaseStack\Core\Data\Mapper\Mapper.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\Paging\" />
+  </ItemGroup>
+
 </Project>

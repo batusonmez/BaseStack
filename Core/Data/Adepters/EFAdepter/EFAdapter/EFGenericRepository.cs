@@ -1,6 +1,8 @@
 ﻿
+using EFAdapter.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using Repository.Models;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -25,11 +27,12 @@ namespace EFAdapter
             T? entityToDelete = GetByID(id);
             if (entityToDelete != null)
             {
-                dbSet.Remove(entityToDelete);                
+                dbSet.Remove(entityToDelete);
             }
         }
 
-        public IEnumerable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
+
+        private IQueryable<T> GetInternal(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = dbSet;
 
@@ -46,12 +49,15 @@ namespace EFAdapter
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                return orderBy(query);
             }
-            else
-            {
-                return query.ToList();
-            }
+            return query;
+
+        }
+
+        public IEnumerable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
+        {
+            return GetInternal(filter, orderBy, includeProperties).ToList();
         }
 
         public T? GetByID(object id)
@@ -68,6 +74,18 @@ namespace EFAdapter
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public IPagedData<T> GetPaged(int page, int pageSize, Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
+        {
+            var query = GetInternal(filter,orderBy,includeProperties);
+
+            var result = new PagedData<T>()
+            {
+                Total=query.Count(),
+                Data=query.Skip(page*pageSize).Take(pageSize)
+            };
+            return result;
         }
 
         public EFRepository(IUOW uow)

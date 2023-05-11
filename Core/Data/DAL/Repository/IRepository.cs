@@ -1,10 +1,18 @@
-﻿using System.Linq.Expressions;
+﻿using Repository.Models;
+using System.Linq.Expressions;
 
 namespace Repository
 {
     public interface IRepository<T> where T:class
     {
         IEnumerable<T> Get(
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+            string includeProperties = "");
+
+        IPagedData<T> GetPaged(
+            int page,
+            int pageSize,
             Expression<Func<T, bool>>? filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = "");
