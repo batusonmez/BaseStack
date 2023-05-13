@@ -17,7 +17,11 @@ namespace EFAdapter.Tests
         {
             var dbContextOptions = new DbContextOptionsBuilder<TestDBContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
             DB = new TestDBContext(dbContextOptions);
-
+            foreach (var item in DB.TestEnities)
+            {
+                DB.Remove(item);
+            }
+            DB.SaveChanges();
         }
 
 
@@ -193,11 +197,11 @@ namespace EFAdapter.Tests
             Assert.IsTrue( test1.Total == 100);
             Assert.IsTrue(test2.Total == 49);
 
-            Assert.IsTrue(test1.Data.Count() == 10);
-            Assert.IsTrue(test2.Data.Count() == 10);
+            Assert.IsTrue(test1.Count() == 10);
+            Assert.IsTrue(test2.Count() == 10);
 
-            Assert.IsTrue(test1.Data.Any(d=>d.Age == 32));
-            Assert.IsTrue(test2.Data.Any(d => d.Age == 86));
+            Assert.IsTrue(test1.Any(d=>d.Age == 32));
+            Assert.IsTrue(test2.Any(d => d.Age == 86));
 
         }
 

@@ -1,4 +1,5 @@
 ﻿using Repository.Models;
+using System.Collections;
 
 namespace EFAdapter.Models
 {
@@ -12,5 +13,14 @@ namespace EFAdapter.Models
             Data = new List<T>();   
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+           return Data.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Data.GetEnumerator();
+        }
     }
 }

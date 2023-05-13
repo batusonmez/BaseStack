@@ -3,6 +3,7 @@ using MassTransit;
 using MediatR;
 using MessageBusDomainEvents;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Person.API.Controllers;
 using Person.API.Person.ListPople;
 using Person.API.Person.NewPerson;
@@ -15,41 +16,40 @@ namespace Person.API.Person
     [Route("[controller]")]
     public class PersonController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-         
-        private readonly IDispatcher dispatcher; 
+        private readonly IDispatcher dispatcher;
 
-        public PersonController(   IDispatcher dispatcher 
+        public PersonController(IDispatcher dispatcher
             )
-        { 
-            this.dispatcher = dispatcher; 
+        {
+            this.dispatcher = dispatcher;
         }
 
         [HttpGet]
-        public async Task<ListPeopleAPIResponse> Get()
-        { 
-            var response = new ListPeopleAPIResponse();
-            var people = await dispatcher.Send<ListQueryResponse>(new ListPeopleQuery());
-            if (people != null)
-            {
-                response.PersonList = people.People;
-            }
-            return response;
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] int page, [FromQuery]int pageSize)
+        {
+            var result = await dispatcher.Send<ListPeopleQueryResponse>(new ListPeopleQuery() { Page = page, PageSize = pageSize }) ;
+            return Ok(result);
         }
 
         [HttpPut]
-        public async Task<NewPersonAPIResponse> Put([FromBody] NewPersonAPIRequest person)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody] NewPersonAPIRequest person)
         {
+            if(person == null)
+            {
+                return BadRequest();
+            }
             var response = new NewPersonAPIResponse();
             var inserted = await dispatcher.Send<NewPersonResponse>(new NewPersonCommand(person));
             if (inserted != null)
             {
                 response.Person = inserted.Person;
             }
-            return response;
+            return Ok(response);
         }
     }
 }
