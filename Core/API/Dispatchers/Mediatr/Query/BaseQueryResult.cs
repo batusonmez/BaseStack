@@ -25,9 +25,10 @@ namespace MediatRDispatcher.Query
             Data = new List<T>();
         }
 
-        public BaseQueryResult(IEnumerable<T> data)
+        public BaseQueryResult(IEnumerable<T> data,int total )
         {
             Data = data.ToList();
+            Total = total;
         }
     }
 }
