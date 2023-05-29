@@ -11,19 +11,24 @@ namespace Person.Test
     {
 
 
-        private static PersonAppContext db;
+        private static PersonAppContext? db;
         public static PersonAppContext DB
         {
             get
             {
                 if (db == null)
                 {
-                    var dbContextOptions = new DbContextOptionsBuilder<PersonAppContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+                    var dbContextOptions = new DbContextOptionsBuilder<PersonAppContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString().Substring(0,6)).Options;
                       db = new PersonAppContext(dbContextOptions);
                 }
                 return db;
             }
 
+        }
+
+        public void ClearTestContext()
+        {
+            db = null;
         }
 
 

@@ -51,5 +51,18 @@ namespace Person.API.Person
             }
             return Ok(response);
         }
+
+
+        [HttpPut]
+        [Route("ReIndex")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]        
+        public async Task<IActionResult> ReIndexAll()
+        {
+                        
+             await dispatcher.Send<ReIndexPeopleResponse>(new ReIndexPeopleCommand());
+
+            return Ok();
+        }
     }
 }

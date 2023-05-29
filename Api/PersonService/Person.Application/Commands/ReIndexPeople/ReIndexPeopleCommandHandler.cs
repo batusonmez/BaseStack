@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
 using MediatR;
 using Person.Application.DTO;
+using Person.Application.Models.Exceptions;
 using Person.Application.Services.Outbox;
 using Repository;
 
 namespace Person.Application.Commands.NewPerson
 {
-    public class NewPersonCommandHandler : IRequestHandler<NewPersonCommand, NewPersonResponse>
+    public class ReIndexPeopleCommandHandler : IRequestHandler<ReIndexPeopleCommand, ReIndexPeopleResponse>
     {
         private readonly IMapper mapper;
         private readonly IRepository<DomainEntities.Person> personRepository;
         private readonly IOutBoxService outBoxService; 
         private readonly IUOW uow;
 
-        public NewPersonCommandHandler(IMapper mapper,
+        public ReIndexPeopleCommandHandler(IMapper mapper,
             IRepository<DomainEntities.Person> personRepository,
             IOutBoxService outBoxService, 
             IUOW uow)
@@ -23,19 +24,16 @@ namespace Person.Application.Commands.NewPerson
             this.outBoxService = outBoxService; 
             this.uow = uow;
         }
-        public async Task<NewPersonResponse> Handle(NewPersonCommand request, CancellationToken cancellationToken)
+        public async Task<ReIndexPeopleResponse> Handle(ReIndexPeopleCommand request, CancellationToken cancellationToken)
         {
 
-            var entity = mapper.Map<DomainEntities.Person>(request.Person);
-            personRepository.Insert(entity);
-            var personDTO = mapper.Map<PersonDTO>(entity);
-            var resp = new NewPersonResponse(personDTO);
-            resp.ID = entity.ID;
-            outBoxService.SaveOutBox(mapper.Map<OutBoxDTO>(personDTO));
+            var respose = new ReIndexPeopleResponse();
+            var entities = personRepository.GetPaged(1, 100000).Select(d => mapper.Map<PersonDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
+            outBoxService.SaveOutBox(entities);                          
             await uow.Save();
-            return resp;
+            
+            return respose;
         }
-
 
     }
 }

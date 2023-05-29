@@ -20,6 +20,7 @@ namespace Repository
         T? GetByID(object id);
 
         void Insert(T entity);
+        void Insert(IEnumerable<T> entities);
         void Delete(object id);
         void Update(T entityToUpdate);
          

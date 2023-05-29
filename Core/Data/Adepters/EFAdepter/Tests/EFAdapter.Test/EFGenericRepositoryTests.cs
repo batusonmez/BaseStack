@@ -15,15 +15,10 @@ namespace EFAdapter.Tests
         [TestInitialize]
         public void Setup()
         {
-            var dbContextOptions = new DbContextOptionsBuilder<TestDBContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+            var dbContextOptions = new DbContextOptionsBuilder<TestDBContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString().Substring(0,5)).Options;
             DB = new TestDBContext(dbContextOptions);
-            foreach (var item in DB.TestEnities)
-            {
-                DB.Remove(item);
-            }
-            DB.SaveChanges();
-        }
-
+       
+        } 
 
         private EFUnitOfWork GetUnitOfWork()
         {
@@ -33,8 +28,7 @@ namespace EFAdapter.Tests
             }
             return new EFUnitOfWork(DB);
         }
-
-
+         
         [TestMethod]
         public async Task Should_Insert_Data_and_Retrive()
         {
@@ -61,6 +55,43 @@ namespace EFAdapter.Tests
 
         }
 
+        [TestMethod]
+        public async Task Should_Insert_List_and_Retrive()
+        {
+            // Arrange
+            var uow = GetUnitOfWork();
+            var repository = new EFRepository<TestEnity>(uow);
+
+            var entities=new List<TestEnity>();
+            for (int i = 0; i < 100; i++)
+            {
+                var entity = new TestEnity()
+                {
+                    Age =i,
+                    Name = Guid.NewGuid().ToString(),
+                    Surname = Guid.NewGuid().ToString(),
+                    ID = Guid.NewGuid(),
+                    CreatinDate = DateTime.Now
+                };
+                entities.Add(entity);
+            }
+
+    
+
+            //Act
+            repository.Insert(entities);
+            await uow.Save();
+
+            //Assert
+            foreach (var item in entities)
+            {
+                var inserted = repository.GetByID(item.ID);
+                Assert.IsNotNull(inserted);
+                Assert.AreEqual(item.ID, inserted.ID);
+            }
+       
+
+        }
 
         [TestMethod]
         public void Should_Search_Work()
@@ -99,8 +130,7 @@ namespace EFAdapter.Tests
             Assert.IsTrue(!NotFounResult.Any());
 
         }
-
-
+         
         [TestMethod]
         public async Task Should_Update()
         {
@@ -132,8 +162,7 @@ namespace EFAdapter.Tests
             Assert.AreEqual(updated.ID, entity.ID);
             Assert.AreEqual(updated.Name, "Updated");
         }
-
-
+         
         [TestMethod]
         public async Task Should_Delete()
         {
@@ -161,8 +190,7 @@ namespace EFAdapter.Tests
             var deleted = repository.GetByID(  entity.ID) ;
             Assert.IsNull(deleted);
         }
-
-
+         
         [TestMethod]
         public  void Should_Paged_Valid()
         {
@@ -200,8 +228,8 @@ namespace EFAdapter.Tests
             Assert.IsTrue(test1.Count() == 10);
             Assert.IsTrue(test2.Count() == 10);
 
-            Assert.IsTrue(test1.Any(d=>d.Age == 32));
-            Assert.IsTrue(test2.Any(d => d.Age == 86));
+            Assert.IsTrue(test1.Any(d=>d.Age == 23));
+            Assert.IsTrue(test2.Any(d => d.Age == 78));
 
         }
 

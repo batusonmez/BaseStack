@@ -67,7 +67,11 @@ namespace EFAdapter
 
         public void Insert(T entity)
         {
-            dbSet.Add(entity);
+           dbSet.Add(entity);
+        }
+        public void Insert(IEnumerable<T> entities)
+        {
+            dbSet.AddRange(entities);
         }
 
         public void Update(T entityToUpdate)
@@ -83,10 +87,12 @@ namespace EFAdapter
             var result = new PagedData<T>()
             {
                 Total=query.Count(),
-                Data=query.Skip(page*pageSize).Take(pageSize)
+                Data=query.Skip((Math.Max(page-1,0))*pageSize).Take(pageSize)
             };
             return result;
         }
+
+   
 
         public EFRepository(IUOW uow)
         {

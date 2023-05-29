@@ -1,10 +1,5 @@
 ﻿using EFAdapter;
-using Person.Domain.Entities;
-using Person.Application.DTO;
-using Person.Application.Commands.NewPerson;
-using Person.Infrastructure.Services.Outbox;
 using Person.Application.Queries.ListPeople;
-using Person.Application.Services.Outbox;
 
 namespace Person.Test
 {
@@ -14,7 +9,8 @@ namespace Person.Test
         [TestMethod]
         public async Task List_People_Query()
         {
-            // Arrange
+
+            // Arrange 
             var uow = InitUOW();
             var mapper = InitPersonAPIMapper();            
             var repository = new EFRepository<Domain.Entities.Person>(uow);
@@ -29,6 +25,8 @@ namespace Person.Test
                 Page = 3,
                 PageSize = 25
             };
+
+            
 
             for (int i = 0; i < 100; i++)
             {

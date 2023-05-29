@@ -16,7 +16,7 @@ namespace Person.Test
             var uow = InitUOW();
             var mapper = InitPersonAPIMapper();            
             var outboxRepository = new EFRepository<Outbox>(uow);
-            var outboxService = new OutboxService(outboxRepository, uow);
+            var outboxService = new OutboxService(outboxRepository,mapper, uow);
             var repository = new EFRepository<Domain.Entities.Person>(uow);
             var handler = new NewPersonCommandHandler(mapper,repository, outboxService, uow);
 
