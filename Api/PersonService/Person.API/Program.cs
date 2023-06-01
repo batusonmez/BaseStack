@@ -7,10 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Person.API.Mapper;
 using Person.Application.Consumers;
 using Person.Application.Maps;
+using Person.Application.Models.Configuration;
 using Person.Application.Services.Outbox;
 using Person.Infrastructure.Services.Outbox;
 using Person.Persistence;
 using Repository;
+using   Person.Infrastructure.CLI;
+using System.CommandLine;
+using Person.Infrastructure.CLI.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient(typeof(IDispatcher), typeof(MediatrDispatcher));
 builder.Services.AddMediatR(AppDomain.CurrentDomain.Load("Person.Application"));
 builder.Services.AddAutoMapper(typeof(PersonAppProfile), typeof(PersonApiProfile));
-
+builder.Services.Configure<IndexConfig>(builder.Configuration.GetSection("IndexConfig"));
 builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
 {
     var connString = configuration["ConnectionString"];
@@ -72,9 +76,15 @@ builder.Services.AddSingleton<OutboxIntegrationService>();
  
 builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
 {
+#pragma warning disable CS8603 // Possible null reference return.
     return provider.GetService<OutboxIntegrationService>();
+#pragma warning restore CS8603 // Possible null reference return.
 
-}); 
+});
+
+builder.Services.AddTransient<Command, IndexCommand>();
+builder.Services.AddCLI(args);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

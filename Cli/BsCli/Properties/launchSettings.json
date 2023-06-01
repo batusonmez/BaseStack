@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BsCli": {
+      "commandName": "Project",
+      "commandLineArgs": "index --create hellow"
+    }
+  }
+}

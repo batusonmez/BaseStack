@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Person.Persistence\Person.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

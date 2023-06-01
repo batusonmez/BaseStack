@@ -22,6 +22,7 @@ namespace Person.Application.Maps
             CreateMap<OutBoxDTO, Outbox>()
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => JsonConvert.SerializeObject(src.Data)))
                 .ForMember(dest => dest.DataID, opt => opt.MapFrom(src => src.ID))
+                .ForMember(dest => dest.ID, opt => opt.Ignore())
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.Now));
 
         }

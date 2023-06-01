@@ -1,11 +1,5 @@
 using Dispatcher;
-using MassTransit;
-using MediatR;
-using MessageBusDomainEvents;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Person.API.Controllers;
-using Person.API.Person.ListPople;
 using Person.API.Person.NewPerson;
 using Person.Application.Commands.NewPerson;
 using Person.Application.Queries.ListPeople;
