@@ -18,10 +18,11 @@ builder.Services.AddMassTransit(x =>
     x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
     {
         cfg.Host(configuration["EventBusConnection"] );
+        cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
         cfg.ReceiveEndpoint("IndexDataQueue", ep =>
         {
-            ep.PrefetchCount = 16;
-            ep.UseMessageRetry(r => r.Interval(20, 500));
+            ep.PrefetchCount = 16;            
+            ep.UseMessageRetry(r => r.Interval(100, 10000));
             ep.ConfigureConsumer<IndexDataConsumer>(provider);
      
         });

@@ -1,6 +1,7 @@
 ﻿
- 
+
 using MassTransit;
+using MassTransit.Clients;
 using MassTransit.Transports;
 using MessageBusDomainEvents;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,7 @@ namespace Person.Infrastructure.Services.Outbox
 {
     public class OutboxIntegrationService : BaseBackgroundService
     {
-        
+
         private readonly IServiceScopeFactory scopeFactory;
         private readonly IOptions<IndexConfig> indexConfig;
 
@@ -30,12 +31,12 @@ namespace Person.Infrastructure.Services.Outbox
             using (var scope = scopeFactory.CreateScope())
             {
                 var uow = scope.ServiceProvider.GetRequiredService<IUOW>();
-               var eventBus= scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
-                
+                var eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
+
                 var repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
 
-                var awaitingJobs = repository.Get(d => !d.RequestDate.HasValue  
-                ).OrderBy(d=>d.CreationDate).Take(indexConfig.Value.BatchSize);
+                var awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
+                ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize);
                 if (awaitingJobs.Any())
                 {
                     foreach (var item in awaitingJobs)
@@ -43,25 +44,17 @@ namespace Person.Infrastructure.Services.Outbox
                         item.RequestDate = DateTime.Now;
                         repository.Update(item);
                         await uow.Save();
-                        try
+
+
+                        var resp = await eventBus.GetResponse<DataIndexed>(new IndexData()
                         {
-                            await eventBus.Publish(new IndexData()
-                            {
-                                ID = item.ID,
-                                Name = item.DataType,
-                                Value = item.Data
-                            });
-                        }
-                        catch (Exception)
-                        {
-                            item.RequestDate =null;
-                            repository.Update(item);
-                            await uow.Save();
-                            throw;
-                        }
-                        
-                        
-                    }                    
+                            ID = item.ID,
+                            Name = item.DataType,
+                            Value = item.Data
+                        });
+                        item.ProcessDate = DateTime.Now;
+                        await uow.Save();
+                    }
                 }
             }
         }

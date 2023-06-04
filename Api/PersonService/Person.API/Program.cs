@@ -5,7 +5,6 @@ using MediatR;
 using MediatRDispatcher;
 using Microsoft.EntityFrameworkCore;
 using Person.API.Mapper;
-using Person.Application.Consumers;
 using Person.Application.Maps;
 using Person.Application.Models.Configuration;
 using Person.Application.Services.Outbox;
@@ -58,15 +57,14 @@ builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
 
 builder.Services.AddMassTransit(d =>
 {
-    d.AddConsumer<DataIndexedConsumer>();
     d.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
     {
         cfg.Host(configuration["EventBusConnection"]);
+        cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
         cfg.ReceiveEndpoint("IndexDataQueue", ep =>
         {
             ep.PrefetchCount = 16;
-            ep.UseMessageRetry(r => r.Interval(20, 500));
-            ep.ConfigureConsumer<DataIndexedConsumer>(provider);
+            ep.UseMessageRetry(r => r.Interval(100, 10000));
 
         });
     })); 
