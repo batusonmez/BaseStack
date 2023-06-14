@@ -1,0 +1,1 @@
+﻿global using DomainEntities = Northwind.Domain.Entities;

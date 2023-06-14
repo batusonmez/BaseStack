@@ -16,6 +16,7 @@ namespace Index.Application.Consumers
             this.eventBus = eventBus;
             this.indexer = indexer;
         }
+
         public async Task Consume(ConsumeContext<IndexData> context)
         {
             var data = context.Message;
@@ -24,7 +25,6 @@ namespace Index.Application.Consumers
             {
                 var resp = await indexer.Index(data.Name, data.ID.ToString(), data.Value);
                 IndexException.ThrowIf(!resp, $"Unable to create Index {data.ID}");
-
             }
 
             await context.RespondAsync<DataIndexed>(new {
