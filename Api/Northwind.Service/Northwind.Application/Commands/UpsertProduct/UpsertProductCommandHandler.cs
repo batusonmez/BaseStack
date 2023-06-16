@@ -1,41 +1,27 @@
 ﻿using AutoMapper;
-using MediatR;
-using Person.Application.DTO;
-using Person.Application.Services.Outbox;
+using Northwind.Application.Commands.Upsert;
+using Northwind.Application.Models.DTO;
+using Northwind.Application.Services.Outbox;
+using Northwind.Domain.Entities;
 using Repository;
 
 namespace Northwind.Application.Commands.UpsertProduct
 {
-    public class UpsertProductCommandHandler : IRequestHandler<NewPersonCommand, UpsertProductResponse>
-    {
-        private readonly IMapper mapper;
-        private readonly IRepository<DomainEntities.Person> personRepository;
-        private readonly IOutBoxService outBoxService; 
-        private readonly IUOW uow;
-
+    public class UpsertProductCommandHandler  :  UpsertCommandHandler<ProductsDTO,Product>
+    { 
         public UpsertProductCommandHandler(IMapper mapper,
-            IRepository<DomainEntities.Person> personRepository,
+            IRepository<Product> repository,
             IOutBoxService outBoxService, 
-            IUOW uow)
-        {
-            this.mapper = mapper;
-            this.personRepository = personRepository;
-            this.outBoxService = outBoxService; 
-            this.uow = uow;
-        }
-        public async Task<NewPersonResponse> Handle(NewPersonCommand request, CancellationToken cancellationToken)
-        {
-
-            var entity = mapper.Map<DomainEntities.Person>(request.Person);
-            personRepository.Insert(entity);
-            var personDTO = mapper.Map<PersonDTO>(entity);
-            var resp = new NewPersonResponse(personDTO);
-            resp.ID = entity.ID;
-            outBoxService.SaveOutBox(mapper.Map<OutBoxDTO>(personDTO));
-            await uow.Save();
-            return resp;
+            IUOW uow):base(mapper,repository,outBoxService,uow)
+        {            
         }
 
+        public override Task<UpsertCommandResponse> Handle(UpsertCommand<ProductsDTO> request, CancellationToken cancellationToken)
+        {
+            // ovveride custom logic
+
+            return base.Handle(request, cancellationToken);
+        }
 
     }
 }

@@ -7,7 +7,7 @@ using Repository;
 
 namespace Northwind.Application.Commands
 {
-    internal class UpsertCommandHandler<T,E> : IRequestHandler<UpsertCommand<T>, UpsertCommandResponse> where T:IDTO where  E:class
+    public class UpsertCommandHandler<T,E> : IRequestHandler<UpsertCommand<T>, UpsertCommandResponse> where T:IDTO where  E:class
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
@@ -26,15 +26,18 @@ namespace Northwind.Application.Commands
         }
         
 
-        public async Task<UpsertCommandResponse> Handle(UpsertCommand<T> request, CancellationToken cancellationToken)
+        public  virtual async Task<UpsertCommandResponse> Handle(UpsertCommand<T> request, CancellationToken cancellationToken)
         {
-            var entity = mapper.Map<E>(request.Data);
-            repository.Insert(entity);
-            T dto=mapper.Map<T>(entity);
-            var resp = new UpsertCommandResponse(dto);
-            outBoxService.SaveOutBox(mapper.Map<OutBoxDTO>(dto));
-            await uow.Save();
-            return resp;
+            using (uow)
+            {
+                var entity = mapper.Map<E>(request.Data);
+                repository.Insert(entity);
+                T dto = mapper.Map<T>(entity);
+                var resp = new UpsertCommandResponse(dto);
+                outBoxService.SaveOutBox(mapper.Map<OutBoxDTO>(dto));
+                await uow.Save();
+                return resp;
+            }            
         }
     }
 }

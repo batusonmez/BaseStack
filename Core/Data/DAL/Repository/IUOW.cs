@@ -1,6 +1,6 @@
 ﻿namespace Repository
 {
-    public interface IUOW 
+    public interface IUOW : IDisposable
     {
         object Context { get; }
         Task Save();

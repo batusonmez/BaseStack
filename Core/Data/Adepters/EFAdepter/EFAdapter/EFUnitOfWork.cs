@@ -13,6 +13,12 @@ namespace EFAdapter
         {
            await context.SaveChangesAsync();
         }
+
+        public void Dispose()
+        {
+            context.Dispose();
+        }
+
         public EFUnitOfWork(DbContext context)
         {
             this.context = context;
