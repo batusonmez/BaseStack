@@ -8,6 +8,11 @@
         /// <summary>
         /// Map primary key field
         /// </summary>
-        object GetKey { get; }
+        object IndexKey { get; }
+         
+        /// <summary>
+        /// Create document index for search database
+        /// </summary>
+        bool IndexEnabled { get; }
     }
 }

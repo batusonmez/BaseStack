@@ -1,4 +1,5 @@
-﻿using Person.Application.DTO;
+﻿using Northwind.Application.Models.DTO;
+ 
 
 namespace Northwind.Infrastructure.Services.Outbox
 {

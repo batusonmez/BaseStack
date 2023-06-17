@@ -17,6 +17,8 @@ namespace Northwind.Application.Models.DTO
         public bool Discontinued { get; set; }
         public string? CategoryName { get; set; }
         public string? SupplierName { get; set; }
-        public object GetKey => throw new NotImplementedException();
+
+        public object IndexKey=>ProductId.ToString(); 
+        public bool IndexEnabled =>true;
     }
 }

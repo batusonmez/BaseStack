@@ -7,7 +7,7 @@ using Repository;
 
 namespace Northwind.Application.Commands
 {
-    public class UpsertCommandHandler<T,E> : IRequestHandler<UpsertCommand<T>, UpsertCommandResponse> where T:IDTO where  E:class
+    public class UpsertCommandHandler<T, E> : IRequestHandler<UpsertCommand<T>, UpsertCommandResponse> where T : IDTO where E : class
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
@@ -24,9 +24,9 @@ namespace Northwind.Application.Commands
             this.outBoxService = outBoxService;
             this.uow = uow;
         }
-        
 
-        public  virtual async Task<UpsertCommandResponse> Handle(UpsertCommand<T> request, CancellationToken cancellationToken)
+
+        public virtual async Task<UpsertCommandResponse> Handle(UpsertCommand<T> request, CancellationToken cancellationToken)
         {
             using (uow)
             {
@@ -34,10 +34,22 @@ namespace Northwind.Application.Commands
                 repository.Insert(entity);
                 T dto = mapper.Map<T>(entity);
                 var resp = new UpsertCommandResponse(dto);
-                outBoxService.SaveOutBox(mapper.Map<OutBoxDTO>(dto));
+                CreateIndex(dto);
                 await uow.Save();
                 return resp;
-            }            
+            }
+        }
+
+        public virtual Guid? CreateIndex(T dto)
+        {
+            if (dto.IndexEnabled)
+            {
+                var outbox = new OutBoxDTO();
+                outbox.Data = dto;
+                outbox.DataID = dto.IndexKey.ToString();
+                return outBoxService.SaveOutBox(outbox);
+            }
+            return null;
         }
     }
 }
