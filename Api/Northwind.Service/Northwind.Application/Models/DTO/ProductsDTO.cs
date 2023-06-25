@@ -18,7 +18,9 @@ namespace Northwind.Application.Models.DTO
         public string? CategoryName { get; set; }
         public string? SupplierName { get; set; }
 
-        public object IndexKey=>ProductId.ToString(); 
-        public bool IndexEnabled =>true;
+        public object IndexKey => ProductId;
+        public bool IndexEnabled => true;
+
+        public bool HasID => ProductId > 0;
     }
 }

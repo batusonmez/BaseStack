@@ -30,11 +30,16 @@ namespace Northwind.Test
             }
         }
 
-        public void ClearTestContext()
+        public void ClearTestConnection()
         {
             db = null;
         }
 
+        public void ResetTestDB()
+        {
+            DBSeed = null;
+            ClearTestConnection();
+        }
         public IUOW InitUOW()
         {
             return new EFUnitOfWork(DB);
