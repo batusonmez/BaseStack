@@ -17,7 +17,7 @@ namespace Northwind.Application.Commands.UpsertProduct
 
         public override Task<UpsertCommandResponse> Handle(UpsertCommand<ProductsDTO> request, CancellationToken cancellationToken)
         {
-            // ovveride custom logic
+            // overide custom logic
 
             return base.Handle(request, cancellationToken);
         }

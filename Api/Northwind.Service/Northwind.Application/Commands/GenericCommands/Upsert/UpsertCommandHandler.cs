@@ -51,7 +51,7 @@ namespace Northwind.Application.Commands
         {
             T dto = mapper.Map<T>(entity);
             UpsertCommandResponse resp = new UpsertCommandResponse(dto);
-            CreateIndex(dto);
+            SetOutbox(dto);
             await uow.Save();
             return resp;
         }
@@ -70,7 +70,7 @@ namespace Northwind.Application.Commands
             return mapper.Map<E>(dto);
         }
 
-        public virtual Guid? CreateIndex(T dto)
+        public virtual Guid? SetOutbox(T dto)
         {
             if (dto.IndexEnabled)
             {

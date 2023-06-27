@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EFAdapter;
 using Northwind.Application.Commands;
+using Northwind.Application.Commands.GenericCommands.Delete;
 using Northwind.Application.Models.DTO;
 using Northwind.Domain.Entities;
 using Northwind.Infrastructure.Services.Outbox;
@@ -17,7 +18,7 @@ namespace Northwind.Test.ProductTests
         IMapper? mapper;
         EFRepository<Outbox>? outboxRepository;
         EFRepository<Product>? repository;
-        UpsertCommandHandler<ProductsDTO, Product>? handler;
+
         OutboxService? outboxService;
 
         [TestInitialize]
@@ -29,7 +30,7 @@ namespace Northwind.Test.ProductTests
             outboxRepository = new EFRepository<Outbox>(uow);
             outboxService = new OutboxService(outboxRepository, mapper, uow);
             repository = new EFRepository<Product>(uow);
-            handler = new UpsertCommandHandler<ProductsDTO, Product>(mapper, repository, outboxService, uow);
+
             DB.Category.Add(new Category()
             {
                 CategoryId = 1,
@@ -89,7 +90,7 @@ namespace Northwind.Test.ProductTests
                 ReorderLevel = 1
             };
             UpsertCommand<ProductsDTO> testData = new UpsertCommand<ProductsDTO>(testDTO);
-
+            UpsertCommandHandler<ProductsDTO, Product>? handler = new UpsertCommandHandler<ProductsDTO, Product>(mapper, repository, outboxService, uow);
 
             //Act 
             UpsertCommandResponse response = await handler.Handle(testData, CancellationToken.None);
@@ -126,7 +127,7 @@ namespace Northwind.Test.ProductTests
                 ReorderLevel = 1
             };
             UpsertCommand<ProductsDTO> testData = new UpsertCommand<ProductsDTO>(testDTO);
-
+            UpsertCommandHandler<ProductsDTO, Product>? handler = new UpsertCommandHandler<ProductsDTO, Product>(mapper, repository, outboxService, uow);
 
             //Act 
             UpsertCommandResponse response = await handler.Handle(testData, CancellationToken.None);
@@ -146,6 +147,39 @@ namespace Northwind.Test.ProductTests
 
         }
 
+        [TestMethod]
+        public async Task Delete_Product_Command()
+        {
+            // Arrange  
+            ProductsDTO testDTO = new ProductsDTO()
+            {
+                ProductId = 1,
+                CategoryId = 1,
+                SupplierId = 3,
+                UnitsOnOrder = 2,
+                UnitsInStock = 5,
+                UnitPrice = 32,
+                QuantityPerUnit = "12 pc",
+                CategoryName = "Test Category",
+                ProductName = "Product Name",
+                SupplierName = "Suplier Name",
+                ReorderLevel = 1
+            };
+            DeleteCommand<ProductsDTO> testData = new DeleteCommand<ProductsDTO>(testDTO);
+            DeleteCommandHandler<ProductsDTO, Product>? handler = new DeleteCommandHandler<ProductsDTO, Product>(repository, outboxService, uow);
 
+            //Act 
+            DeleteCommandResponse response = await handler.Handle(testData, CancellationToken.None);
+
+            //Assert
+            ClearTestConnection();
+            uow = InitUOW();
+            Product product = DB.Product.FirstOrDefault(d => d.ProductId == testDTO.ProductId);
+            Assert.IsNull(product);
+            Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == testDTO.ProductId.ToString());
+            Assert.IsNotNull(outbox);
+            Assert.IsTrue(outbox.DataType == outbox.DataType);
+            Assert.IsTrue(outbox.DataID == testDTO.ProductId.ToString());
+        }
     }
 }
