@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿ 
 using MediatR;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Models.DTO.Types;

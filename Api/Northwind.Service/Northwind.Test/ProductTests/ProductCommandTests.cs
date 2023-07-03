@@ -166,6 +166,10 @@ namespace Northwind.Test.ProductTests
                 ReorderLevel = 1
             };
             DeleteCommand<ProductsDTO> testData = new DeleteCommand<ProductsDTO>(testDTO);
+            if (repository == null || outboxService == null || uow==null)
+            {
+                Assert.Fail("Invalid arrangement");
+            }
             DeleteCommandHandler<ProductsDTO, Product>? handler = new DeleteCommandHandler<ProductsDTO, Product>(repository, outboxService, uow);
 
             //Act 
@@ -174,7 +178,7 @@ namespace Northwind.Test.ProductTests
             //Assert
             ClearTestConnection();
             uow = InitUOW();
-            Product product = DB.Product.FirstOrDefault(d => d.ProductId == testDTO.ProductId);
+            Product? product = DB.Product.FirstOrDefault(d => d.ProductId == testDTO.ProductId);
             Assert.IsNull(product);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == testDTO.ProductId.ToString());
             Assert.IsNotNull(outbox);
