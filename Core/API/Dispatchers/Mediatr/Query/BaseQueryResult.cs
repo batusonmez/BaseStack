@@ -3,11 +3,14 @@ using System.Collections;
 
 namespace MediatRDispatcher.Query
 {
-    public abstract class BaseQueryResult<T> : IQueryResult<T> where T : class
+    public abstract class BaseQueryResult<T> : IQueryResult, IEnumerable<T> where T : class
     {
         List<T> Data { get; set; }
 
         public int Total { get; set; }
+        public int PageSize { get; set; }
+        public int Page { get; set; }
+        public int TotalPages { get; set; }
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -25,10 +28,9 @@ namespace MediatRDispatcher.Query
             Data = new List<T>();
         }
 
-        public BaseQueryResult(IEnumerable<T> data,int total )
+        public BaseQueryResult(IEnumerable<T> data )
         {
-            Data = data.ToList();
-            Total = total;
+            Data = data.ToList(); 
         }
     }
 }

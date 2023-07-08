@@ -31,7 +31,7 @@ namespace Northwind.Test.ProductTests
             outboxService = new OutboxService(outboxRepository, mapper, uow);
             repository = new EFRepository<Product>(uow);
 
-            DB.Category.Add(new Category()
+            DB.Categories.Add(new Category()
             {
                 CategoryId = 1,
                 CategoryName = "Test Categoty",
@@ -39,7 +39,7 @@ namespace Northwind.Test.ProductTests
                 Picture = new byte[] { 1, 2, 3 }
 
             });
-            DB.Supplier.Add(new Supplier()
+            DB.Suppliers.Add(new Supplier()
             {
                 Address = "Test Aderess",
                 City = "test City",
@@ -54,7 +54,7 @@ namespace Northwind.Test.ProductTests
                 Region = "Test Region",
                 SupplierId = 1
             });
-            DB.Product.Add(new Product()
+            DB.Products.Add(new Product()
             {
                 CategoryId = 1,
                 ProductId = 1,
@@ -101,7 +101,7 @@ namespace Northwind.Test.ProductTests
             ProductsDTO? resultDto = response.Data as ProductsDTO;
             Assert.IsNotNull(resultDto);
             Assert.IsTrue(resultDto.HasID);
-            Product? product = DB.Product.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
+            Product? product = DB.Products.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.ProductId.ToString());
             Assert.IsNotNull(product);
             Assert.IsNotNull(outbox);
@@ -138,7 +138,7 @@ namespace Northwind.Test.ProductTests
             ProductsDTO? resultDto = response.Data as ProductsDTO;
             Assert.IsNotNull(resultDto);
             Assert.IsTrue(resultDto.ProductId == 1);
-            Product? product = DB.Product.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
+            Product? product = DB.Products.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.ProductId.ToString());
             Assert.IsNotNull(product);
             Assert.IsNotNull(outbox);
@@ -178,7 +178,7 @@ namespace Northwind.Test.ProductTests
             //Assert
             ClearTestConnection();
             uow = InitUOW();
-            Product? product = DB.Product.FirstOrDefault(d => d.ProductId == testDTO.ProductId);
+            Product? product = DB.Products.FirstOrDefault(d => d.ProductId == testDTO.ProductId);
             Assert.IsNull(product);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == testDTO.ProductId.ToString());
             Assert.IsNotNull(outbox);

@@ -8,20 +8,22 @@ namespace Northwind.Persistence
     public class NorthwindContext : DbContext
     {
         public DbSet<Outbox> Outbox { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<Employee> Employee { get; set; }
-        public DbSet<EmployeeTerritory> EmployeeTerritory { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderDetail> OrderDetail { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Region> Region { get; set; }
-        public DbSet<Shipper> Shipper { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
-        public DbSet<Territory> Territory { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Shipper> Shippers { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Territory> Territories { get; set; }
 
         public NorthwindContext(DbContextOptions<NorthwindContext> options) : base(options)
         {
+            ChangeTracker.AutoDetectChangesEnabled = false;
+            ChangeTracker.LazyLoadingEnabled = false; 
 
         }
 

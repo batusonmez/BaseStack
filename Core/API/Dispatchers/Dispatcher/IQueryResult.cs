@@ -1,8 +1,10 @@
 ﻿namespace Dispatcher
 {
-    public interface IQueryResult<T> : IEnumerable<T> where T : class
+    public interface IQueryResult 
     {
         int Total { get; set; }
-
+        int PageSize { get; set; }
+        int Page { get; set; }
+        int TotalPages { get; set; }
     }
 }

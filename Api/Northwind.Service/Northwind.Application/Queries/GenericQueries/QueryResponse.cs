@@ -1,6 +1,5 @@
 ﻿
 using MediatRDispatcher.Query;
-using Northwind.Application.Models.DTO.Types;
 
 namespace Northwind.Application.Queries.GenericQueries
 {
@@ -8,7 +7,7 @@ namespace Northwind.Application.Queries.GenericQueries
     {
 
 
-        public QueryResponse(IEnumerable<T> data, int total)  : base(data, total)
+        public QueryResponse(IEnumerable<T> data )  : base(data )
         {
 
         }

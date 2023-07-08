@@ -14,13 +14,5 @@ namespace Northwind.Application.Commands.UpsertProduct
             IUOW uow):base(mapper,repository,outBoxService,uow)
         {            
         }
-
-        public override Task<UpsertCommandResponse> Handle(UpsertCommand<ProductsDTO> request, CancellationToken cancellationToken)
-        {
-            // overide custom logic
-
-            return base.Handle(request, cancellationToken);
-        }
-
     }
 }

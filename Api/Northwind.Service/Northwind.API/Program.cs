@@ -1,12 +1,15 @@
 
 using Dispatcher;
 using EFAdapter;
+using MassTransit;
 using MediatR;
 using MediatRDispatcher;
 using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Interceptors;
 using Northwind.Application.Maps;
 using Northwind.Application.Models.Configuration;
 using Northwind.Application.Services.Outbox;
+using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
 
@@ -21,12 +24,37 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 ConfigurationManager configuration = builder.Configuration;
+builder.Services.AddHttpContextAccessor();
+
+#region Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+#endregion
+
+#region MediaTR
 builder.Services.AddTransient(typeof(IDispatcher), typeof(MediatrDispatcher));
 builder.Services.AddMediatR(AppDomain.CurrentDomain.Load("Northwind.Application"));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PagingInterceptor<,>));
+#endregion
+
+#region Automapper
 builder.Services.AddAutoMapper(typeof(NorthwindMapProfile), typeof(NorthwindMapProfile));
+#endregion
+
+#region ElasticSearch
 builder.Services.Configure<IndexConfig>(builder.Configuration.GetSection("IndexConfig"));
+builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
+builder.Services.AddSingleton<OutboxIntegrationService>();
+builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
+{
+#pragma warning disable CS8603 // Possible null reference return.
+    return provider.GetService<OutboxIntegrationService>();
+#pragma warning restore CS8603 // Possible null reference return.
+
+});
+#endregion
+
+#region EntityFramework
 builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
 {
     var connString = configuration["ConnectionString"];
@@ -38,18 +66,11 @@ builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
     var context = new NorthwindContext(dbContextOptions);
     return new EFUnitOfWork(context);
 });
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
-builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
+#endregion
 
+
+#region MassTransit
 builder.Services.AddMassTransit(d =>
 {
     d.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
@@ -64,19 +85,17 @@ builder.Services.AddMassTransit(d =>
         });
     }));
 });
+#endregion
 
-builder.Services.AddSingleton<OutboxIntegrationService>();
-
-builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
+builder.Services.AddCors(options =>
 {
-#pragma warning disable CS8603 // Possible null reference return.
-    return provider.GetService<OutboxIntegrationService>();
-#pragma warning restore CS8603 // Possible null reference return.
-
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
 });
-
-builder.Services.AddTransient<Command, IndexCommand>();
-builder.Services.AddCLI(args);
 
 var app = builder.Build();
 

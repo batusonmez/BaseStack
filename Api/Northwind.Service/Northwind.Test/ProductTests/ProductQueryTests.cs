@@ -29,7 +29,7 @@ namespace Northwind.Test.ProductTests
             mapper = InitNorthwindAPIMapper(); 
             repository = new EFRepository<Product>(uow);
 
-            DB.Category.Add(new Category()
+            DB.Categories.Add(new Category()
             {
                 CategoryId = 1,
                 CategoryName = "Test Categoty",
@@ -37,7 +37,7 @@ namespace Northwind.Test.ProductTests
                 Picture = new byte[] { 1, 2, 3 }
 
             });
-            DB.Supplier.Add(new Supplier()
+            DB.Suppliers.Add(new Supplier()
             {
                 Address = "Test Aderess",
                 City = "test City",
@@ -52,7 +52,7 @@ namespace Northwind.Test.ProductTests
                 Region = "Test Region",
                 SupplierId = 1
             });
-            DB.Product.Add(new Product()
+            DB.Products.Add(new Product()
             {
                 CategoryId = 1,
                 ProductId = 1,
@@ -64,7 +64,7 @@ namespace Northwind.Test.ProductTests
                 UnitsOnOrder = 0
             });
 
-            DB.Product.Add(new Product()
+            DB.Products.Add(new Product()
             {
                 CategoryId = 1,
                 ProductId = 2,
@@ -76,7 +76,7 @@ namespace Northwind.Test.ProductTests
                 UnitsOnOrder = 0
             });
 
-            DB.Product.Add(new Product()
+            DB.Products.Add(new Product()
             {
                 CategoryId = 1,
                 ProductId = 3,
@@ -109,17 +109,21 @@ namespace Northwind.Test.ProductTests
             ClearTestConnection();
             uow = InitUOW();
             Assert.IsTrue(response.Total == 3);
-            foreach (var item in DB.Product)
+            foreach (var item in DB.Products)
             {
                 var productDto = response.FirstOrDefault(d => d.ProductId == item.ProductId);
+                
                 Assert.IsNotNull(productDto);
                 Assert.IsTrue(productDto.ProductName==item.ProductName);
                 Assert.IsTrue(productDto.QuantityPerUnit == item.QuantityPerUnit);
                 Assert.IsTrue(productDto.UnitPrice == item.UnitPrice);
                 Assert.IsTrue(productDto.CategoryId == item.CategoryId);
-                Assert.IsTrue(productDto.SupplierId == item.SupplierId);
+                Assert.IsTrue(productDto.SupplierId == item.SupplierId);                
                 Assert.IsTrue(productDto.UnitsOnOrder == item.UnitsOnOrder);
                 Assert.IsTrue(productDto.UnitsInStock == item.UnitsInStock);
+                Supplier? supplier = DB.Suppliers.Find(item.SupplierId);
+                Assert.IsNotNull(supplier);
+                Assert.IsTrue( productDto.SupplierName==supplier.CompanyName);
             }
              
 

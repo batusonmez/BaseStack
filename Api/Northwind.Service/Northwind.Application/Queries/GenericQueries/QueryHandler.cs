@@ -23,12 +23,20 @@ namespace Northwind.Application.Queries.GenericQueries
         {
             return Task.Run(() =>
             {
-                var query = repository.GetPaged(request.Page, request.PageSize, includeProperties: includeProperties);
+                IPagedData<E> query = repository.GetPaged(request.Page, request.PageSize, includeProperties: includeProperties);
                 IEnumerable<T> data = query.Select(d => mapper.Map<T>(d));
-                var resp = new QueryResponse<T>(data, query.Total);
+                QueryResponse<T> resp = new QueryResponse<T>(data)
+                {
+                    Total = query.Total,
+                    Page = request.Page,
+                    PageSize = request.PageSize,
+                    TotalPages = request.PageSize > 0 ? (query.Total / request.PageSize) + 1 : 0
+                };
+
                 return resp;
             });
         }
+
 
     }
 }

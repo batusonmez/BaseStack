@@ -8,14 +8,9 @@ namespace Northwind.Application.Queries.Products.ListProduct
 {
     public class ListProductsQueryHandler : QueryHandler<ProductsDTO, Product>
     {
-        public ListProductsQueryHandler(IMapper mapper, IRepository<Product> repository) : base(mapper, repository, "Supplier")
+        public ListProductsQueryHandler(IMapper mapper, IRepository<Product> repository) : base(mapper, repository, "Supplier,Category")
         {
         }
-
-        public override Task<QueryResponse<ProductsDTO>> Handle(Query<ProductsDTO> request, CancellationToken cancellationToken)
-        {
-            //Custom overrides
-            return base.Handle(request, cancellationToken);
-        }
+         
     }
 }

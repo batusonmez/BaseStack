@@ -15,13 +15,7 @@ namespace Northwind.Application.Commands.DeleteProduct
             IUOW uow):base( repository,outBoxService,uow)
         {            
         }
-
-        public override Task<DeleteCommandResponse> Handle(DeleteCommand<ProductsDTO> request, CancellationToken cancellationToken)
-        {
-            // overide custom logic
-
-            return base.Handle(request, cancellationToken);
-        }
+         
 
     }
 }

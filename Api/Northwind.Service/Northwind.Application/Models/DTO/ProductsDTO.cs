@@ -1,9 +1,8 @@
-﻿
-using Northwind.Application.Models.DTO.Types;
+﻿using System.Text.Json.Serialization;
 
 namespace Northwind.Application.Models.DTO
 {
-    public class ProductsDTO : IDTO
+    public class ProductsDTO : BaseDTO
     {
         public int ProductId { get; set; }
         public string? ProductName { get; set; }
@@ -18,9 +17,12 @@ namespace Northwind.Application.Models.DTO
         public string? CategoryName { get; set; }
         public string? SupplierName { get; set; }
 
-        public object IndexKey => ProductId;
-        public bool IndexEnabled => true;
 
-        public bool HasID => ProductId > 0;
+        [JsonIgnore]
+        public override object IndexKey => ProductId;
+        [JsonIgnore]
+        public override bool IndexEnabled => true;
+        [JsonIgnore]
+        public override bool HasID => ProductId > 0;
     }
 }
