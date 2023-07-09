@@ -8,24 +8,24 @@ import { TextInputComponent } from '../Form/FormComponents/text-input/text-input
 import { IFormHost } from '../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
-import { PersonEditorConfig } from './person-editor.config';
-import { PersonService } from '../services/ApiServices/PersonService/person.service';
+import { ProductEditorConfig } from './product-editor.config';
+import { ProductService } from '../services/ApiServices/ProductService/product.service';
 
 @Component({
-  selector: 'person-editor',
+  selector: 'product-editor',
   standalone: true,
   imports: [
     CommonModule,
     FormHostComponent,
     TableHostComponent
   ],
-  templateUrl: './person-editor.component.html',
-  styleUrls: ['./person-editor.component.scss']
+  templateUrl: './product-editor.component.html',
+  styleUrls: ['./product-editor.component.scss']
 })
-export class PersonEditorComponent implements OnInit {
+export class ProductEditorComponent implements OnInit {
 
 
-  Config: PersonEditorConfig = {
+  Config: ProductEditorConfig = {
     FormConfig: {
       Name: "TestForm",
       Fields: [
@@ -75,18 +75,18 @@ export class PersonEditorComponent implements OnInit {
       Cells: [
         {
           CellType: CellType.Cell,
-          Key: "Name",
-          HeaderName: "İsim"
+          Key: "ProductName",
+          HeaderName: "Product Name"
         },
         {
           CellType: CellType.Cell,
-          Key: "Surname",
-          HeaderName: "Soyisim"
+          Key: "CategoryName",
+          HeaderName: "Category Name"
         },
         {
           CellType: CellType.Cell,
-          Key: "City",
-          HeaderName: "Şehir"
+          Key: "SupplierName",
+          HeaderName: "Supplier Name"
         }
       ],
       Commands: [
@@ -101,12 +101,12 @@ export class PersonEditorComponent implements OnInit {
     ShowEditor: false
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService,private personService:PersonService) { }
+  constructor(private route: ActivatedRoute, private mapper: RouteMapperService,private productService:ProductService) { }
   ngOnInit(): void {
 
     this.registerQueryCommands();
-    this.personService.GetAllUsers().subscribe(res=>{
-        this.Config.DataTableConfig.Data=res;
+    this.productService.GetProducts().subscribe(res=>{
+        this.Config.DataTableConfig.Data=res.Data;
     })
   }
 
@@ -117,7 +117,7 @@ export class PersonEditorComponent implements OnInit {
         parameter: "editor",
         action: (prm: string) => {
           if (prm == "1") {
-            this.NewPerson(prm);
+            this.NewProduct(prm);
             this.ToggleEditor(true);
           } else {
             this.ToggleEditor(false);
@@ -128,7 +128,7 @@ export class PersonEditorComponent implements OnInit {
     ])
   }
 
-  NewPerson(prm: string): void {
+  NewProduct(prm: string): void {
 
 
   }

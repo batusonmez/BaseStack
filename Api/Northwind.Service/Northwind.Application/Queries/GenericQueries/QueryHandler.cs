@@ -5,6 +5,11 @@ using Repository.Models;
 
 namespace Northwind.Application.Queries.GenericQueries
 {
+    /// <summary>
+    /// Base handler for Query lists
+    /// </summary>
+    /// <typeparam name="T">DTO object</typeparam>
+    /// <typeparam name="E">Entity object</typeparam>
     public class QueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
     {
         private readonly IMapper mapper;
@@ -19,6 +24,7 @@ namespace Northwind.Application.Queries.GenericQueries
             this.mapper = mapper;
             this.repository = repository;
         }
+
         public virtual Task<QueryResponse<T>> Handle(Query<T> request, CancellationToken cancellationToken)
         {
             return Task.Run(() =>

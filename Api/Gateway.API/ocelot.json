@@ -1,7 +1,7 @@
-{ 
-  "Routes": [
+{
+  "Routes": [   
     {
-      "UpstreamPathTemplate": "/personapi/{everything}",
+      "UpstreamPathTemplate": "/northwind/v1/{everything}",
       "UpstreamHttpMethod": [ "Get", "Delete", "Post" ],
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
@@ -11,6 +11,6 @@
           "Port": 5001
         }
       ]
-    } 
+    }
   ]
 }

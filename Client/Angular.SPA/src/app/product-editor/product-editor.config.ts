@@ -1,7 +1,7 @@
 import { DataTableConfig } from "../DataTable/Models/DataTableConfig"
 import { FormConfig } from "../Form/Models/FormConfig"
 
-export interface PersonEditorConfig{
+export interface ProductEditorConfig{
     ShowEditor:boolean,
     FormConfig:FormConfig,
     DataTableConfig:DataTableConfig

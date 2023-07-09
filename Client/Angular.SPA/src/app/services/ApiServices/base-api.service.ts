@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { Environment } from 'src/environments/environment';
 import { LoadingService } from './loading.service';
@@ -16,7 +16,7 @@ export class BaseApiService {
 
   public Get<T>(path: string): Observable<T> {    
     this.addWork();
-    return this.http.get<T>(Environment.APIRoot + path).pipe(tap(next => {
+    return this.http.get<T>(Environment.APIRoot + path ).pipe(tap(next=> {      
        this.success();   
     }), catchError((err)=>{      
       this.error(err)
