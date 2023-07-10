@@ -68,8 +68,7 @@ builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
 });
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 #endregion
-
-
+ 
 #region MassTransit
 builder.Services.AddMassTransit(d =>
 {

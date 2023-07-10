@@ -3,19 +3,19 @@ import { BaseApiService } from '../base-api.service';
 import { Observable, map, tap } from 'rxjs';
 import {  Product } from 'src/app/Models/Products/Product';
 import { PagedResult } from 'src/app/Models/PagedResult';
+import { HttpResponse } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BaseApiService {
+export class ProductService extends BaseApiService<Product> {
 
-  public GetProducts(): Observable<PagedResult<Product>> {    
-   return super.Get<any>("api/Product").pipe(map((resp) =>{ 
-    let response=new  PagedResult<Product>();
-      response.Data=resp as Product[];
-      return response;
-    }));      
-  };
+  public override get RootURL():string{
+    return "api/Product";
+  }
+   
+ 
+
 }
 

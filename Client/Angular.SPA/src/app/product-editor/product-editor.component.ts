@@ -105,7 +105,7 @@ export class ProductEditorComponent implements OnInit {
   ngOnInit(): void {
 
     this.registerQueryCommands();
-    this.productService.GetProducts().subscribe(res=>{
+    this.productService.GetPaged().subscribe(res=>{
         this.Config.DataTableConfig.Data=res.Data;
     })
   }
