@@ -19,7 +19,7 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 builder.Services.AddOcelot(builder.Configuration);
 var app = builder.Build();
 app.UseCors("CORSPolicy");
-// Configure the HTTP request pipeline.
+ 
 
 app.UseAuthorization();
 

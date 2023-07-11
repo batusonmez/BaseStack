@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core'; 
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CellComponent } from '../cell/cell.component';
 import { DataTableConfig } from '../Models/DataTableConfig';
 
@@ -15,7 +15,7 @@ import { DataTableConfig } from '../Models/DataTableConfig';
 export class TableHostComponent implements OnInit{
   @Input() public Config!: DataTableConfig;
    
-  constructor() {
+  constructor(private route: ActivatedRoute) {
 
   }
 
@@ -23,8 +23,17 @@ export class TableHostComponent implements OnInit{
     if (!this.Config.Class) {
       this.Config.Class="table"
     }    
+
+    this.route.queryParamMap.subscribe(params => {
+      if(this.Config.Pager){
+        this.Config.Pager.Page=Number.parseInt(params.get('page')??"1");
+      }  
+    });
   }
 
+  Counter(i:number){
+    return new Array(i);
+  }
   
 
 }

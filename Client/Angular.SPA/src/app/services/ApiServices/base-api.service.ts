@@ -53,10 +53,12 @@ export class BaseApiService<T> {
     return  this.Get<any>(this.RootURL).pipe(map((resp) =>{ 
      let response=new  PagedResult<T>();
        response.Data=resp.body as T[];
-       response.DataCount=Number.parseInt(resp.headers.get('X-Total-Count')??'0');
-       response.Page=Number.parseInt(resp.headers.get('X-Current-Page')??'0');
-       response.PageSize=Number.parseInt(resp.headers.get('X-Page-Size')??'0');
-       response.TotalPages=Number.parseInt(resp.headers.get('X-Total-Pages')??'0');
+       response.PagerConfig={
+        PageSize:Number.parseInt(resp.headers.get('X-Page-Size')??'0'),
+        DataCount:Number.parseInt(resp.headers.get('X-Total-Count')??'0'),
+        Page: Math.max(Number.parseInt(resp.headers.get('X-Current-Page')??'1'),1),
+        TotalPages:Number.parseInt(resp.headers.get('X-Total-Pages')??'0')
+       }       
        return response;
      }));      
    };

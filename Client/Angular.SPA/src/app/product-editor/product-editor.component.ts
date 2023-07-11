@@ -107,6 +107,9 @@ export class ProductEditorComponent implements OnInit {
     this.registerQueryCommands();
     this.productService.GetPaged().subscribe(res=>{
         this.Config.DataTableConfig.Data=res.Data;
+        if(res.PagerConfig){
+          this.Config.DataTableConfig.Pager=res.PagerConfig
+        }        
     })
   }
 
