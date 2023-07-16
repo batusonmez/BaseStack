@@ -8,5 +8,6 @@ export interface DataTableConfig {
   Data:any[],
   Cells: CellConfig[],
   Commands:CommandConfig[],
-  Pager?:PagerConfig
+  Pager?:PagerConfig ,
+  OnFilter(filter: string): void 
 }

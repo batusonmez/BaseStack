@@ -36,8 +36,9 @@
       <td colspan="100%">
         <nav aria-label="pager" *ngIf="Config?.Pager?.TotalPages" >
           <ul class="pagination pagination-sm">
+        
             <ng-container *ngFor="let page of Counter(Config.Pager?.TotalPages??1); let i = index">
-              <li class="page-item" [ngClass]="{'active': i+1==Config.Pager?.Page}" aria-current="page">
+              <li class="page-item" [ngClass]="{'active': i+1==currentPage}" aria-current="page">
                 <a routerLink class="page-link" [queryParams]="{ page: i+1 }" queryParamsHandling="merge">
                   {{i+1}}
                 </a>                

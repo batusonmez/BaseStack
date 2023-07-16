@@ -8,12 +8,14 @@ import { TextInputComponent } from './Form/FormComponents/text-input/text-input.
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { ToasterComponent } from './Toaster/toaster.component';
+import { DataListComponent } from './Form/FormComponents/datalist/datalist.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TextInputComponent
+    TextInputComponent,
+    DataListComponent
   ],
   imports: [
     ReactiveFormsModule,

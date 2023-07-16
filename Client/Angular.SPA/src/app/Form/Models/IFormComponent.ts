@@ -3,7 +3,7 @@ import { FieldConfig } from "./FieldConfig";
 import { IFormHost } from "./IFormHost";
 
 export interface IFormComponent {
-  Config?: FieldConfig,
+  Config?: FieldConfig ,
   Controller: FormControl,
   Host?: IFormHost
 }

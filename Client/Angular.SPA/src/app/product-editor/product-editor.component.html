@@ -2,4 +2,12 @@
 <form-host *ngIf="Config.ShowEditor" [Config]="Config.FormConfig"></form-host>
 <br />
 <br />
-<table-host [Config]="Config.DataTableConfig"></table-host> 
+<label for="lang">Choose a language:</label>
+<input list="langs" name="lang" id="lang" />
+
+<datalist id="langs">
+    <option value="tt" > tt</option>
+    <option value="xx aa" > yy</option>
+    <option value="dd yy tt" > zz</option>
+</datalist>
+<table-host [Config]="Config.DataTableConfig"  ></table-host> 

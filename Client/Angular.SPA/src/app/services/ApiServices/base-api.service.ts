@@ -19,7 +19,7 @@ export class BaseApiService<T> {
   public Get<U>(path: string): Observable<HttpResponse<U>> {    
     this.addWork(); 
     return this.http.get<U>(Environment.APIRoot + path,{observe:"response"} ).pipe(tap(next=> {      
-       this.success();   
+       this.success(false);   
     }), catchError((err)=>{      
       this.error(err)
       return of();
@@ -34,8 +34,10 @@ export class BaseApiService<T> {
     this.loadingService.DoneWork();
   }
 
-  private success():void{
-    this.toastService.Success("Done!");
+  private success(notify:boolean=true):void{
+    if(notify){
+      this.toastService.Success("Done!");
+    }    
     this.doneWork();
   }
 
@@ -49,8 +51,8 @@ export class BaseApiService<T> {
     return ""
   }
 
-  public GetPaged(): Observable<PagedResult<T>> {    
-    return  this.Get<any>(this.RootURL).pipe(map((resp) =>{ 
+  public GetPaged(query:string=""): Observable<PagedResult<T>> {    
+    return  this.Get<any>(this.RootURL+"?"+query).pipe(map((resp) =>{ 
      let response=new  PagedResult<T>();
        response.Data=resp.body as T[];
        response.PagerConfig={
