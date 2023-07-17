@@ -5,7 +5,7 @@ using Northwind.Domain.Entities;
 
 namespace Northwind.Application.Maps
 {
-    public class NorthwindMapProfile : Profile
+    public partial class NorthwindMapProfile : Profile
     {
         public NorthwindMapProfile()
         {
