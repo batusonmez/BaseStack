@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-
+﻿
 namespace Northwind.Domain.Entities
 {
     public class Product 

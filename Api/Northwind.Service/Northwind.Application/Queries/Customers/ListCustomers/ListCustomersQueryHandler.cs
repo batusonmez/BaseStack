@@ -6,9 +6,9 @@ using Repository;
 
 namespace Northwind.Application.Queries.Customers.ListCustomers
 {
-    public class ListCustomersQueryHandler : QueryHandler<ProductsDTO, Product>
+    public class ListCustomersQueryHandler : QueryHandler<CustomersDTO, Customer>
     {
-        public ListCustomersQueryHandler(IMapper mapper, IRepository<Product> repository) : base(mapper, repository, "Supplier,Category")
+        public ListCustomersQueryHandler(IMapper mapper, IRepository<Customer> repository) : base(mapper, repository)
         {
         }
          

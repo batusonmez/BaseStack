@@ -97,7 +97,7 @@ namespace EFAdapter
         public EFRepository(IUOW uow)
         {
             this.uow = uow;
-            dbSet = context.Set<T>();
+            dbSet = context.Set<T>(); 
         }
 
     }

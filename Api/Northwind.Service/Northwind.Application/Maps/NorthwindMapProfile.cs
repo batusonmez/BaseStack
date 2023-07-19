@@ -19,6 +19,9 @@ namespace Northwind.Application.Maps
             CreateMap<OutBoxDTO, Outbox>() 
                 .ForMember(dest => dest.Data, opt => opt.MapFrom(src => JsonConvert.SerializeObject(src.Data)))
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => DateTime.Now));
+
+            CreateMap<CustomersDTO, Customer>();
+            CreateMap<Customer, CustomersDTO>();
         }
     }
 }

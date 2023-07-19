@@ -31,9 +31,9 @@ export class ProductEditorComponent implements OnInit {
       Name: "TestForm",
       Fields: [
         {
-          Name: "ProductName",
+          Name: "CategoryId",
           Component: DataListComponent,
-          ComponentData:new DataListConfig("Product Name"),
+          ComponentData:new DataListConfig("Category Name"),
           Event:(eventType:string,param:any )=>{
               let cd= <DataListConfig>this.Config.FormConfig.Fields[0].ComponentData;
               cd.Options.push({

@@ -21,7 +21,7 @@ namespace Northwind.Infrastructure.BackgroundServices
             {
                 try
                 {
-                    await Execute();
+                   await Execute();
                 }
                 catch (Exception ex)
                 {
