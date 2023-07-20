@@ -22,6 +22,10 @@ namespace Northwind.Application.Maps
 
             CreateMap<CustomersDTO, Customer>();
             CreateMap<Customer, CustomersDTO>();
+
+            CreateMap<CategoryDTO, Category>();
+            CreateMap<Category, CategoryDTO>();
+
         }
     }
 }

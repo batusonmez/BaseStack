@@ -8,7 +8,7 @@ using Northwind.Domain.Entities;
 namespace Northwind.Test.CustomerTests
 {
     [TestClass]
-    public class CustomerTests : BaseTest
+    public class CustomerQueryTests : BaseTest
     {
 
         Repository.IUOW? uow;
@@ -76,9 +76,7 @@ namespace Northwind.Test.CustomerTests
                 Assert.IsTrue(productDto.ContactTitle == item.ContactTitle);
                 Assert.IsTrue(productDto.ContactName == item.ContactName);
                 Assert.IsTrue(productDto.PostalCode == item.PostalCode);
-                Assert.IsTrue(productDto.Region == item.Region);
-
-
+                Assert.IsTrue(productDto.Region == item.Region); 
             }
              
 

@@ -12,6 +12,7 @@ import { ProductEditorConfig } from './product-editor.config';
 import { ProductService } from '../services/ApiServices/ProductService/product.service'; 
 import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
 import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
+import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
 
 @Component({
   selector: 'product-editor',
@@ -40,7 +41,10 @@ export class ProductEditorComponent implements OnInit {
                 Label:param,
                 Value:param
               });
-              debugger
+              this.categoryService.GetPaged().subscribe((rs)=>{
+                debugger
+              });
+              
           }
         },
         {
@@ -115,7 +119,7 @@ export class ProductEditorComponent implements OnInit {
     
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService,private productService:ProductService) { }
+  constructor(private route: ActivatedRoute, private mapper: RouteMapperService,private productService:ProductService, private categoryService:CategoryService) { }
   ngOnInit(): void {
 
     this.registerQueryCommands();

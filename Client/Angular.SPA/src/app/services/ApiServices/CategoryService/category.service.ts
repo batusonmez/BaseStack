@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../base-api.service';
 
-import { Customer } from 'src/app/Models/Customers/Customer';
+import { Category } from 'src/app/Models/Categories/Category';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService extends BaseApiService<Customer> {
+export class CategoryService extends BaseApiService<Category> {
 
   public override get RootURL():string{
-    return "api/Customer";
+    return "api/Category";
   }
    
  
