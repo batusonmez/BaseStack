@@ -22,9 +22,9 @@ namespace Northwind.Test.CustomerTests
             ResetTestDB();
             uow = InitUOW();
             mapper = InitNorthwindAPIMapper(); 
-            repository = new EFRepository<Customer>(uow);
+            repository = new (uow);
 
-            DB.Customers.Add(new Customer()
+            DB.Customers.Add(new ()
             {
                 Address="test address",
                 City="Test city",
@@ -48,12 +48,12 @@ namespace Northwind.Test.CustomerTests
         public async Task  Customer_Query()
         {
             // Arrange   
-            Query<CustomersDTO> query = new Query<CustomersDTO>();
+            Query<CustomersDTO> query = new();
             if(mapper==null || repository == null)
             {
                 Assert.Fail("Invalid arrangement");
             }
-            ListCustomersQueryHandler handler = new ListCustomersQueryHandler(mapper, repository );
+            ListCustomersQueryHandler handler = new(mapper, repository );
 
             //Act 
             QueryResponse<CustomersDTO> response = await handler.Handle(query, CancellationToken.None);

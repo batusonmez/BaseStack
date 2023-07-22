@@ -20,4 +20,19 @@
     <ProjectReference Include="..\Northwind.Domain\Northwind.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="i18n\CLIResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CLIResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="i18n\CLIResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CLIResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

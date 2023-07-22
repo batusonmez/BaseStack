@@ -9,9 +9,12 @@ using Northwind.Application.Interceptors;
 using Northwind.Application.Maps;
 using Northwind.Application.Models.Configuration;
 using Northwind.Application.Services.Outbox;
+using Northwind.Infrastructure.CLI;
+using Northwind.Infrastructure.CLI.Commands;
 using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
+using System.CommandLine;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +87,11 @@ builder.Services.AddMassTransit(d =>
         });
     }));
 });
+#endregion
+
+#region CLI Commands
+builder.Services.AddTransient<Command, ReindexCategoriesCommand>();
+builder.Services.AddCLI(args);
 #endregion
 
 builder.Services.AddCors(options =>

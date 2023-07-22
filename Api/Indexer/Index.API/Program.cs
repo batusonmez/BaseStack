@@ -17,22 +17,22 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<IndexDataConsumer>();
     x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
     {
-        cfg.Host(configuration["EventBusConnection"] );
+        cfg.Host(configuration["EventBusConnection"]);
         cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
         cfg.ReceiveEndpoint("IndexDataQueue", ep =>
         {
-            ep.PrefetchCount = 16;            
+            ep.PrefetchCount = 16;
             ep.UseMessageRetry(r => r.Interval(100, 10000));
             ep.ConfigureConsumer<IndexDataConsumer>(provider);
-     
+
         });
-    })); 
+    }));
 });
 
-var pool = new SingleNodeConnectionPool(new Uri(configuration["ElasticSearchUri"]));
-var settings = new ConnectionSettings(pool);
-var client = new ElasticClient(settings);
-builder.Services.AddSingleton(client); 
+SingleNodeConnectionPool pool = new(new(configuration["ElasticSearchUri"]));
+ConnectionSettings settings = new(pool);
+ElasticClient client = new(settings);
+builder.Services.AddSingleton(client);
 builder.Services.AddScoped(typeof(IIndexer), typeof(ESIndexer));
 var app = builder.Build();
 

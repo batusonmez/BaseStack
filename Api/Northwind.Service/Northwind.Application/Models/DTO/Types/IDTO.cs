@@ -6,7 +6,7 @@
     public interface IDTO
     {
         /// <summary>
-        /// Map primary key field
+        /// Index name
         /// </summary>
         object IndexKey { get; }
          

@@ -15,7 +15,7 @@ namespace Northwind.Application.Models.DTO
         public override bool IndexEnabled => true;
 
         [JsonIgnore]
-        public override object IndexKey => CategoryId;
+        public override object IndexKey => "categories";
 
         public CategoryDTO()
         {

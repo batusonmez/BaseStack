@@ -36,7 +36,7 @@ namespace Northwind.Infrastructure.Services.Outbox
                 var repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
 
                 var awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
-                ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize);
+                ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize).ToList();
                 if (awaitingJobs.Any())
                 {
                     foreach (var item in awaitingJobs)
@@ -54,6 +54,7 @@ namespace Northwind.Infrastructure.Services.Outbox
                         });
                         item.ProcessDate = DateTime.Now;
                         await uow.Save();
+
                     }
                 }
             }
