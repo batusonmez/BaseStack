@@ -34,7 +34,18 @@ namespace Person.Infrastructure.Services.Outbox
                 var eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
 
                 var repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
-
+                try
+                {
+                    var respa = await eventBus.GetResponse<DataIndexed>(new IndexData()
+                    {
+                        ID = "-",
+                        Name = "temps",
+                        Value = "tempsdt"
+                    });
+                }
+                catch (Exception ex)
+                {
+                }
                 var awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
                 ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize);
                 if (awaitingJobs.Any())
@@ -48,7 +59,7 @@ namespace Person.Infrastructure.Services.Outbox
 
                         var resp = await eventBus.GetResponse<DataIndexed>(new IndexData()
                         {
-                            ID = item.ID,
+                            ID = item.ID.ToString(),
                             Name = item.DataType,
                             Value = item.Data
                         });

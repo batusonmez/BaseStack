@@ -1,7 +1,7 @@
 using Elasticsearch.Net;
 using Index.Application.Common;
 using Index.Application.Consumers;
-using Index.Infrastructure;
+using Index.Infrastructure.ElasticSearch;
 using MassTransit;
 using Nest;
 var builder = WebApplication.CreateBuilder(args);

@@ -23,7 +23,7 @@ namespace Index.Application.Consumers
 
             if (!string.IsNullOrEmpty(data.Name) && data.Value != null)
             {
-                var resp = await indexer.Index(data.Name, data.ID.ToString(), data.Value);
+                var resp = await indexer.Index(data.Name, data.ID, data.Value);
                 IndexException.ThrowIf(!resp, $"Unable to create Index {data.ID}");
             }
 

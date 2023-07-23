@@ -1,3 +1,5 @@
+using Index.Application.Common;
+using Index.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Index.API.Controllers
@@ -12,15 +14,23 @@ namespace Index.API.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IIndexer indexer;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IIndexer indexer)
         {
             _logger = logger;
+            this.indexer = indexer;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            indexer.QueryForKeys( new IndexQuery()
+            {
+                IndexName= "categories",
+                Query = "sweet fish",
+                Limit=10
+            });
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

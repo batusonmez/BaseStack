@@ -1,5 +1,6 @@
 ﻿
 
+using EFAdapter;
 using MassTransit;
 using MassTransit.Clients;
 using MassTransit.Transports;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Northwind.Application.Models.Configuration;
 using Northwind.Infrastructure.BackgroundServices;
 using Repository;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Northwind.Infrastructure.Services.Outbox
 {
@@ -28,36 +30,48 @@ namespace Northwind.Infrastructure.Services.Outbox
 
         public override async Task Execute()
         {
+
+            List<DomainEntities.Outbox> awaitingJobs = new();
             using (var scope = scopeFactory.CreateScope())
             {
-                var uow = scope.ServiceProvider.GetRequiredService<IUOW>();
-                var eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
-
-                var repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
-
-                var awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
-                ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize).ToList();
-                if (awaitingJobs.Any())
-                {
-                    foreach (var item in awaitingJobs)
-                    {
-                        item.RequestDate = DateTime.Now;
-                        repository.Update(item);
-                        await uow.Save();
-
-
-                        var resp = await eventBus.GetResponse<DataIndexed>(new IndexData()
-                        {
-                            ID = item.ID,
-                            Name = item.DataType,
-                            Value = item.Data
-                        });
-                        item.ProcessDate = DateTime.Now;
-                        await uow.Save();
-
-                    }
-                }
+                IUOW uow = scope.ServiceProvider.GetRequiredService<IUOW>();
+                IRepository<DomainEntities.Outbox> repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
+                awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
+               ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize).ToList();
             }
+
+            await Task.WhenAll(awaitingJobs.Select(d => proccessIndexRequest(d)));
         }
+
+
+        private Task proccessIndexRequest(DomainEntities.Outbox outbox)
+        {
+            return Task.Run(async () =>
+            {
+                using (var scope = scopeFactory.CreateScope())
+                {
+                    IUOW uow = scope.ServiceProvider.GetRequiredService<IUOW>();
+                    IRepository<DomainEntities.Outbox> repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
+                    var eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
+                    outbox.RequestDate = DateTime.Now;
+                    repository.Update(outbox);
+                    await uow.Save();
+
+                    var resp = await eventBus.GetResponse<DataIndexed>(new IndexData()
+                    {
+                        ID = outbox.DataID,
+                        Name = outbox.DataType,
+                        Value = outbox.Data
+                    });
+
+                    outbox.ProcessDate = DateTime.Now;
+                    repository.Update(outbox);
+                    await uow.Save();
+
+                }
+            });
+
+        }
+
     }
 }

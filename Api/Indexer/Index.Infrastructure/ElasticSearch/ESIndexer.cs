@@ -2,8 +2,8 @@
 using Index.Application.Common;
 using Index.Application.Models;
 using Nest;
-
-namespace Index.Infrastructure
+ 
+namespace Index.Infrastructure.ElasticSearch
 {
     public class ESIndexer : IIndexer
     {
@@ -33,6 +33,25 @@ namespace Index.Infrastructure
                 var indexResp = await client.Indices.CreateAsync(indexName);
                 IndexException.ThrowIf(indexResp != null && !indexResp.IsValid, $"Unable to create index '${indexName}'  EXP: {indexResp?.ServerError?.Error?.Reason}");
             }
+        }
+
+        public IEnumerable<string> QueryForKeys(IndexQuery query)
+        {
+            List<string> result = new();
+            var response = client.Search<object>(s => s
+                 .Index(query.IndexName)
+                 .Size(query.Limit)
+                .Source(sf => sf
+                .Includes(f => f.Field("Id")))
+                .Query(q => q.MultiMatch(d => d.Query(query.Query)))
+                 );
+            if (response.IsValid)
+            {
+                result = response.Hits.Select(d => d.Id.ToString()).ToList();
+
+            }
+            return result;
+
         }
 
     }
