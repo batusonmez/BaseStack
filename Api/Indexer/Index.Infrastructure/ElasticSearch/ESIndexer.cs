@@ -1,6 +1,7 @@
 ﻿using Elasticsearch.Net;
 using Index.Application.Common;
 using Index.Application.Models;
+using Index.Application.Queries.ListForKeys;
 using Nest;
  
 namespace Index.Infrastructure.ElasticSearch
@@ -35,7 +36,7 @@ namespace Index.Infrastructure.ElasticSearch
             }
         }
 
-        public IEnumerable<string> QueryForKeys(IndexQuery query)
+        public IEnumerable<string> QuickKeywordSearch(QuickKeywordSearchRequest query)
         {
             List<string> result = new();
             var response = client.Search<object>(s => s
@@ -43,7 +44,12 @@ namespace Index.Infrastructure.ElasticSearch
                  .Size(query.Limit)
                 .Source(sf => sf
                 .Includes(f => f.Field("Id")))
-                .Query(q => q.MultiMatch(d => d.Query(query.Query)))
+                .Query(q => q.MultiMatch(d => {
+                    d.Query(query.Query);
+                    //d.Type(TextQueryType.PhrasePrefix);                                        
+                    return d;                     
+                    
+                    })) 
                  );
             if (response.IsValid)
             {

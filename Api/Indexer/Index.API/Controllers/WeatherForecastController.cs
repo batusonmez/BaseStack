@@ -24,13 +24,7 @@ namespace Index.API.Controllers
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
-        {
-            indexer.QueryForKeys( new IndexQuery()
-            {
-                IndexName= "categories",
-                Query = "sweet fish",
-                Limit=10
-            });
+        { 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

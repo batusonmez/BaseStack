@@ -1,4 +1,5 @@
 ﻿using Index.Application.Models;
+using Index.Application.Queries.ListForKeys;
 
 namespace Index.Application.Common
 {
@@ -6,6 +7,6 @@ namespace Index.Application.Common
     {
         Task<bool> Index(string indexName, string id, object data);
         Task InitIndex(string indexName);        
-        IEnumerable<string> QueryForKeys(IndexQuery query);
+        IEnumerable<string> QuickKeywordSearch(QuickKeywordSearchRequest query);
     }
 }
