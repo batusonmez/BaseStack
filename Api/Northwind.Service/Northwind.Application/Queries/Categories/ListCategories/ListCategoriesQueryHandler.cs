@@ -3,6 +3,7 @@ using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.GenericQueries;
 using Northwind.Domain.Entities;
 using Repository;
+using System.Linq.Expressions;
 
 namespace Northwind.Application.Queries.Categories.ListCategories
 {
@@ -10,7 +11,8 @@ namespace Northwind.Application.Queries.Categories.ListCategories
     {
         public ListCategoriesQueryHandler(IMapper mapper, IRepository<Category> repository) : base(mapper, repository)
         {
+            
         }
-        
+         
     }
 }

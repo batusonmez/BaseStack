@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using EFAdapter.Models;
 using Exceptions;
 using Northwind.Application.i18n;
 using Northwind.Application.Models.DTO;
+using Northwind.Application.Models.Filters.DataQueryFilter;
 using Northwind.Application.Services.Outbox;
 using Northwind.Domain.Entities;
 using Repository;
@@ -46,7 +48,12 @@ namespace Northwind.Infrastructure.CLI.Commands
             {
 
                 Console.WriteLine(CLIResource.InvalidBatchArgument, page);
-                var entities = repository.GetPaged(page, batch).Select(d => mapper.Map<CategoryDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
+                DataQuery<Category> query = new()
+                {
+                    Page = page,
+                    PageSize = batch
+                };
+                var entities = repository.GetPaged(query).Select(d => mapper.Map<CategoryDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
                 if (!entities.Any())
                 {
 

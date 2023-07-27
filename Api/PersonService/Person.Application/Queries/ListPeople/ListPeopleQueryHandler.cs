@@ -17,10 +17,12 @@ namespace Person.Application.Queries.ListPeople
         }
         public Task<ListPeopleQueryResponse> Handle(ListPeopleQuery request, CancellationToken cancellationToken)
         {
-            var query = personRepository.GetPaged(request.Page, request.PageSize);
-            var data = query.Select(d => mapper.Map<ListPeopleDTO>(d));
-            var resp = new ListPeopleQueryResponse(data, query.Total); 
-            return Task.FromResult(resp);
+
+            //var query = personRepository.GetPaged(request.Page, request.PageSize);
+            //var data = query.Select(d => mapper.Map<ListPeopleDTO>(d));
+            //var resp = new ListPeopleQueryResponse(data, query.Total); 
+            //return Task.FromResult(resp);
+            return null;
         }
     }
 }

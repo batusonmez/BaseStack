@@ -39,24 +39,24 @@ namespace Person.Infrastructure.CLI.Commands
         {
 
             var page = 1;
-            while (true)
-            {
+            //while (true)
+            //{
 
-                Console.WriteLine($"{page}. Indexing.");
-                var entities = personRepository.GetPaged(page, batch).Select(d => mapper.Map<PersonDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
-                if (!entities.Any())
-                {
+            //    Console.WriteLine($"{page}. Indexing.");
+            //    var entities = personRepository.GetPaged(page, batch).Select(d => mapper.Map<PersonDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
+            //    if (!entities.Any())
+            //    {
 
-                    break;
-                }
+            //        break;
+            //    }
 
-                outBoxService.SaveOutBox(entities);
-                await uow.Save();
+            //    outBoxService.SaveOutBox(entities);
+            //    await uow.Save();
 
 
-                page++;
+            //    page++;
 
-            }
+            //}
 
         }
     }

@@ -1,3 +1,5 @@
+using EFAdapter.Models;
+using EFAdapter.Test.Models;
 using EFAdapter.Tests.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -214,11 +216,17 @@ namespace EFAdapter.Tests
                 db.TestEnities.Add(entity);
                 db.SaveChanges();
             }
-        
+
 
             //Act
-           var test1= repository.GetPaged(3,10);
-            var test2 = repository.GetPaged(3, 10,d=>d.Age>50);
+            TestDataQuery<TestEnity> query = new()
+            {
+                Page =3,
+                PageSize = 10
+            };
+           var test1= repository.GetPaged(query);
+            query.Filter = d => d.Age > 50;
+            var test2 = repository.GetPaged(query);
 
 
             //Assert            

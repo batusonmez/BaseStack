@@ -22,8 +22,7 @@ namespace MediatRDispatcher.Query
         int regulatedPageSize(int refVal)
         {
            return Math.Min(Math.Max(refVal, 0), MaxPageSize);
-        }
-
+        } 
 
         public int Page { get; set; }
     }

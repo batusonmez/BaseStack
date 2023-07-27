@@ -10,12 +10,7 @@ namespace Repository
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = "");
 
-        IPagedData<T> GetPaged(
-            int page,
-            int pageSize,
-            Expression<Func<T, bool>>? filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
-            string includeProperties = "");
+        IPagedData<T> GetPaged(IDataQuery<T> queryModel);
 
         T? GetByID(object id);
 

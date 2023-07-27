@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Northwind.Application.Models.Filters.DataQueryFilter;
 using Repository;
 using Repository.Models;
+using System.Linq.Expressions;
 
 namespace Northwind.Application.Queries.GenericQueries
 {
@@ -10,7 +12,7 @@ namespace Northwind.Application.Queries.GenericQueries
     /// </summary>
     /// <typeparam name="T">DTO object</typeparam>
     /// <typeparam name="E">Entity object</typeparam>
-    public class QueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
+    public  class QueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
@@ -29,7 +31,8 @@ namespace Northwind.Application.Queries.GenericQueries
         {
             return Task.Run(() =>
             {
-                IPagedData<E> query = repository.GetPaged(request.Page, request.PageSize, includeProperties: includeProperties);
+                IDataQuery<E> queryFilter = BuildQuery(request);
+                IPagedData<E> query = repository.GetPaged(queryFilter);
                 IEnumerable<T> data = query.Select(d => mapper.Map<T>(d));
                 QueryResponse<T> resp = new QueryResponse<T>(data)
                 {
@@ -43,6 +46,21 @@ namespace Northwind.Application.Queries.GenericQueries
             });
         }
 
+        public virtual IDataQuery<E> BuildQuery(Query<T> request)
+        {
+            return new DataQuery<E>()
+            {
+                Page = request.Page,
+                PageSize = request.PageSize,
+                IncludeProperties=includeProperties,
+                Filter= BuildFilter(request)
+            };
+        }
+
+        public virtual  Expression<Func<E, bool>>? BuildFilter(Query<T> request)
+        {
+            return null;
+        }
 
     }
 }
