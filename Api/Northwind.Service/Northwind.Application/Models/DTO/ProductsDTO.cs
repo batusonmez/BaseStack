@@ -24,5 +24,6 @@ namespace Northwind.Application.Models.DTO
         public override bool IndexEnabled => true;
         [JsonIgnore]
         public override bool HasID => ProductId > 0;
+        
     }
 }

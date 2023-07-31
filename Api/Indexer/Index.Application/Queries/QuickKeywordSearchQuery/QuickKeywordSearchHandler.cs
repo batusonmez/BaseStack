@@ -17,7 +17,7 @@ namespace Index.Application.Queries.QuickKeywordSearchQuery
            return Task.Run(() =>
             {
                 QuickKeywordSearchResponse response = new();
-                response.Keys = indexer.QuickKeywordSearch(request);
+                response.SetResult(indexer.QuickKeywordSearch(request));
                 return response;
             });
         }

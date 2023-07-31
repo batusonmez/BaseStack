@@ -13,5 +13,13 @@ namespace Northwind.Application.Models.DTO
 
         [JsonIgnore]
         public virtual bool HasID { get; }
+
+        public virtual object? ID
+        {
+            get
+            {
+                return null;
+            }
+        }
     }
 }

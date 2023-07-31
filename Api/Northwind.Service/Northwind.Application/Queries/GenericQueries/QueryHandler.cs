@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Northwind.Application.Models.Filters.DataQueryFilter;
+using Northwind.Application.Queries.GenericQueries.Extansions.IndexQuery;
+using Northwind.Application.Services.Index;
 using Repository;
 using Repository.Models;
 using System.Linq.Expressions;
@@ -16,15 +18,18 @@ namespace Northwind.Application.Queries.GenericQueries
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
+        private readonly IIndexService indexService;
         private string includeProperties;
         public QueryHandler(IMapper mapper,
             IRepository<E> repository,
+            IIndexService indexService,
            string includeProperties = ""
             )
         {
             this.includeProperties = includeProperties;
             this.mapper = mapper;
             this.repository = repository;
+            this.indexService = indexService;
         }
 
         public virtual Task<QueryResponse<T>> Handle(Query<T> request, CancellationToken cancellationToken)
@@ -48,19 +53,35 @@ namespace Northwind.Application.Queries.GenericQueries
 
         public virtual IDataQuery<E> BuildQuery(Query<T> request)
         {
+            IEnumerable<string>? indexSearchResult=BuildKeywordQuery(request);
+            Expression<Func<E, bool>>? filter = BuildFilter(request, indexSearchResult);
+
             return new DataQuery<E>()
             {
                 Page = request.Page,
                 PageSize = request.PageSize,
-                IncludeProperties=includeProperties,
-                Filter= BuildFilter(request)
+                IncludeProperties = includeProperties,
+                Filter = filter
             };
         }
 
-        public virtual  Expression<Func<E, bool>>? BuildFilter(Query<T> request)
+        public virtual  Expression<Func<E, bool>>? BuildFilter(Query<T> request, IEnumerable<string>? indexSearchResult)
         {
+            IEnumerable<object>? mappedKeys = indexSearchResult.ToPrimaryKeyType<T>();
+            
             return null;
         }
 
+        public virtual IEnumerable<string>? BuildKeywordQuery(Query<T> request)
+        {
+            IndexQueryParameters? indexRequest= request.ToIndexQuery();
+            if (indexRequest != null)
+            {
+               return indexService.SearchKeyword(indexRequest.IndexName, indexRequest.Keyword, indexRequest.Limit);
+            }
+
+
+            return null;
+        }
     }
 }

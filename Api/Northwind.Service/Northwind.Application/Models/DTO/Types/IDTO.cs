@@ -19,5 +19,7 @@
         /// Gets if object has a database primary key
         /// </summary>
         bool HasID { get; }
+
+        object? ID { get; }
     }
 }

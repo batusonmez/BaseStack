@@ -1,16 +1,10 @@
-﻿
-
-using EFAdapter;
-using MassTransit;
-using MassTransit.Clients;
-using MassTransit.Transports;
+﻿using MassTransit;
 using MessageBusDomainEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Northwind.Application.Models.Configuration;
 using Northwind.Infrastructure.BackgroundServices;
 using Repository;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Northwind.Infrastructure.Services.Outbox
 {
@@ -32,7 +26,7 @@ namespace Northwind.Infrastructure.Services.Outbox
         {
 
             List<DomainEntities.Outbox> awaitingJobs = new();
-            using (var scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 IUOW uow = scope.ServiceProvider.GetRequiredService<IUOW>();
                 IRepository<DomainEntities.Outbox> repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
@@ -48,16 +42,16 @@ namespace Northwind.Infrastructure.Services.Outbox
         {
             return Task.Run(async () =>
             {
-                using (var scope = scopeFactory.CreateScope())
+                using (IServiceScope scope = scopeFactory.CreateScope())
                 {
                     IUOW uow = scope.ServiceProvider.GetRequiredService<IUOW>();
                     IRepository<DomainEntities.Outbox> repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
-                    var eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
+                    IRequestClient<IndexData> eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
                     outbox.RequestDate = DateTime.Now;
                     repository.Update(outbox);
                     await uow.Save();
 
-                    var resp = await eventBus.GetResponse<DataIndexed>(new IndexData()
+                    var resp = await eventBus.GetResponse<DataIndexed>(new  ()
                     {
                         ID = outbox.DataID,
                         Name = outbox.DataType,
