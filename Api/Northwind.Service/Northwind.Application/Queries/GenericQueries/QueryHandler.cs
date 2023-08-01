@@ -14,13 +14,13 @@ namespace Northwind.Application.Queries.GenericQueries
     /// </summary>
     /// <typeparam name="T">DTO object</typeparam>
     /// <typeparam name="E">Entity object</typeparam>
-    public  class QueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
+    public  class BasePagedQueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
         private readonly IIndexService indexService;
         private string includeProperties;
-        public QueryHandler(IMapper mapper,
+        public BasePagedQueryHandler(IMapper mapper,
             IRepository<E> repository,
             IIndexService indexService,
            string includeProperties = ""

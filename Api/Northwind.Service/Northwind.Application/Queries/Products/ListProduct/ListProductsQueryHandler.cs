@@ -7,7 +7,7 @@ using Repository;
 
 namespace Northwind.Application.Queries.Products.ListProduct
 {
-    public class ListProductsQueryHandler : QueryHandler<ProductsDTO, Product>
+    public class ListProductsQueryHandler : BasePagedQueryHandler<ProductsDTO, Product>
     {
         public ListProductsQueryHandler(IMapper mapper, IRepository<Product> repository,  IIndexService indexService) : base(mapper, repository,indexService, "Supplier,Category")
         {

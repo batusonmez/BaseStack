@@ -7,7 +7,7 @@ using Repository;
 
 namespace Northwind.Application.Queries.Customers.ListCustomers
 {
-    public class ListCustomersQueryHandler : QueryHandler<CustomersDTO, Customer>
+    public class ListCustomersQueryHandler : BasePagedQueryHandler<CustomersDTO, Customer>
     {
         public ListCustomersQueryHandler(IMapper mapper, IRepository<Customer> repository, IIndexService indexService) : base(mapper, repository, indexService)
         {

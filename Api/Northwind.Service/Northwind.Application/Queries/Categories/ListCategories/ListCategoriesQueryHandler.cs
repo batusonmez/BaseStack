@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace Northwind.Application.Queries.Categories.ListCategories
 {
-    public class ListCategoriesQueryHandler : QueryHandler<CategoryDTO, Category>
+    public class ListCategoriesQueryHandler : BasePagedQueryHandler<CategoryDTO, Category>
     {
         public ListCategoriesQueryHandler(IMapper mapper, IRepository<Category> repository, IIndexService indexService) : base(mapper, repository, indexService)
         {
@@ -17,8 +17,12 @@ namespace Northwind.Application.Queries.Categories.ListCategories
 
         public override Expression<Func<Category, bool>>? BuildFilter(Query<CategoryDTO> request, IEnumerable<string>? indexSearchResult)
         {
-            Expression<Func<Category, bool>> dr = d => d.CategoryId == 1;
-            dr.
+            if (indexSearchResult != null && indexSearchResult.Any())
+            {
+                IEnumerable<int> idlist = indexSearchResult.Cast<int>();
+                return d => idlist.Contains(d.CategoryId);
+            }
+            
             return base.BuildFilter(request, indexSearchResult);
         }
 
