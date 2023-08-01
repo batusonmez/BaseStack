@@ -17,9 +17,10 @@ namespace Northwind.Application.Queries.Categories.ListCategories
 
         public override Expression<Func<Category, bool>>? BuildFilter(Query<CategoryDTO> request, IEnumerable<string>? indexSearchResult)
         {
-            if (indexSearchResult == null) return null;                
-            IEnumerable<int> idList=indexSearchResult.Cast<int>();
-            return d=>idList.Contains(d.CategoryId);
+            Expression<Func<Category, bool>> dr = d => d.CategoryId == 1;
+            dr.
+            return base.BuildFilter(request, indexSearchResult);
         }
+
     }
 }

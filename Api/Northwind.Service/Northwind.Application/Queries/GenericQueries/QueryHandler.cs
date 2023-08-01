@@ -67,8 +67,7 @@ namespace Northwind.Application.Queries.GenericQueries
 
         public virtual  Expression<Func<E, bool>>? BuildFilter(Query<T> request, IEnumerable<string>? indexSearchResult)
         {
-            IEnumerable<object>? mappedKeys = indexSearchResult.ToPrimaryKeyType<T>();
-            
+           
             return null;
         }
 
