@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using EFAdapter;
-using Northwind.Application.Commands;
-using Northwind.Application.Commands.GenericCommands.Delete;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.GenericQueries;
 using Northwind.Application.Queries.Products.ListProduct;
+using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
-using Northwind.Infrastructure.Services.Outbox;
-using Northwind.Test;
-using System.Net;
 
 namespace Northwind.Test.ProductTests
 {
@@ -19,7 +15,7 @@ namespace Northwind.Test.ProductTests
         Repository.IUOW? uow;
         IMapper? mapper; 
         EFRepository<Product>? repository;
-         
+        IIndexService? indexService;
 
         [TestInitialize]
         public void Setup()
@@ -28,7 +24,7 @@ namespace Northwind.Test.ProductTests
             uow = InitUOW();
             mapper = InitNorthwindAPIMapper(); 
             repository = new EFRepository<Product>(uow);
-
+            indexService = MockIndexService();
             DB.Categories.Add(new Category()
             {
                 CategoryId = 1,
@@ -96,11 +92,11 @@ namespace Northwind.Test.ProductTests
         {
             // Arrange   
             Query<ProductsDTO> query = new Query<ProductsDTO>();
-            if(mapper==null || repository == null)
+            if(mapper==null || repository == null || indexService==null)
             {
                 Assert.Fail("Invalid arrangement");
             }
-            ListProductsQueryHandler handler = new ListProductsQueryHandler(mapper, repository );
+            ListProductsQueryHandler handler = new ListProductsQueryHandler(mapper, repository, indexService);
 
             //Act 
             QueryResponse<ProductsDTO> response = await handler.Handle(query, CancellationToken.None);

@@ -31,6 +31,7 @@ namespace Northwind.Application.Queries.GenericQueries
             this.repository = repository;
             this.indexService = indexService;
         }
+         
 
         public virtual Task<QueryResponse<T>> Handle(Query<T> request, CancellationToken cancellationToken)
         {

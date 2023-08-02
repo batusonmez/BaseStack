@@ -20,6 +20,6 @@
         /// </summary>
         bool HasID { get; }
 
-        object? ID { get; }
+        object? DTOID { get; }
     }
 }

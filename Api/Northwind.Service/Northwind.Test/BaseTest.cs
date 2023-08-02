@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using EFAdapter;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Northwind.Application.Maps;
+using Northwind.Application.Services.Index;
 using Northwind.Persistence;
 using Repository;
 
@@ -49,6 +51,18 @@ namespace Northwind.Test
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfile<NorthwindMapProfile>());
             return config.CreateMapper();
+        }
+
+        public IIndexService MockIndexService(IEnumerable<string>  result =null)
+        {
+            List<string> response = new();
+            if (result != null)
+            {
+                response.AddRange(result);
+            }
+            Mock<IIndexService> mockService = new();
+            mockService.Setup(d => d.SearchKeyword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(response);
+            return mockService.Object;
         }
 
     }

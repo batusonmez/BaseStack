@@ -14,12 +14,7 @@ namespace Northwind.Application.Queries.GenericQueries.Extansions.IndexQuery
             {
                 return null;
             }            
-            if (!(query is Query<IDTO>))
-            {
-                return null;
-            }
-
-            
+  
             IDTO? mock = Activator.CreateInstance(typeof(T)) as IDTO;
             if (mock == null)
             {

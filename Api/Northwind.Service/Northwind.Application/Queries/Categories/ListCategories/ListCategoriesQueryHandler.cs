@@ -12,17 +12,17 @@ namespace Northwind.Application.Queries.Categories.ListCategories
     {
         public ListCategoriesQueryHandler(IMapper mapper, IRepository<Category> repository, IIndexService indexService) : base(mapper, repository, indexService)
         {
-            
+
         }
 
         public override Expression<Func<Category, bool>>? BuildFilter(Query<CategoryDTO> request, IEnumerable<string>? indexSearchResult)
         {
             if (indexSearchResult != null && indexSearchResult.Any())
             {
-                IEnumerable<int> idlist = indexSearchResult.Cast<int>();
+                IEnumerable<int> idlist = indexSearchResult.Select(d => int.Parse(d)).ToArray();
                 return d => idlist.Contains(d.CategoryId);
             }
-            
+
             return base.BuildFilter(request, indexSearchResult);
         }
 

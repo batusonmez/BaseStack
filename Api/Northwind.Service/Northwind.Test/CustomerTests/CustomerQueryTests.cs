@@ -2,7 +2,8 @@
 using EFAdapter;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.Customers.ListCustomers;
-using Northwind.Application.Queries.GenericQueries; 
+using Northwind.Application.Queries.GenericQueries;
+using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
 
 namespace Northwind.Test.CustomerTests
@@ -14,16 +15,16 @@ namespace Northwind.Test.CustomerTests
         Repository.IUOW? uow;
         IMapper? mapper; 
         EFRepository<Customer>? repository;
-         
+        IIndexService indexService;
 
-        [TestInitialize]
+       [TestInitialize]
         public void Setup()
         {
             ResetTestDB();
             uow = InitUOW();
             mapper = InitNorthwindAPIMapper(); 
             repository = new (uow);
-
+            indexService = MockIndexService();
             DB.Customers.Add(new ()
             {
                 Address="test address",
@@ -53,7 +54,7 @@ namespace Northwind.Test.CustomerTests
             {
                 Assert.Fail("Invalid arrangement");
             }
-            ListCustomersQueryHandler handler = new(mapper, repository );
+            ListCustomersQueryHandler handler = new(mapper, repository, indexService);
 
             //Act 
             QueryResponse<CustomersDTO> response = await handler.Handle(query, CancellationToken.None);
