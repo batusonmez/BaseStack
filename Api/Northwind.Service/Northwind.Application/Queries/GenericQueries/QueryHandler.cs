@@ -14,7 +14,7 @@ namespace Northwind.Application.Queries.GenericQueries
     /// </summary>
     /// <typeparam name="T">DTO object</typeparam>
     /// <typeparam name="E">Entity object</typeparam>
-    public  class BasePagedQueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
+    public class BasePagedQueryHandler<T, E> : IRequestHandler<Query<T>, QueryResponse<T>> where T : class where E : class
     {
         private readonly IMapper mapper;
         private readonly IRepository<E> repository;
@@ -31,13 +31,13 @@ namespace Northwind.Application.Queries.GenericQueries
             this.repository = repository;
             this.indexService = indexService;
         }
-         
+
 
         public virtual Task<QueryResponse<T>> Handle(Query<T> request, CancellationToken cancellationToken)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
-                IDataQuery<E> queryFilter = BuildQuery(request);
+                IDataQuery<E> queryFilter = await BuildQuery(request);
                 IPagedData<E> query = repository.GetPaged(queryFilter);
                 IEnumerable<T> data = query.Select(d => mapper.Map<T>(d));
                 QueryResponse<T> resp = new QueryResponse<T>(data)
@@ -52,9 +52,9 @@ namespace Northwind.Application.Queries.GenericQueries
             });
         }
 
-        public virtual IDataQuery<E> BuildQuery(Query<T> request)
+        public virtual async Task<IDataQuery<E>> BuildQuery(Query<T> request)
         {
-            IEnumerable<string>? indexSearchResult=BuildKeywordQuery(request);
+            IEnumerable<string>? indexSearchResult = await BuildKeywordQuery(request);
             Expression<Func<E, bool>>? filter = BuildFilter(request, indexSearchResult);
 
             return new DataQuery<E>()
@@ -66,18 +66,18 @@ namespace Northwind.Application.Queries.GenericQueries
             };
         }
 
-        public virtual  Expression<Func<E, bool>>? BuildFilter(Query<T> request, IEnumerable<string>? indexSearchResult)
+        public virtual Expression<Func<E, bool>>? BuildFilter(Query<T> request, IEnumerable<string>? indexSearchResult)
         {
-           
+
             return null;
         }
 
-        public virtual IEnumerable<string>? BuildKeywordQuery(Query<T> request)
+        public virtual async Task<IEnumerable<string>?> BuildKeywordQuery(Query<T> request)
         {
-            IndexQueryParameters? indexRequest= request.ToIndexQuery();
+            IndexQueryParameters? indexRequest = request.ToIndexQuery();
             if (indexRequest != null)
             {
-               return indexService.SearchKeyword(indexRequest.IndexName, indexRequest.Keyword, indexRequest.Limit);
+                return await indexService.SearchKeyword(indexRequest.IndexName, indexRequest.Keyword, indexRequest.Limit);
             }
 
 

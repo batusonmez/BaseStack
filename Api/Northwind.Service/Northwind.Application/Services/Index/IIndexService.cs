@@ -2,6 +2,6 @@
 {
     public interface IIndexService
     {
-        IEnumerable<string> SearchKeyword(string index, string keyword, int limit);
+       Task<IEnumerable<string>> SearchKeyword(string index, string keyword, int limit);
     }
 }

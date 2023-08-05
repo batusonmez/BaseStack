@@ -106,7 +106,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Persistence", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Test", "Api\Northwind.Service\Northwind.Test\Northwind.Test.csproj", "{E2CE4DC2-EE06-4CF1-B4EA-FD5452B2B7CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Index.Test", "Api\Indexer\Index.Test\Index.Test\Index.Test.csproj", "{0C4FA9EA-7EE9-4664-9F90-2FB5C2136483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Index.Test", "Api\Indexer\Index.Test\Index.Test\Index.Test.csproj", "{0C4FA9EA-7EE9-4664-9F90-2FB5C2136483}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

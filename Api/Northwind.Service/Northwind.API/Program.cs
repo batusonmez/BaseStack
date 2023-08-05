@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Northwind.Application.Interceptors;
 using Northwind.Application.Maps;
 using Northwind.Application.Models.Configuration;
+using Northwind.Application.Services.Index;
 using Northwind.Application.Services.Outbox;
 using Northwind.Infrastructure.CLI;
 using Northwind.Infrastructure.CLI.Commands;
+using Northwind.Infrastructure.Services.Index;
 using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
@@ -47,6 +49,7 @@ builder.Services.AddAutoMapper(typeof(NorthwindMapProfile), typeof(NorthwindMapP
 #region ElasticSearch
 builder.Services.Configure<IndexConfig>(builder.Configuration.GetSection("IndexConfig"));
 builder.Services.AddScoped(typeof(IOutBoxService), typeof(OutboxService));
+builder.Services.AddScoped(typeof(IIndexService), typeof(IndexService));
 builder.Services.AddSingleton<OutboxIntegrationService>();
 builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
 {
@@ -112,7 +115,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors();
+
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();

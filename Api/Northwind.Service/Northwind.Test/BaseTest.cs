@@ -61,7 +61,7 @@ namespace Northwind.Test
                 response.AddRange(result);
             }
             Mock<IIndexService> mockService = new();
-            mockService.Setup(d => d.SearchKeyword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(response);
+            mockService.Setup(d => d.SearchKeyword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>())).Returns(Task.FromResult(response.AsEnumerable()));
             return mockService.Object;
         }
 

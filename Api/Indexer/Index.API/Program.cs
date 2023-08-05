@@ -1,5 +1,6 @@
 using Dispatcher;
 using Elasticsearch.Net;
+using GrpcService2.Services;
 using Index.Application.Common;
 using Index.Application.Consumers;
 using Index.Infrastructure.ElasticSearch;
@@ -51,6 +52,10 @@ builder.Services.AddSingleton(client);
 builder.Services.AddScoped(typeof(IIndexer), typeof(ESIndexer));
 #endregion
 
+#region gRPC
+builder.Services.AddGrpc();
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,8 +65,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
+app.UseAuthorization();
+app.MapGrpcService<GreeterService>();
 app.MapControllers();
 
 app.Run();

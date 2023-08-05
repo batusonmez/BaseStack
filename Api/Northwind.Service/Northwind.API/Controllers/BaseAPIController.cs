@@ -1,4 +1,4 @@
-﻿using Dispatcher; 
+﻿using Dispatcher;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.GenericQueries;
@@ -19,10 +19,10 @@ namespace Northwind.API.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int pageSize)
+        public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string keyword)
         {
 
-            QueryResponse<T>? result = await Dispatcher.Send<QueryResponse<T>>(new Query<T>() { Page = page, PageSize = pageSize });
+            QueryResponse<T>? result = await Dispatcher.Send<QueryResponse<T>>(new Query<T>() { Page = page, PageSize = pageSize, QuickSearchKeyword = keyword });
             return Ok(result);
         }
 

@@ -23,6 +23,7 @@ namespace Index.API.Controllers.Indexer
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] QuickKeywordSearchRequest request)
         {
+             
             QuickKeywordSearchResponse? result= await dispatcher.Send<QuickKeywordSearchResponse>(request);
             
             return Ok(result);
