@@ -1,22 +1,36 @@
+using Dispatcher;
 using Grpc.Core;
 using Index.API.Protos;
+using Index.Application.Queries.ListForKeys;
 
-namespace GrpcService2.Services
+namespace Index.API.Services
 {
-    public class GreeterService : Greeter.GreeterBase
+    public class IndexerService : Indexer.IndexerBase
     {
-        private readonly ILogger<GreeterService> _logger;
-        public GreeterService(ILogger<GreeterService> logger)
+        private readonly ILogger<IndexerService> _logger;
+        private readonly IDispatcher dispatcher;
+
+        public IndexerService(ILogger<IndexerService> logger,
+            IDispatcher dispatcher)
         {
             _logger = logger;
+            this.dispatcher = dispatcher;
         }
 
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+
+        public override async Task<QuickSearchResponse> QuickSearch(QuickSearchRequest request, ServerCallContext context)
         {
-            return Task.FromResult(new HelloReply
+            QuickKeywordSearchResponse? result =await   dispatcher.Send<QuickKeywordSearchResponse>(new QuickKeywordSearchRequest()
             {
-                Message = "Hello " + request.Name
+                IndexName = request.IndexName,
+                Limit = request.Limit,
+                Query=request.Query
             });
+            QuickSearchResponse rpcResponse = new();
+            rpcResponse.Result.AddRange(result);
+            return rpcResponse;
+            
         }
+       
     }
 }

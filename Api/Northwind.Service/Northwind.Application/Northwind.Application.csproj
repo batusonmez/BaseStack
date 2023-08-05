@@ -26,12 +26,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CLIResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="i18n\IndexResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IndexResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="i18n\CLIResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CLIResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="i18n\IndexResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IndexResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

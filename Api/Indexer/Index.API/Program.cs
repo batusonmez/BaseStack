@@ -1,6 +1,6 @@
 using Dispatcher;
 using Elasticsearch.Net;
-using GrpcService2.Services;
+using Index.API.Services;
 using Index.Application.Common;
 using Index.Application.Consumers;
 using Index.Infrastructure.ElasticSearch;
@@ -68,7 +68,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapGrpcService<GreeterService>();
+app.MapGrpcService<IndexerService>();
 app.MapControllers();
 
 app.Run();

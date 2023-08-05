@@ -3,6 +3,7 @@ using EFAdapter.Models;
 using Exceptions;
 using Northwind.Application.i18n;
 using Northwind.Application.Models.DTO;
+using Northwind.Application.Models.Exceptions;
 using Northwind.Application.Models.Filters.DataQueryFilter;
 using Northwind.Application.Services.Outbox;
 using Northwind.Domain.Entities;
@@ -42,7 +43,7 @@ namespace Northwind.Infrastructure.CLI.Commands
 
         public async Task Handle(int batch)
         {
-            BaseException.ThrowIf(batch <= 0, CLIResource.InvalidBatchArgument);
+            NorthwindException.ThrowIf(batch <= 0, CLIResource.InvalidBatchArgument);
             var page = 1;
             while (true)
             {

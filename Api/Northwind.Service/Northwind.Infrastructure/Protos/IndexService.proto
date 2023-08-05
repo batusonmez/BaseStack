@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-option csharp_namespace = "Index.API.Protos";
+option csharp_namespace = "Northwind.Infrastructure.Protos";
 
 package IndexService;
- 
+
 service Indexer {
     rpc QuickSearch (QuickSearchRequest)
     returns (QuickSearchResponse);
