@@ -17,7 +17,7 @@ namespace Northwind.Application.Queries.Categories.ListCategories
 
         public override Expression<Func<Category, bool>>? BuildFilter(Query<CategoryDTO> request, IEnumerable<string>? indexSearchResult)
         {
-            if (indexSearchResult != null && indexSearchResult.Any())
+            if (indexSearchResult != null)
             {
                 IEnumerable<int> idlist = indexSearchResult.Select(d => int.Parse(d)).ToArray();
                 return d => idlist.Contains(d.CategoryId);

@@ -19,7 +19,7 @@ namespace Northwind.API.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string keyword)
+        public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string? keyword)
         {
 
             QueryResponse<T>? result = await Dispatcher.Send<QueryResponse<T>>(new Query<T>() { Page = page, PageSize = pageSize, QuickSearchKeyword = keyword });

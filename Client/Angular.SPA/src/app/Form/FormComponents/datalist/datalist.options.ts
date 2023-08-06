@@ -1,4 +1,5 @@
 export interface DataListOption{
-    Label:string,
+    Label:string,    
     Value:string
+    Info?:string,
 }

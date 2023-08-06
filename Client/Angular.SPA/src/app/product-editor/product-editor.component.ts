@@ -13,6 +13,7 @@ import { ProductService } from '../services/ApiServices/ProductService/product.s
 import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
 import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
+import { DataListOption } from '../Form/FormComponents/datalist/datalist.options';
 
 @Component({
   selector: 'product-editor',
@@ -35,14 +36,10 @@ export class ProductEditorComponent implements OnInit {
           Name: "CategoryId",
           Component: DataListComponent,
           ComponentData:new DataListConfig("Category Name"),
-          Event:(eventType:string,param:any )=>{
-              let cd= <DataListConfig>this.Config.FormConfig.Fields[0].ComponentData;
-              cd.Options.push({
-                Label:param,
-                Value:param
-              });
-              this.categoryService.GetPaged().subscribe((rs)=>{
-                debugger
+          Event:(eventType:string,param:any )=>{            
+              let cd= <DataListConfig>this.Config.FormConfig.Fields.find(d=>d.Name=="CategoryId")?.ComponentData;              
+              this.categoryService.GetPaged("keyword="+param,true).subscribe((rs)=>{                
+                cd.Options=rs.Data.map((d)=>{return {Label: d.CategoryName,Value:d.CategoryId+"",Info:d.Description}});             
               });
               
           }

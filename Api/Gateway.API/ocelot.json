@@ -4,7 +4,7 @@
       "UpstreamPathTemplate": "/northwind/v1/{everything}",
       "UpstreamHttpMethod": [ "Get", "Delete", "Post" ],
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

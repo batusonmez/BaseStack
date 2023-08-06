@@ -16,10 +16,12 @@ export class BaseApiService<T> {
 
   }
 
-  public Get<U>(path: string): Observable<HttpResponse<U>> {    
-    this.addWork(); 
+  public Get<U>(path: string,hidebackdrop:boolean=false): Observable<HttpResponse<U>> {    
+    if(!hidebackdrop){
+      this.addWork();     
+    }    
     return this.http.get<U>(Environment.APIRoot + path,{observe:"response"} ).pipe(tap(next=> {      
-       this.success(false);   
+       this.success(false,hidebackdrop);   
     }), catchError((err)=>{      
       this.error(err)
       return of();
@@ -34,11 +36,13 @@ export class BaseApiService<T> {
     this.loadingService.DoneWork();
   }
 
-  private success(notify:boolean=true):void{
+  private success(notify:boolean=true,hideBackDrop:boolean=false):void{
     if(notify){
       this.toastService.Success("Done!");
     }    
-    this.doneWork();
+    if(!hideBackDrop){
+      this.doneWork();
+    }    
   }
 
   private error(err:any):void{
@@ -51,8 +55,8 @@ export class BaseApiService<T> {
     return ""
   }
 
-  public GetPaged(query:string=""): Observable<PagedResult<T>> {    
-    return  this.Get<any>(this.RootURL+"?"+query).pipe(map((resp) =>{ 
+  public GetPaged(query:string="",hideBackdrop:boolean=false): Observable<PagedResult<T>> {    
+    return  this.Get<any>(this.RootURL+"?"+query,hideBackdrop).pipe(map((resp) =>{ 
      let response=new  PagedResult<T>();
        response.Data=resp.body as T[];
        response.PagerConfig={

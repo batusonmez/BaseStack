@@ -5,6 +5,11 @@
     (keyup)="SetQuery($event)" [formControl]="Controller">
  
   <ul class="list-group items" *ngIf="Config?.ComponentData?.Options" >
-    <li class="list-group-item" *ngFor="let dt of Config?.ComponentData.Options">Cras justo odio</li> 
-  </ul>
+    <li class="list-group-item" *ngFor="let dt of Config?.ComponentData.Options">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{dt.Label}}</div>
+        {{dt.Info}}
+      </div>
+      </li> 
+  </ul>  
 </div>
