@@ -9,7 +9,7 @@ import { IFormHost } from '../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
 import { ProductEditorConfig } from './product-editor.config';
-import { ProductService } from '../services/ApiServices/ProductService/product.service'; 
+import { ProductService } from '../services/ApiServices/ProductService/product.service';
 import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
 import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
@@ -27,7 +27,7 @@ import { DataListOption } from '../Form/FormComponents/datalist/datalist.options
   styleUrls: ['./product-editor.component.scss']
 })
 export class ProductEditorComponent implements OnInit {
-   
+
   Config: ProductEditorConfig = {
     FormConfig: {
       Name: "TestForm",
@@ -35,13 +35,23 @@ export class ProductEditorComponent implements OnInit {
         {
           Name: "CategoryId",
           Component: DataListComponent,
-          ComponentData:new DataListConfig("Category Name"),
-          Event:(eventType:string,param:any )=>{            
-              let cd= <DataListConfig>this.Config.FormConfig.Fields.find(d=>d.Name=="CategoryId")?.ComponentData;              
-              this.categoryService.GetPaged("keyword="+param,true).subscribe((rs)=>{                
-                cd.Options=rs.Data.map((d)=>{return {Label: d.CategoryName,Value:d.CategoryId+"",Info:d.Description}});             
-              });
-              
+          ComponentData: new DataListConfig("Category Name"),
+          Event: (eventType: string, param: any) => {
+            switch (eventType) {
+              case "query":
+                let cd = <DataListConfig>this.Config.FormConfig.Fields.find(d => d.Name == "CategoryId")?.ComponentData;
+                this.categoryService.GetPaged("keyword=" + param, true).subscribe((rs) => {
+                  cd.Options = rs.Data.map((d) => { return { Label: d.CategoryName, Value: d.CategoryId + "", Info: d.Description } });
+                  if (!rs.Data.length) {
+                    cd.Options = [{ Label: "", Value: "", Info: "No Data Found" }]
+                  }
+                });
+                break;
+                case "optionSelect":
+                  console.log(param);
+                break;
+            }
+
           }
         },
         {
@@ -76,7 +86,7 @@ export class ProductEditorComponent implements OnInit {
         }
       ],
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
-
+          debugger
       }
     },
     DataTableConfig: {
@@ -104,32 +114,32 @@ export class ProductEditorComponent implements OnInit {
           Command: { editor: 1 }
         }
       ],
-      Data: [ ],
-      Pager:{
-        PageSize:10        
+      Data: [],
+      Pager: {
+        PageSize: 10
       },
-      OnFilter:(filter:string)=>{
+      OnFilter: (filter: string) => {
         this.LoadData(filter);
       }
     },
-    ShowEditor: false 
-    
+    ShowEditor: false
+
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService,private productService:ProductService, private categoryService:CategoryService) { }
+  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService) { }
   ngOnInit(): void {
 
     this.registerQueryCommands();
 
   }
 
-  LoadData(query:string):void{
-    this.productService.GetPaged(query).subscribe(res=>{
-      this.Config.DataTableConfig.Data=res.Data;
-      if(res.PagerConfig){
-        this.Config.DataTableConfig.Pager=res.PagerConfig
-      }        
-  })
+  LoadData(query: string): void {
+    this.productService.GetPaged(query).subscribe(res => {
+      this.Config.DataTableConfig.Data = res.Data;
+      if (res.PagerConfig) {
+        this.Config.DataTableConfig.Pager = res.PagerConfig
+      }
+    })
   }
 
   registerQueryCommands(): void {
@@ -157,5 +167,5 @@ export class ProductEditorComponent implements OnInit {
   ToggleEditor(show: boolean): void {
     this.Config.ShowEditor = show;
   }
- 
+
 }
