@@ -13,6 +13,7 @@ import { ProductService } from '../services/ApiServices/ProductService/product.s
 import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
 import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
+import { SupplierService } from '../services/ApiServices/CategoryService/SupplierService.service';
 import { DataListOption } from '../Form/FormComponents/datalist/datalist.options';
 
 @Component({
@@ -32,6 +33,14 @@ export class ProductEditorComponent implements OnInit {
     FormConfig: {
       Name: "TestForm",
       Fields: [
+        {
+          Name: "ProductName",
+          Component: TextInputComponent,
+          ComponentData: {
+            Label: "Product Name",
+            Placeholder: "Brand name of product"
+          }
+        },
         {
           Name: "CategoryId",
           Component: DataListComponent,
@@ -53,35 +62,42 @@ export class ProductEditorComponent implements OnInit {
             }
 
           }
-        },
+        }, 
         {
-          Name: "Comp2",
-          Component: TextInputComponent,
-          ComponentData: {
-            Label: "Label comp2",
-            Placeholder: "A place holder"
-          }
-        },
-        {
-          Name: "Comp3",
-          Component: TextInputComponent,
-          ComponentData: {
-            Label: "Label comp3"
-          }
-        },
-        {
-          Name: "CompSb",
-          Component: SubmitButtonComponent,
-          ComponentData: {
-            Label: "Submit",
-            CancelLabel: "Cancel"
-          },
-          Event: (eventType?: string, param?: any) => {
+          Name: "SupplierId",
+          Component: DataListComponent,
+          ComponentData: new DataListConfig("Supplier Name"),
+          Event: (eventType: string, param: any) => {
             switch (eventType) {
-              case "Cancel":
-                this.mapper.setQueryParams({ editor: 0 });
+              case "query":
+                let cd = <DataListConfig>this.Config.FormConfig.Fields.find(d => d.Name == "SupplierId")?.ComponentData;
+                this.SupplierService.GetPaged("keyword=" + param, true).subscribe((rs) => {
+                  cd.Options = rs.Data.map((d) => { return { Label: d.CompanyName, Value: d.SupplierId + "", Info: d.ContactTitle } });
+                  if (!rs.Data.length) {
+                    cd.Options = [{ Label: "", Value: "", Info: "No Data Found" }]
+                  }
+                });
+                break;
+                case "optionSelect":
+                  console.log(param);
                 break;
             }
+          }
+        }, 
+        {
+          Name: "QuantityPerUnit",
+          Component: TextInputComponent,
+          ComponentData: {
+            Label: "Quantity Per Unit",
+            Placeholder: "eg: 10pic, 1LT"
+          }
+        },
+        {
+          Name: "QuantityPerUnit",
+          Component: TextInputComponent,
+          ComponentData: {
+            Label: "Quantity Per Unit",
+            Placeholder: "eg: 10pic, 1LT"
           }
         }
       ],
