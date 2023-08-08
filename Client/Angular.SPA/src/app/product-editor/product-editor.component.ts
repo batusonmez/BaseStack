@@ -5,6 +5,8 @@ import { FormHostComponent } from '../Form/form-host/form-host.component';
 import { CellType } from '../DataTable/Models/CellType';
 import { SubmitButtonComponent } from '../Form/FormComponents/submit-button/submit-button.component';
 import { TextInputComponent } from '../Form/FormComponents/text-input/text-input.component';
+import { NumberInputComponent } from '../Form/FormComponents/text-input/number-input.component';
+import { SwitchInputComponent } from '../Form/FormComponents/switch-input/switch-input.component';
 import { IFormHost } from '../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
@@ -15,6 +17,7 @@ import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config'
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
 import { SupplierService } from '../services/ApiServices/CategoryService/SupplierService.service';
 import { DataListOption } from '../Form/FormComponents/datalist/datalist.options';
+import { NumberInputConfig } from '../Form/FormComponents/number-input/number-input.config';
 
 @Component({
   selector: 'product-editor',
@@ -37,8 +40,8 @@ export class ProductEditorComponent implements OnInit {
           Name: "ProductName",
           Component: TextInputComponent,
           ComponentData: {
-            Label: "Product Name",
-            Placeholder: "Brand name of product"
+            Label: $localize `Product Name`,
+            Placeholder: $localize `Brand name of product`
           }
         },
         {
@@ -52,7 +55,7 @@ export class ProductEditorComponent implements OnInit {
                 this.categoryService.GetPaged("keyword=" + param, true).subscribe((rs) => {
                   cd.Options = rs.Data.map((d) => { return { Label: d.CategoryName, Value: d.CategoryId + "", Info: d.Description } });
                   if (!rs.Data.length) {
-                    cd.Options = [{ Label: "", Value: "", Info: "No Data Found" }]
+                    cd.Options = [{ Label: "", Value: "", Info:  $localize `No Data Found` }]
                   }
                 });
                 break;
@@ -74,7 +77,7 @@ export class ProductEditorComponent implements OnInit {
                 this.SupplierService.GetPaged("keyword=" + param, true).subscribe((rs) => {
                   cd.Options = rs.Data.map((d) => { return { Label: d.CompanyName, Value: d.SupplierId + "", Info: d.ContactTitle } });
                   if (!rs.Data.length) {
-                    cd.Options = [{ Label: "", Value: "", Info: "No Data Found" }]
+                    cd.Options = [{ Label: "", Value: "", Info: $localize `No Data Found` }]
                   }
                 });
                 break;
@@ -88,17 +91,36 @@ export class ProductEditorComponent implements OnInit {
           Name: "QuantityPerUnit",
           Component: TextInputComponent,
           ComponentData: {
-            Label: "Quantity Per Unit",
-            Placeholder: "eg: 10pic, 1LT"
+            Label: $localize `Quantity Per Unit`,
+            Placeholder: $localize `eg: 10pic, 1LT`
           }
         },
         {
-          Name: "QuantityPerUnit",
-          Component: TextInputComponent,
-          ComponentData: {
-            Label: "Quantity Per Unit",
-            Placeholder: "eg: 10pic, 1LT"
-          }
+          Name: "UnitPrice",
+          Component: NumberInputComponent,
+          ComponentData: new NumberInputConfig($localize `Unit Price`,10000,0, $localize `Cost per unit`) 
+        },
+        {
+          Name: "UnitsInStock",
+          Component: NumberInputComponent,
+          ComponentData: new NumberInputConfig($localize `Units in Stock`,1000,0, $localize `Available stocks to ship`) 
+        },
+        {
+          Name: "UnitsOnOrder",
+          Component: NumberInputComponent,
+          ComponentData: new NumberInputConfig($localize `Units on Order`,1000,0,$localize `Units waiting to deliver`) 
+        },
+        {
+          Name: "ReorderLevel",
+          Component: NumberInputComponent,
+          ComponentData: new NumberInputConfig($localize `Reorder Level`,1000,0, $localize `Units waiting to reorder`) 
+        },
+        {
+          Name: "Discontinued",
+          Component: SwitchInputComponent,
+          ComponentData:  {
+            Label: "Discontinued" 
+          } 
         }
       ],
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
@@ -110,22 +132,22 @@ export class ProductEditorComponent implements OnInit {
         {
           CellType: CellType.Cell,
           Key: "ProductName",
-          HeaderName: "Product Name"
+          HeaderName: $localize `Product Name`
         },
         {
           CellType: CellType.Cell,
           Key: "CategoryName",
-          HeaderName: "Category Name"
+          HeaderName:  $localize `Category Name`
         },
         {
           CellType: CellType.Cell,
           Key: "SupplierName",
-          HeaderName: "Supplier Name"
+          HeaderName:$localize `Supplier Name`
         }
       ],
       Commands: [
         {
-          Title: "New",
+          Title: $localize `New`,
           Class: "btn btn-success",
           Command: { editor: 1 }
         }
