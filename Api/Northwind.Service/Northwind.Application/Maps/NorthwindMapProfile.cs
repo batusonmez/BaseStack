@@ -25,14 +25,18 @@ namespace Northwind.Application.Maps
 
             CreateMap<CategoryDTO, Category>();
             CreateMap<Category, CategoryDTO>();
-
             CreateMap<CategoryDTO, OutBoxDTO>()
             .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src))
             .ForMember(dest => dest.DataID, opt => opt.MapFrom(src => src.CategoryId.ToString()))
             .ForMember(dest => dest.DataType, opt => opt.MapFrom(src => src.IndexKey));
 
-             
-
+        
+            CreateMap<SupplierDTO, Supplier>();
+            CreateMap<Supplier, SupplierDTO>();
+            CreateMap<SupplierDTO, OutBoxDTO>()
+            .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src))
+            .ForMember(dest => dest.DataID, opt => opt.MapFrom(src => src.SupplierId.ToString()))
+            .ForMember(dest => dest.DataType, opt => opt.MapFrom(src => src.IndexKey));
 
         }
     }
