@@ -4,7 +4,7 @@ export class NumberInputConfig{
     public Min?:number;
     public Placeholder?:string
 
-    constructor(label:string, max:number=null,min:number=null,placeholder:string=null ){
+    constructor(label:string, max?:number,min?:number,placeholder?:string ){
         this.Label=label; 
         this.Max=max;
         this.Min=min;

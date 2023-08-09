@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../base-api.service';
 
-import { Supplier } from 'src/app/Models/Supplier/Supplier.ts';
+import { Supplier } from 'src/app/Models/Supplier/Supplier';
 
 
 @Injectable({

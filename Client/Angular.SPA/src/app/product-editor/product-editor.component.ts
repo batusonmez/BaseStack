@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
+ 
 import { TableHostComponent } from '../DataTable/table-host/table-host.component';
 import { FormHostComponent } from '../Form/form-host/form-host.component';
 import { CellType } from '../DataTable/Models/CellType';
-import { SubmitButtonComponent } from '../Form/FormComponents/submit-button/submit-button.component';
 import { TextInputComponent } from '../Form/FormComponents/text-input/text-input.component';
-import { NumberInputComponent } from '../Form/FormComponents/text-input/number-input.component';
+import { NumberInputComponent } from '../Form/FormComponents/number-input/number-input.component';
 import { SwitchInputComponent } from '../Form/FormComponents/switch-input/switch-input.component';
 import { IFormHost } from '../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { ProductService } from '../services/ApiServices/ProductService/product.s
 import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
 import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
-import { SupplierService } from '../services/ApiServices/CategoryService/SupplierService.service';
+import { SupplierService } from '../services/ApiServices/SupplierService/supplier.service';
 import { DataListOption } from '../Form/FormComponents/datalist/datalist.options';
 import { NumberInputConfig } from '../Form/FormComponents/number-input/number-input.config';
 
@@ -74,7 +74,7 @@ export class ProductEditorComponent implements OnInit {
             switch (eventType) {
               case "query":
                 let cd = <DataListConfig>this.Config.FormConfig.Fields.find(d => d.Name == "SupplierId")?.ComponentData;
-                this.SupplierService.GetPaged("keyword=" + param, true).subscribe((rs) => {
+                this.supplierService.GetPaged("keyword=" + param, true).subscribe((rs) => {
                   cd.Options = rs.Data.map((d) => { return { Label: d.CompanyName, Value: d.SupplierId + "", Info: d.ContactTitle } });
                   if (!rs.Data.length) {
                     cd.Options = [{ Label: "", Value: "", Info: $localize `No Data Found` }]
@@ -164,7 +164,7 @@ export class ProductEditorComponent implements OnInit {
 
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService) { }
+  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService, private supplierService: SupplierService) { }
   ngOnInit(): void {
 
     this.registerQueryCommands();
