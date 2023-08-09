@@ -10,7 +10,7 @@ using Repository;
 namespace Northwind.Test.SupplierTest
 {
     [TestClass]
-    public class SupllierQueryTests : BaseTest
+    public class SupplierQueryTests : BaseTest
     {
         [TestMethod]
         public async Task List_Supplier()
@@ -19,7 +19,7 @@ namespace Northwind.Test.SupplierTest
             ResetTestDB();
             IUOW uow = InitUOW();
             IMapper mapper = InitNorthwindAPIMapper();
-            EFRepository<Category> repository = new(uow);
+            EFRepository<Supplier> repository = new(uow);
             IIndexService indexService = MockIndexService();
             Supplier testData = new()
             {
@@ -54,8 +54,8 @@ namespace Northwind.Test.SupplierTest
              Fax="Fax 2",
              HomePage ="https://www.company2.com"
             };
-            DB.Supplier.Add(testData);
-            DB.Supplier.Add(testData2);
+            DB.Suppliers.Add(testData);
+            DB.Suppliers.Add(testData2);
             DB.SaveChanges();
 
             ListSupplierQueryHandler handler = new (mapper, repository, indexService);
@@ -70,7 +70,7 @@ namespace Northwind.Test.SupplierTest
             ClearTestConnection();
             uow = InitUOW();
             Assert.IsTrue(response.Total == 2);
-            foreach (var item in DB.Supplier)
+            foreach (var item in DB.Suppliers)
             {
                 SupplierDTO supplierDto = response.FirstOrDefault(d => d.SupplierId == item.SupplierId);
 
@@ -146,9 +146,9 @@ namespace Northwind.Test.SupplierTest
              Fax="Fax 3",
              HomePage ="https://www.company3.com"
             };
-            DB.Supplier.Add(testData);
-            DB.Supplier.Add(testData2);
-            DB.Supplier.Add(testData3);
+            DB.Suppliers.Add(testData);
+            DB.Suppliers.Add(testData2);
+            DB.Suppliers.Add(testData3);
             DB.SaveChanges();
             ListSupplierQueryHandler handler = new (mapper, repository, indexService);
             Query<SupplierDTO> query = new();
@@ -162,11 +162,11 @@ namespace Northwind.Test.SupplierTest
             ClearTestConnection();
             uow = InitUOW();
             Assert.IsTrue(response.Total == 2);
-            foreach (var item in DB.Supplier.Where(d=> d.SupplierId ==1 || d.SupplierId == 3))
+            foreach (var item in DB.Suppliers.Where(d=> d.SupplierId ==1 || d.SupplierId == 3))
             {
                 SupplierDTO supplierDTO = response.FirstOrDefault(d => d.SupplierId == item.SupplierId);
 
-                Assert.IsNotNull(categoryDto);
+                Assert.IsNotNull(supplierDTO);
                 Assert.IsTrue(supplierDTO.CompanyName == item.CompanyName);
                 Assert.IsTrue(supplierDTO.ContactName == item.ContactName);
                 Assert.IsTrue(supplierDTO.ContactTitle == item.ContactTitle);

@@ -27,11 +27,11 @@ namespace Northwind.Test.ProductTests
             ResetTestDB();
             uow = InitUOW();
             mapper = InitNorthwindAPIMapper();
-            outboxRepository = new EFRepository<Outbox>(uow);
-            outboxService = new OutboxService(outboxRepository, mapper, uow);
-            repository = new EFRepository<Product>(uow);
+            outboxRepository = new  (uow);
+            outboxService = new  (outboxRepository, mapper, uow);
+            repository = new  (uow);
 
-            DB.Categories.Add(new Category()
+            DB.Categories.Add(new ()
             {
                 CategoryId = 1,
                 CategoryName = "Test Categoty",
@@ -39,7 +39,7 @@ namespace Northwind.Test.ProductTests
                 Picture = new byte[] { 1, 2, 3 }
 
             });
-            DB.Suppliers.Add(new Supplier()
+            DB.Suppliers.Add(new ()
             {
                 Address = "Test Aderess",
                 City = "test City",
@@ -54,7 +54,7 @@ namespace Northwind.Test.ProductTests
                 Region = "Test Region",
                 SupplierId = 1
             });
-            DB.Products.Add(new Product()
+            DB.Products.Add(new ()
             {
                 CategoryId = 1,
                 ProductId = 1,
@@ -75,7 +75,7 @@ namespace Northwind.Test.ProductTests
         public async Task New_Product_Command()
         {
             // Arrange  
-            ProductsDTO testDTO = new ProductsDTO()
+            ProductsDTO testDTO = new  ()
             {
 
                 CategoryId = 1,
@@ -89,8 +89,8 @@ namespace Northwind.Test.ProductTests
                 SupplierName = "Suplier Name",
                 ReorderLevel = 1
             };
-            UpsertCommand<ProductsDTO> testData = new UpsertCommand<ProductsDTO>(testDTO);
-            UpsertCommandHandler<ProductsDTO, Product>? handler = new UpsertCommandHandler<ProductsDTO, Product>(mapper, repository, outboxService, uow);
+            UpsertCommand<ProductsDTO> testData = new (testDTO);
+            UpsertCommandHandler<ProductsDTO, Product>? handler = new (mapper, repository, outboxService, uow);
 
             //Act 
             UpsertCommandResponse response = await handler.Handle(testData, CancellationToken.None);
@@ -112,7 +112,7 @@ namespace Northwind.Test.ProductTests
         public async Task Update_Product_Command()
         {
             // Arrange  
-            ProductsDTO testDTO = new ProductsDTO()
+            ProductsDTO testDTO = new ()
             {
                 ProductId = 1,
                 CategoryId = 1,
@@ -127,7 +127,7 @@ namespace Northwind.Test.ProductTests
                 ReorderLevel = 1
             };
             UpsertCommand<ProductsDTO> testData = new UpsertCommand<ProductsDTO>(testDTO);
-            UpsertCommandHandler<ProductsDTO, Product>? handler = new UpsertCommandHandler<ProductsDTO, Product>(mapper, repository, outboxService, uow);
+            UpsertCommandHandler<ProductsDTO, Product>? handler = new  (mapper, repository, outboxService, uow);
 
             //Act 
             UpsertCommandResponse response = await handler.Handle(testData, CancellationToken.None);
@@ -137,13 +137,13 @@ namespace Northwind.Test.ProductTests
             uow = InitUOW();
             ProductsDTO? resultDto = response.Data as ProductsDTO;
             Assert.IsNotNull(resultDto);
-            Assert.IsTrue(resultDto.ProductId == 1);
+            Assert.AreEqual(resultDto.ProductId , 1);
             Product? product = DB.Products.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.ProductId.ToString());
             Assert.IsNotNull(product);
             Assert.IsNotNull(outbox);
-            Assert.IsTrue(product.UnitPrice == testDTO.UnitPrice);
-            Assert.IsTrue(product.QuantityPerUnit == testDTO.QuantityPerUnit);
+            Assert.AreEqual(product.UnitPrice , testDTO.UnitPrice);
+            Assert.AreEqual(product.QuantityPerUnit ,testDTO.QuantityPerUnit);
 
         }
 
@@ -151,7 +151,7 @@ namespace Northwind.Test.ProductTests
         public async Task Delete_Product_Command()
         {
             // Arrange  
-            ProductsDTO testDTO = new ProductsDTO()
+            ProductsDTO testDTO = new ()
             {
                 ProductId = 1,
                 CategoryId = 1,
@@ -165,12 +165,12 @@ namespace Northwind.Test.ProductTests
                 SupplierName = "Suplier Name",
                 ReorderLevel = 1
             };
-            DeleteCommand<ProductsDTO> testData = new DeleteCommand<ProductsDTO>(testDTO);
+            DeleteCommand<ProductsDTO> testData = new (testDTO);
             if (repository == null || outboxService == null || uow==null)
             {
                 Assert.Fail("Invalid arrangement");
             }
-            DeleteCommandHandler<ProductsDTO, Product>? handler = new DeleteCommandHandler<ProductsDTO, Product>(repository, outboxService, uow);
+            DeleteCommandHandler<ProductsDTO, Product>? handler = new (repository, outboxService, uow);
 
             //Act 
             DeleteCommandResponse response = await handler.Handle(testData, CancellationToken.None);
@@ -182,8 +182,8 @@ namespace Northwind.Test.ProductTests
             Assert.IsNull(product);
             Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == testDTO.ProductId.ToString());
             Assert.IsNotNull(outbox);
-            Assert.IsTrue(outbox.DataType == outbox.DataType);
-            Assert.IsTrue(outbox.DataID == testDTO.ProductId.ToString());
+            Assert.AreEqual(outbox.DataType , outbox.DataType);
+            Assert.AreEqual(outbox.DataID,testDTO.ProductId.ToString());
         }
     }
 }

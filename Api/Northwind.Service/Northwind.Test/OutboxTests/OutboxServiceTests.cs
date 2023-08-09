@@ -1,7 +1,9 @@
-﻿using EFAdapter;
+﻿using AutoMapper;
+using EFAdapter;
 using Northwind.Application.Models.DTO;
 using Northwind.Domain.Entities;
 using Northwind.Infrastructure.Services.Outbox;
+using Repository;
 
 namespace Northwind.Test.OutboxTests
 {
@@ -12,11 +14,11 @@ namespace Northwind.Test.OutboxTests
         public async Task Save_Outbox()
         {
             // Arrange
-            var uow =InitUOW();
-            var mapper = InitNorthwindAPIMapper();
-            var repository = new EFRepository<Outbox>(uow);
-            var service = new OutboxService(repository,mapper, uow);
-            var testData = new  OutBoxDTO()
+            IUOW uow =InitUOW();
+            IMapper mapper = InitNorthwindAPIMapper();
+            EFRepository<Outbox> repository = new (uow);
+            OutboxService service = new (repository,mapper, uow);
+            OutBoxDTO testData = new  OutBoxDTO()
             {
                 Data = new
                 {
@@ -39,11 +41,11 @@ namespace Northwind.Test.OutboxTests
         public async Task Save_Outbox_List()
         {
             // Arrange
-            var uow = InitUOW();
-            var mapper = InitNorthwindAPIMapper();
-            var repository = new EFRepository<Outbox>(uow);
-            var service = new OutboxService(repository, mapper, uow);
-            var outboxes = new List<OutBoxDTO>();
+            IUOW uow = InitUOW();
+            IMapper mapper = InitNorthwindAPIMapper();
+            EFRepository<Outbox> repository = new(uow);
+            OutboxService service = new(repository, mapper, uow);
+            List<OutBoxDTO> outboxes = new ();
             for (int i = 0; i < 100; i++)
             {
                 var testData = new OutBoxDTO()
