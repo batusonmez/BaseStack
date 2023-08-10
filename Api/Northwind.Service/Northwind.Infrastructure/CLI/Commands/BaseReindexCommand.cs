@@ -9,7 +9,7 @@ using System.CommandLine;
 
 namespace Northwind.Infrastructure.CLI.Commands
 {
-    public class BaseReindexCommand<T> : BaseCommand where T : class
+    public class BaseReindexCommand<T, Y> : BaseCommand where T : class where Y : class
     {
         private readonly IMapper mapper;
         private readonly IRepository<T> repository;
@@ -51,7 +51,7 @@ namespace Northwind.Infrastructure.CLI.Commands
                     Page = page,
                     PageSize = batch
                 };
-                var entities = repository.GetPaged(query).Select(d => mapper.Map<CategoryDTO>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
+                var entities = repository.GetPaged(query).Select(d => mapper.Map<Y>(d)).Select(d => mapper.Map<OutBoxDTO>(d));
                 if (!entities.Any())
                 {
 

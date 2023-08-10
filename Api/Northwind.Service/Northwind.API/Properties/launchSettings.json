@@ -1,8 +1,8 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Northwind.API": {
       "commandName": "Project",
+      "commandLineArgs": "rxsupplier --batch 10",
       "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -10,5 +10,6 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:5001"
     }
-  }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
 }

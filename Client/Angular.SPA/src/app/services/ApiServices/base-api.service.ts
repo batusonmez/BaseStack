@@ -68,5 +68,20 @@ export class BaseApiService<T> {
        return response;
      }));      
    };
- 
+
+   public Post<U>(Data:any): Observable<HttpResponse<U>> {        
+    this.addWork();             
+    return this.http.post<U>(Environment.APIRoot+this.RootURL,Data,{observe:"response"} ).pipe(tap(next=> {      
+       this.success(false);   
+    }), catchError((err)=>{      
+      this.error(err)
+      return of();
+    })); 
+  }
+
+  public test(){
+    this.http.post(Environment.APIRoot+this.RootURL,{}).subscribe((a)=>{
+      debugger;
+    })
+  }
 }

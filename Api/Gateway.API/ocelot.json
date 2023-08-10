@@ -2,7 +2,7 @@
   "Routes": [   
     {
       "UpstreamPathTemplate": "/northwind/v1/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Delete", "Post" ],
+      "UpstreamHttpMethod": [ "Get", "Delete", "Post", "Options" ],
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

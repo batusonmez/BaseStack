@@ -34,7 +34,7 @@ namespace EFAdapter
 
         private IQueryable<T> GetInternal(Expression<Func<T, bool>>? filter = null, 
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
-        {            
+        { 
             return dbSet.AddWhere(filter).AddInclude(includeProperties).AddOrderBy(orderBy);             
         }
 
@@ -70,7 +70,7 @@ namespace EFAdapter
             var result = new PagedData<T>()
             {
                 Total=query.Count(),
-                Data=query.Skip((Math.Max(queryModel.Page -1,0))*queryModel.PageSize).Take(queryModel.PageSize)
+                Data=query.Skip((Math.Max(queryModel.Page -1,0))*queryModel.PageSize).Take(queryModel.PageSize).ToList()
             };
             return result;
         }

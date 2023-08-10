@@ -7,6 +7,7 @@ import { CellType } from '../DataTable/Models/CellType';
 import { TextInputComponent } from '../Form/FormComponents/text-input/text-input.component';
 import { NumberInputComponent } from '../Form/FormComponents/number-input/number-input.component';
 import { SwitchInputComponent } from '../Form/FormComponents/switch-input/switch-input.component';
+import { SubmitButtonComponent } from '../Form/FormComponents/submit-button/submit-button.component';
 import { IFormHost } from '../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
@@ -121,10 +122,33 @@ export class ProductEditorComponent implements OnInit {
           ComponentData:  {
             Label: "Discontinued" 
           } 
+        },
+        {
+          Name: "CompSb",
+          Component: SubmitButtonComponent,
+          ComponentData: {
+            Label: "Submit",
+            CancelLabel: "Cancel"
+          },
+          Event: (eventType?: string, param?: any) => {
+            debugger
+            switch (eventType) {
+              case "Cancel":
+                this.mapper.setQueryParams({ editor: 0 });
+                break;
+            }
+          }
         }
       ],
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
-          debugger
+        switch (eventType) {
+          case "Submit":
+            this.productService.test();
+            // this.productService.Post(FormData?.Form.value).subscribe(res=>{
+            //   debugger
+            // });
+            break;
+        }
       }
     },
     DataTableConfig: {

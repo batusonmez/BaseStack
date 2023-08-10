@@ -12,7 +12,7 @@ using System.CommandLine;
 
 namespace Northwind.Infrastructure.CLI.Commands
 {
-    public class ReindexCategoriesCommand : BaseReindexCommand<Category>
+    public class ReindexCategoriesCommand : BaseReindexCommand<Category,CategoryDTO>
     {
  
         public ReindexCategoriesCommand(IMapper mapper,

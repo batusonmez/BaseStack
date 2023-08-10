@@ -22,7 +22,7 @@ namespace Northwind.Application.Models.DTO
         [JsonIgnore]
         public override bool IndexEnabled =>true;
         [JsonIgnore]
-        public override object IndexKey => SupplierId;
+        public override object IndexKey => "suppliers";
 
         public SupplierDTO()
         {

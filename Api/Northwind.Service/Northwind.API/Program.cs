@@ -94,6 +94,7 @@ builder.Services.AddMassTransit(d =>
 
 #region CLI Commands
 builder.Services.AddTransient<Command, ReindexCategoriesCommand>();
+builder.Services.AddTransient<Command, ReindexSupplierCommand>();
 builder.Services.AddCLI(args);
 #endregion
 

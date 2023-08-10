@@ -1,13 +1,15 @@
 ﻿using Dispatcher;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Application.Commands;
 using Northwind.Application.Models.DTO;
+using Northwind.Application.Models.DTO.Types;
 using Northwind.Application.Queries.GenericQueries;
 
 namespace Northwind.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseAPIController<T> : ControllerBase where T : class
+    public abstract class BaseAPIController<T> : ControllerBase where T : class  
     {
         public readonly IDispatcher Dispatcher;
 
@@ -25,6 +27,9 @@ namespace Northwind.API.Controllers
             QueryResponse<T>? result = await Dispatcher.Send<QueryResponse<T>>(new Query<T>() { Page = page, PageSize = pageSize, QuickSearchKeyword = keyword });
             return Ok(result);
         }
+
+
+
 
     }
 }
