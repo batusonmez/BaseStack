@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Northwind.API": {
-      "commandName": "Project",
-      "commandLineArgs": "rxsupplier --batch 10",
+      "commandName": "Project", 
       "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
