@@ -61,6 +61,7 @@ export class ProductEditorComponent implements OnInit {
                 });
                 break;
                 case "optionSelect":
+                  debugger
                   console.log(param);
                 break;
             }

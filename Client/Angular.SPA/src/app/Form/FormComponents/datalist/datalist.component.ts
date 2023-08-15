@@ -1,15 +1,26 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseFormControl } from '../BaseFormControl';
-import { DataListOption } from './datalist.options';
+import { DataListOption } from './datalist.options'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone:true,
   selector: 'app-datalist',
   templateUrl: './datalist.component.html',
-  styleUrls: ['./datalist.component.scss']
+  styleUrls: ['./datalist.component.scss'],
+  imports:[FormsModule, ReactiveFormsModule,CommonModule ]
 })
-export class DataListComponent extends BaseFormControl {
+export class DataListComponent extends BaseFormControl implements OnInit  {
   public selectionValue: any = "";
 
+  ngOnInit() {
+    if(!this.Config.ComponentData.Selection){
+      this.Config.ComponentData.Selection={}
+    }
+  }
+
+  
   SetQuery(event: any): void {
     if (this.Config?.Event) {
       this.Config.Event("query", event.target.value ?? "");

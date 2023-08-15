@@ -17,7 +17,7 @@ import { DataListComponent } from './Form/FormComponents/datalist/datalist.compo
     AppComponent,
     TextInputComponent,
     NumberInputComponent,
-    DataListComponent
+  
   ],
   imports: [
     ReactiveFormsModule,
@@ -25,7 +25,8 @@ import { DataListComponent } from './Form/FormComponents/datalist/datalist.compo
     AppRoutingModule ,
     HttpClientModule ,
     LoadingScreenComponent,
-    ToasterComponent
+    ToasterComponent,
+    DataListComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,10 +17,13 @@ using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
 using System.CommandLine;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -30,6 +33,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddHttpContextAccessor();
+
+//builder.Services.AddAuthentication().AddOAuth("oauth", o =>
+//{
+//    o.Events.OnTicketReceived
+//});
 
 #region Swagger
 builder.Services.AddEndpointsApiExplorer();

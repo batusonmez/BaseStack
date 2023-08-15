@@ -7,7 +7,7 @@ import { BaseFormControl } from '../BaseFormControl';
   styleUrls: ['./text-input.component.scss']
 })
 export class TextInputComponent extends BaseFormControl {
-
+ 
   @Input() public TempInput: string = "";
  
 }
