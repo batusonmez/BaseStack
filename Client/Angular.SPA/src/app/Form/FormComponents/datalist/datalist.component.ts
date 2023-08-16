@@ -15,16 +15,15 @@ export class DataListComponent extends BaseFormControl implements OnInit  {
   public selectionValue: any = "";
 
   ngOnInit() {
-    if(!this.Config.ComponentData.Selection){
-      this.Config.ComponentData.Selection={}
-    }
+    this.ClearSelection();
   }
 
   
   SetQuery(event: any): void {
+    this.ClearSelection();
     if (this.Config?.Event) {
       this.Config.Event("query", event.target.value ?? "");
-    }
+    }    
   }
 
   Clear(): void {
@@ -34,6 +33,12 @@ export class DataListComponent extends BaseFormControl implements OnInit  {
         this.Config.ComponentData.Options = [];
       }
     }, 100);
+  }
+
+  ClearSelection():void{
+    if(!this.Config.ComponentData.Selection){
+      this.Config.ComponentData.Selection={}
+    }
   }
 
   SetSelection(option: DataListOption): void {

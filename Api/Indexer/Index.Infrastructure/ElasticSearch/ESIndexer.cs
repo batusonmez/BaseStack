@@ -43,14 +43,24 @@ namespace Index.Infrastructure.ElasticSearch
                  .Index(query.IndexName)
                  .Size(query.Limit)
                 .Source(sf => sf
-                .Includes(f => f.Field("Id")))
-                .Query(q => q.MultiMatch(d => {
+                .Includes(f => f.Field("Id")))                
+                .Query(q => q.Bool(b=>b.Should(
+                    sh=> sh.MultiMatch(d =>
+                    {
                     d.Query(query.Query);
-                    //d.Type(TextQueryType.PhrasePrefix);                                        
-                    return d;                     
-                    
-                    })) 
-                 );
+                    d.Type(TextQueryType.PhrasePrefix);                    
+                    return d;
+
+                    }),
+                    s=>s.MultiMatch(d =>
+                    {
+                        d.Query(query.Query); 
+                        return d;
+
+                    })
+
+                    ))
+                ));
             if (response.IsValid)
             {
                 result = response.Hits.Select(d => d.Id.ToString()).ToList();

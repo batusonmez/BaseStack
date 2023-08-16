@@ -7,7 +7,8 @@ export interface FieldConfig {
   Name: string,
   Component: Type<IFormComponent>,  
   Value?: any,
-  ComponentData: any,
+  ComponentData: any,  
   Controller?: FormControl,
   Event?(eventType: string, param?: any): void
+  Required?:boolean
 }

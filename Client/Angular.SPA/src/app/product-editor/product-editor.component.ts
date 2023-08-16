@@ -48,6 +48,7 @@ export class ProductEditorComponent implements OnInit {
         {
           Name: "CategoryId",
           Component: DataListComponent,
+          Required:true,
           ComponentData: new DataListConfig("Category Name"),
           Event: (eventType: string, param: any) => {
             switch (eventType) {
@@ -72,6 +73,7 @@ export class ProductEditorComponent implements OnInit {
           Name: "SupplierId",
           Component: DataListComponent,
           ComponentData: new DataListConfig("Supplier Name"),
+          Required:true,
           Event: (eventType: string, param: any) => {
             switch (eventType) {
               case "query":
@@ -122,7 +124,8 @@ export class ProductEditorComponent implements OnInit {
           Component: SwitchInputComponent,
           ComponentData:  {
             Label: "Discontinued" 
-          } 
+          },
+          
         },
         {
           Name: "CompSb",
