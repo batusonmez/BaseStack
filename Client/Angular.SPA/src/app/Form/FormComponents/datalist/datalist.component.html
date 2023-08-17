@@ -17,14 +17,11 @@
 <div *ngIf="validator.invalid && (validator.dirty || validator.touched)"
     class="alert">
 
-  <div *ngIf="validator.errors?.['required']">
-    Name is required.
+  <div *ngIf="validator.errors?.['required']" i18n>
+    Required Field
   </div>
-  <div *ngIf="validator.errors?.['minlength']">
-    Name must be at least 4 characters long.
+  <div *ngIf="validator.errors?.['minlength']" i18n>
+   Must be  least [todo...] characters long.
   </div>
-  <div *ngIf="validator.errors?.['forbiddenName']">
-    Name cannot be Bob.
-  </div>
-
+  
 </div>
