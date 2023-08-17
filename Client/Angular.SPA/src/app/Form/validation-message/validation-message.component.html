@@ -1,0 +1,3 @@
+<ng-container *ngIf="validator && validator.invalid && (validator.dirty || validator.touched)" >
+    <small class="form-text text-muted" *ngIf="validator.errors?.['required']" i18n>This field is required</small>    
+  </ng-container>

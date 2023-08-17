@@ -1,5 +1,14 @@
-<form   [formGroup]="Form" (ngSubmit)="onSubmit()"> 
-  <ng-container *ngFor="let field of Config.Fields">
-      <field-host [Config]="field" [Host]="this" ></field-host> 
-  </ng-container> 
-</form>
+
+<div class="card">
+  <div class="card-header">
+    {{Config.Title}}
+  </div>
+  <div class="card-body">
+    <form   [formGroup]="Form" (ngSubmit)="onSubmit()"> 
+      <ng-container *ngFor="let field of Config.Fields">
+          <field-host [Config]="field" [Host]="this" ></field-host> 
+      </ng-container> 
+    </form>
+  </div>
+</div>
+

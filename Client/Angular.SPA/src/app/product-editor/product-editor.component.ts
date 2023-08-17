@@ -13,11 +13,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
 import { ProductEditorConfig } from './product-editor.config';
 import { ProductService } from '../services/ApiServices/ProductService/product.service';
-import { DataListComponent } from '../Form/FormComponents/datalist/datalist.component';
-import { DataListConfig } from '../Form/FormComponents/datalist/datalist.config';
+import { DataListComponent } from '../Form/FormComponents/data-list/datalist.component';
+import { DataListConfig } from '../Form/FormComponents/data-list/datalist.config';
 import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
 import { SupplierService } from '../services/ApiServices/SupplierService/supplier.service';
-import { DataListOption } from '../Form/FormComponents/datalist/datalist.options';
+import { DataListOption } from '../Form/FormComponents/data-list/datalist.options';
 import { NumberInputConfig } from '../Form/FormComponents/number-input/number-input.config';
 
 @Component({
@@ -35,6 +35,7 @@ export class ProductEditorComponent implements OnInit {
 
   Config: ProductEditorConfig = {
     FormConfig: {
+      Title:$localize `Product Editor`,
       Name: "TestForm",
       Fields: [
         {
@@ -147,10 +148,10 @@ export class ProductEditorComponent implements OnInit {
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
         switch (eventType) {
           case "Submit":
-            this.productService.test();
-            // this.productService.Post(FormData?.Form.value).subscribe(res=>{
-            //   debugger
-            // });
+     //      this.productService.test();
+             this.productService.Post(FormData?.Form.value).subscribe(res=>{
+               debugger
+             });
             break;
         }
       }

@@ -3,13 +3,14 @@ import { BaseFormControl } from '../BaseFormControl';
 import { DataListOption } from './datalist.options'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ValidationMessageComponent } from '../../validation-message/validation-message.component';
 
 @Component({
   standalone:true,
   selector: 'app-datalist',
   templateUrl: './datalist.component.html',
   styleUrls: ['./datalist.component.scss'],
-  imports:[FormsModule, ReactiveFormsModule,CommonModule ]
+  imports:[FormsModule, ReactiveFormsModule,CommonModule,ValidationMessageComponent ]
 })
 export class DataListComponent extends BaseFormControl implements OnInit  {
   public selectionValue: any = "";

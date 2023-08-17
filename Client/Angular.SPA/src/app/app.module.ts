@@ -9,17 +9,18 @@ import { NumberInputComponent } from './Form/FormComponents/number-input/number-
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { ToasterComponent } from './Toaster/toaster.component';
-import { DataListComponent } from './Form/FormComponents/datalist/datalist.component';
+import { DataListComponent } from './Form/FormComponents/data-list/datalist.component'; 
+import { SwitchInputComponent } from './Form/FormComponents/switch-input/switch-input.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TextInputComponent,
-    NumberInputComponent,
-  
+    NumberInputComponent  ,
+    SwitchInputComponent
   ],
-  imports: [
+  imports: [   
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule ,

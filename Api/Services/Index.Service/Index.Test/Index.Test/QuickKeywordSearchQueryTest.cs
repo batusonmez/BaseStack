@@ -9,7 +9,7 @@ namespace Index.Test
     public class QuickKeywordSearchQueryTest
     {
         [TestMethod]
-        public async Task Searh_Matched_Query()
+        public async Task Search_Matched_Query()
         {
             //Arrange
             Mock<IIndexer>  indexer = new();

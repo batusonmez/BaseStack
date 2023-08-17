@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Data\Adepters\EFAdepter\EFAdapter\EFAdapter.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\Data\Adepters\EFAdepter\EFAdapter\EFAdapter.csproj" />
     <ProjectReference Include="..\Northwind.Application\Northwind.Application.csproj" />
   </ItemGroup>
 
