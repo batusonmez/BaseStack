@@ -1,1 +1,0 @@
-﻿global using DomainEntities = Person.Domain.Entities;
