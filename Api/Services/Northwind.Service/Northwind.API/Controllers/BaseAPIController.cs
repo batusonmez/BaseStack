@@ -15,6 +15,7 @@ namespace Northwind.API.Controllers
 
         public BaseAPIController(IDispatcher dispatcher)
         {
+             
             this.Dispatcher = dispatcher;
         }
 

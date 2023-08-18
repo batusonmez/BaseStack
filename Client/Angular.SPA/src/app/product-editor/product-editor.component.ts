@@ -134,7 +134,7 @@ export class ProductEditorComponent implements OnInit {
           ComponentData: {
             Label: "Submit",
             CancelLabel: "Cancel"
-          },
+          },          
           Event: (eventType?: string, param?: any) => {
             debugger
             switch (eventType) {
@@ -147,10 +147,9 @@ export class ProductEditorComponent implements OnInit {
       ],
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
         switch (eventType) {
-          case "Submit":
-     //      this.productService.test();
+          case "Submit": 
              this.productService.Post(FormData?.Form.value).subscribe(res=>{
-               debugger
+                
              });
             break;
         }

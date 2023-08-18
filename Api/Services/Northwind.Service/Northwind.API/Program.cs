@@ -18,6 +18,9 @@ using Northwind.Persistence;
 using Repository;
 using System.CommandLine;
 using Microsoft.AspNetCore.Authentication;
+using Northwind.API.Handlers.ExceptionManagement;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +28,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes=true;
+    
+}).AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
@@ -126,7 +133,25 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-
+app.UseExceptionHandler(
+                options =>
+                {
+                    options.Run(
+                        async context =>
+                        {
+                            //TODO implement log provider here
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.ContentType = "text/html";
+                            var ex = context.Features.Get<IExceptionHandlerFeature>();
+                            if (ex != null)
+                            {
+                                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+                                await context.Response.WriteAsync(err).ConfigureAwait(false);
+                            }
+                        });
+                }
+            );
+//app.UseMiddleware<ExceptionHandler>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

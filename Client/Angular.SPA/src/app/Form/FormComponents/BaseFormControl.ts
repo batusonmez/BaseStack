@@ -10,9 +10,10 @@ export abstract class BaseFormControl implements IFormComponent {
   @Input() public Config!: FieldConfig ;
   @Input() Host?: IFormHost;
 
-  ngAfterViewInit(): void { 
+  ngAfterViewInit(): void {     
     if (this.Config?.Controller) {
       this.Controller = this.Config.Controller;
+      
     }
     
   }

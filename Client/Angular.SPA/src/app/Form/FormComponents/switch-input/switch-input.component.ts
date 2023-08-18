@@ -9,5 +9,9 @@ import { BaseFormControl } from '../BaseFormControl';
 export class SwitchInputComponent extends BaseFormControl {
 
   @Input() public TempInput: string = "";
- 
+
+ override ngAfterViewInit(): void {     
+   super.ngAfterViewInit();
+    this.Controller.setValue(false);
+  }
 }

@@ -29,7 +29,7 @@ namespace Northwind.Application.Commands
 
         public virtual Task<UpsertCommandResponse> Handle(UpsertCommand<T> request, CancellationToken cancellationToken)
         {
-         return Task.Run(()=>{ 
+         return Task.Run(async ()=>{ 
                 using (uow)
                 {
                     E entity = GetEntity(request.Data);
@@ -42,7 +42,8 @@ namespace Northwind.Application.Commands
                         repository.Update(entity);
                     }
 
-                    return PostExecute(entity);
+                 UpsertCommandResponse result= await PostExecute(entity);
+                 return result;
                 }
             } ) ;
         }
