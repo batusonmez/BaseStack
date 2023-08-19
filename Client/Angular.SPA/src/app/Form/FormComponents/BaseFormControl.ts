@@ -12,9 +12,7 @@ export abstract class BaseFormControl implements IFormComponent {
 
   ngAfterViewInit(): void {     
     if (this.Config?.Controller) {
-      this.Controller = this.Config.Controller;
-      
-    }
-    
+      this.Controller = this.Config.Controller;      
+    }    
   }
 }

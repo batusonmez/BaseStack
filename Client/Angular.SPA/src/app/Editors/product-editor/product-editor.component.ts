@@ -1,24 +1,25 @@
 import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
  
-import { TableHostComponent } from '../DataTable/table-host/table-host.component';
-import { FormHostComponent } from '../Form/form-host/form-host.component';
-import { CellType } from '../DataTable/Models/CellType';
-import { TextInputComponent } from '../Form/FormComponents/text-input/text-input.component';
-import { NumberInputComponent } from '../Form/FormComponents/number-input/number-input.component';
-import { SwitchInputComponent } from '../Form/FormComponents/switch-input/switch-input.component';
-import { SubmitButtonComponent } from '../Form/FormComponents/submit-button/submit-button.component';
-import { IFormHost } from '../Form/Models/IFormHost';
+import { TableHostComponent } from '../../DataTable/table-host/table-host.component';
+import { FormHostComponent } from '../../Form/form-host/form-host.component'; 
+import { TextInputComponent } from '../../Form/FormComponents/text-input/text-input.component';
+import { NumberInputComponent } from '../../Form/FormComponents/number-input/number-input.component';
+import { SwitchInputComponent } from '../../Form/FormComponents/switch-input/switch-input.component';
+import { SubmitButtonComponent } from '../../Form/FormComponents/submit-button/submit-button.component';
+import { IFormHost } from '../../Form/Models/IFormHost';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouteMapperService } from '../services/RouteMapper/route-mapper.service';
+import { RouteMapperService } from '../../services/RouteMapper/route-mapper.service';
 import { ProductEditorConfig } from './product-editor.config';
-import { ProductService } from '../services/ApiServices/ProductService/product.service';
-import { DataListComponent } from '../Form/FormComponents/data-list/datalist.component';
-import { DataListConfig } from '../Form/FormComponents/data-list/datalist.config';
-import { CategoryService } from '../services/ApiServices/CategoryService/category.service';
-import { SupplierService } from '../services/ApiServices/SupplierService/supplier.service';
-import { DataListOption } from '../Form/FormComponents/data-list/datalist.options';
-import { NumberInputConfig } from '../Form/FormComponents/number-input/number-input.config';
+import { ProductService } from '../../services/ApiServices/ProductService/product.service';
+import { DataListComponent } from '../../Form/FormComponents/data-list/datalist.component';
+import { DataListConfig } from '../../Form/FormComponents/data-list/datalist.config';
+import { CategoryService } from '../../services/ApiServices/CategoryService/category.service';
+import { SupplierService } from '../../services/ApiServices/SupplierService/supplier.service';
+import { DataListOption } from '../../Form/FormComponents/data-list/datalist.options';
+import { NumberInputConfig } from '../../Form/FormComponents/number-input/number-input.config';
+import { CellTemplates } from '../../DataTable/templates/CellTemplates';
+import { BaseEditor } from '../base.editor';
 
 @Component({
   selector: 'product-editor',
@@ -31,7 +32,7 @@ import { NumberInputConfig } from '../Form/FormComponents/number-input/number-in
   templateUrl: './product-editor.component.html',
   styleUrls: ['./product-editor.component.scss']
 })
-export class ProductEditorComponent implements OnInit {
+export class ProductEditorComponent extends BaseEditor implements OnInit {
 
   Config: ProductEditorConfig = {
     FormConfig: {
@@ -157,21 +158,18 @@ export class ProductEditorComponent implements OnInit {
     },
     DataTableConfig: {
       Cells: [
-        {
-          CellType: CellType.Cell,
-          Key: "ProductName",
+        { 
+          Binder: "ProductName",
           HeaderName: $localize `Product Name`
         },
-        {
-          CellType: CellType.Cell,
-          Key: "CategoryName",
+        { 
+          Binder: "CategoryName",
           HeaderName:  $localize `Category Name`
         },
-        {
-          CellType: CellType.Cell,
-          Key: "SupplierName",
+        { 
+          Binder: "SupplierName",
           HeaderName:$localize `Supplier Name`
-        }
+        } 
       ],
       Commands: [
         {
@@ -192,7 +190,10 @@ export class ProductEditorComponent implements OnInit {
 
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService, private supplierService: SupplierService) { }
+  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService, private supplierService: SupplierService) {
+    super();
+   }
+   
   ngOnInit(): void {
 
     this.registerQueryCommands();
@@ -200,11 +201,14 @@ export class ProductEditorComponent implements OnInit {
   }
 
   LoadData(query: string): void {
+    debugger
     this.productService.GetPaged(query).subscribe(res => {
+      debugger
       this.Config.DataTableConfig.Data = res.Data;
       if (res.PagerConfig) {
         this.Config.DataTableConfig.Pager = res.PagerConfig
       }
+       this.AddEditCell(this.Config.DataTableConfig);
     })
   }
 

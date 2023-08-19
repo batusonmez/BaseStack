@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./product-editor/product-editor.component').then(d=>d.ProductEditorComponent)
+    loadComponent: () => import('./Editors/product-editor/product-editor.component').then(d=>d.ProductEditorComponent)
   }
 ];
 

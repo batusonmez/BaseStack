@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core'; 
-import { CellConfig } from '../Models/CellConfig';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { CellConfig } from '../Models/CellConfig'; 
 
 @Component({
   standalone: true,
@@ -9,18 +10,17 @@ import { CellConfig } from '../Models/CellConfig';
   styleUrls: ['./cell.component.scss'],
   imports: [CommonModule]
 })
-export class CellComponent implements OnInit{
+export class CellComponent implements OnInit {
   @Input() public Config!: CellConfig;
   @Input() public Data: any;
-  BindData: string="";
-  constructor() {
+  BindData: any = "";
+  constructor(private sanitizer: DomSanitizer) {
 
   }
 
   ngOnInit() {
-    this.BindData = this.Data[this.Config.Key];
- 
+    this.BindData = this.sanitizer.bypassSecurityTrustHtml( this.Data[this.Config.Binder]+"");
   }
- 
+
 
 }

@@ -1,30 +1,27 @@
-<div class="btn-group" role="group" >
+<div class="btn-group" role="group">
   <ng-container *ngFor="let command of Config.Commands">
-    
+
     <a routerLink [class]="command.Class" [queryParams]="command.Command" queryParamsHandling="merge">
       {{command.Title}}
     </a>
-  </ng-container>  
+  </ng-container>
 </div>
-<table [class]="Config.Class">    
-    <thead>      
-      <tr>
-        <ng-container *ngFor="let cell of Config.Cells">
-          <th>
-            {{cell.HeaderName}}
-          </th>
-        </ng-container>
-      </tr>
-    </thead>  
+<table [class]="Config.Class">
+  <thead>
+    <tr>
+      <ng-container *ngFor="let cell of Config.Cells">
+        <th>
+          {{cell.HeaderName}}
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
   <tbody>
     <ng-container *ngFor="let data of Config.Data ">
       <tr>
         <ng-container *ngFor="let cell of Config.Cells">
           <td>
-            <ng-container [ngSwitch]="cell.CellType">
-
-              <cell *ngSwitchDefault [Config]="cell" [Data]="data"> </cell>
-            </ng-container>
+            <cell   [Config]="cell" [Data]="data"> </cell>
           </td>
         </ng-container>
       </tr>
@@ -34,16 +31,16 @@
   <tfoot>
     <tr>
       <td colspan="100%">
-        <nav aria-label="pager" *ngIf="Config?.Pager?.TotalPages" >
+        <nav aria-label="pager" *ngIf="Config?.Pager?.TotalPages">
           <ul class="pagination pagination-sm">
-        
+
             <ng-container *ngFor="let page of Counter(Config.Pager?.TotalPages??1); let i = index">
               <li class="page-item" [ngClass]="{'active': i+1==currentPage}" aria-current="page">
                 <a routerLink class="page-link" [queryParams]="{ page: i+1 }" queryParamsHandling="merge">
                   {{i+1}}
-                </a>                
-              </li>  
-            </ng-container> 
+                </a>
+              </li>
+            </ng-container>
           </ul>
         </nav>
       </td>
