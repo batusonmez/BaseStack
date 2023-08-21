@@ -1,5 +1,7 @@
+import { CellLink } from "src/app/DataTable/Models/CellLink";
+
 export interface Product {
-    ProductId: number;
+    ProductId: number ;
     ProductName?: string;
     SupplierId?: number;
     CategoryId?: number;
@@ -8,7 +10,9 @@ export interface Product {
     UnitsInStock?: number;
     UnitsOnOrder?: number;
     ReorderLevel?: number;
-    Discontinued: boolean;
+    Discontinued: boolean ;
     CategoryName?: string;
-    SupplierName?: string;
+    SupplierName?: string; 
+    EditLink?:CellLink;    
+  
 }

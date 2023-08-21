@@ -8,7 +8,7 @@ import { NumberInputComponent } from '../../Form/FormComponents/number-input/num
 import { SwitchInputComponent } from '../../Form/FormComponents/switch-input/switch-input.component';
 import { SubmitButtonComponent } from '../../Form/FormComponents/submit-button/submit-button.component';
 import { IFormHost } from '../../Form/Models/IFormHost';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RouteMapperService } from '../../services/RouteMapper/route-mapper.service';
 import { ProductEditorConfig } from './product-editor.config';
 import { ProductService } from '../../services/ApiServices/ProductService/product.service';
@@ -20,6 +20,7 @@ import { DataListOption } from '../../Form/FormComponents/data-list/datalist.opt
 import { NumberInputConfig } from '../../Form/FormComponents/number-input/number-input.config';
 import { CellTemplates } from '../../DataTable/templates/CellTemplates';
 import { BaseEditor } from '../base.editor';
+import { CellType } from 'src/app/DataTable/Models/CellType';
 
 @Component({
   selector: 'product-editor',
@@ -158,17 +159,22 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
     },
     DataTableConfig: {
       Cells: [
-        { 
+        {           
           Binder: "ProductName",
           HeaderName: $localize `Product Name`
         },
-        { 
+        {           
           Binder: "CategoryName",
           HeaderName:  $localize `Category Name`
         },
-        { 
+        {           
           Binder: "SupplierName",
           HeaderName:$localize `Supplier Name`
+        },
+        {           
+          Binder: "EditLink",
+          HeaderName:"",
+          CellType:CellType.Link
         } 
       ],
       Commands: [
@@ -195,20 +201,17 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
    }
    
   ngOnInit(): void {
-
     this.registerQueryCommands();
-
   }
 
   LoadData(query: string): void {
-    debugger
+ 
     this.productService.GetPaged(query).subscribe(res => {
-      debugger
+ debugger
       this.Config.DataTableConfig.Data = res.Data;
       if (res.PagerConfig) {
         this.Config.DataTableConfig.Pager = res.PagerConfig
-      }
-       this.AddEditCell(this.Config.DataTableConfig);
+      } 
     })
   }
 
@@ -217,22 +220,16 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
       {
         parameter: "editor",
         action: (prm: string) => {
-          if (prm == "1") {
-            this.NewProduct(prm);
+          if (prm == "1") { 
             this.ToggleEditor(true);
           } else {
             this.ToggleEditor(false);
-          }
-
+          } 
         }
       }
     ])
   }
-
-  NewProduct(prm: string): void {
-
-
-  }
+ 
 
   ToggleEditor(show: boolean): void {
     this.Config.ShowEditor = show;

@@ -51,7 +51,7 @@ namespace Northwind.Infrastructure.Services.Outbox
                     repository.Update(outbox);
                     await uow.Save();
 
-                    var resp = await eventBus.GetResponse<DataIndexed>(new  ()
+                    var resp = await eventBus.GetResponse<DataIndexed>(new ()
                     {
                         ID = outbox.DataID,
                         Name = outbox.DataType,

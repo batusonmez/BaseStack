@@ -4,6 +4,6 @@ import { FormConfig } from "../../Form/Models/FormConfig"
 export interface ProductEditorConfig{
     ShowEditor:boolean,
     FormConfig:FormConfig,
-    DataTableConfig:DataTableConfig
+    DataTableConfig:DataTableConfig 
 
 }

@@ -58,16 +58,22 @@ export class BaseApiService<T> {
   public GetPaged(query:string="",hideBackdrop:boolean=false): Observable<PagedResult<T>> {    
     return  this.Get<any>(this.RootURL+"?"+query,hideBackdrop).pipe(map((resp) =>{ 
      let response=new  PagedResult<T>();
-       response.Data=resp.body as T[];
+       response.Data=this.PostLoad( resp.body as T[]);
        response.PagerConfig={
         PageSize:Number.parseInt(resp.headers.get('X-Page-Size')??'0'),
         DataCount:Number.parseInt(resp.headers.get('X-Total-Count')??'0'),
         Page: Math.max(Number.parseInt(resp.headers.get('X-Current-Page')??'1'),1),
         TotalPages:Number.parseInt(resp.headers.get('X-Total-Pages')??'0')
        }       
+      
        return response;
      }));      
    };
+
+   public PostLoad(result:T[]):T[]{
+      return result;
+   }
+
 
    public Post<U>(Data:any): Observable<HttpResponse<U>> {        
     this.addWork();             
