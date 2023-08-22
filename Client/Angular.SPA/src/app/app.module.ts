@@ -17,7 +17,7 @@ import { SwitchInputComponent } from './Form/FormComponents/switch-input/switch-
   declarations: [
     AppComponent,
     TextInputComponent,
-    NumberInputComponent  ,
+  
     SwitchInputComponent
   ],
   imports: [   
@@ -27,7 +27,8 @@ import { SwitchInputComponent } from './Form/FormComponents/switch-input/switch-
     HttpClientModule ,
     LoadingScreenComponent,
     ToasterComponent,
-    DataListComponent
+    DataListComponent,
+    NumberInputComponent  
   ],
   providers: [],
   bootstrap: [AppComponent]

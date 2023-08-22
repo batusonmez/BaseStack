@@ -43,6 +43,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
         {
           Name: "ProductName",
           Component: TextInputComponent,
+          Required:true,
           ComponentData: {
             Label: $localize `Product Name`,
             Placeholder: $localize `Brand name of product`
@@ -65,7 +66,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
                 });
                 break;
                 case "optionSelect":
-                  debugger
+                   
                   console.log(param);
                 break;
             }
@@ -97,6 +98,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
         {
           Name: "QuantityPerUnit",
           Component: TextInputComponent,
+          Required:true,
           ComponentData: {
             Label: $localize `Quantity Per Unit`,
             Placeholder: $localize `eg: 10pic, 1LT`
@@ -104,21 +106,24 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
         },
         {
           Name: "UnitPrice",
+          Required:true,
           Component: NumberInputComponent,
           ComponentData: new NumberInputConfig($localize `Unit Price`,10000,0, $localize `Cost per unit`) 
         },
         {
           Name: "UnitsInStock",
+          Required:true,
           Component: NumberInputComponent,
           ComponentData: new NumberInputConfig($localize `Units in Stock`,1000,0, $localize `Available stocks to ship`) 
         },
         {
           Name: "UnitsOnOrder",
+          Required:true,
           Component: NumberInputComponent,
           ComponentData: new NumberInputConfig($localize `Units on Order`,1000,0,$localize `Units waiting to deliver`) 
         },
         {
-          Name: "ReorderLevel",
+          Name: "ReorderLevel", 
           Component: NumberInputComponent,
           ComponentData: new NumberInputConfig($localize `Reorder Level`,1000,0, $localize `Units waiting to reorder`) 
         },
@@ -137,8 +142,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
             Label: "Submit",
             CancelLabel: "Cancel"
           },          
-          Event: (eventType?: string, param?: any) => {
-            debugger
+          Event: (eventType?: string, param?: any) => { 
             switch (eventType) {
               case "Cancel":
                 this.mapper.setQueryParams({ editor: 0 });
@@ -151,7 +155,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
         switch (eventType) {
           case "Submit": 
              this.productService.Post(FormData?.Form.value).subscribe(res=>{
-                
+              this.ToggleEditor(false);
              });
             break;
         }

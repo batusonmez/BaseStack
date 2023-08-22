@@ -1,8 +1,8 @@
 <div class="form-group datalist">
   <label>{{Config.ComponentData?.Label}} </label> 
   <input class="form-control" [name]="Config.Name+'_Label'" [id]="Config.Name+'_Label'" placeholder="{{Config.ComponentData?.Placeholder}}"
-    (keyup)="SetQuery($event)" (blur)="Clear()" [required]="Config.Required??false"  autocomplete="off"  [(ngModel)]="Config.ComponentData?.Selection.Label" #validator="ngModel" > 
-    <input  type="hidden" class="form-control" [name]="Config.Name" [id]="Config.Name" [formControl]="Controller" [(ngModel)]="Config.ComponentData?.Selection.Value" autocomplete="off" >    
+    (keyup)="SetQuery($event)" (blur)="Clear()" [required]="Config.Required??false"  autocomplete="off"  > 
+    <input  type="hidden" class="form-control" [name]="Config.Name" [id]="Config.Name" [formControl]="Controller" [required]="Config.Required??false"  autocomplete="off" >    
   <ul class="list-group items" *ngIf="Config.ComponentData?.Options" >
     <li class="list-group-item" *ngFor="let dt of Config.ComponentData?.Options" (click)="SetSelection(dt)" >
       <div class="ms-2 me-auto">
@@ -10,8 +10,8 @@
         {{dt.Info}}
       </div>
       </li> 
-  </ul>   
-  <validation-message [validator]="validator" ></validation-message>
+  </ul>    
+  <validation-message [Controller]="Controller" ></validation-message>
 </div> 
  
  

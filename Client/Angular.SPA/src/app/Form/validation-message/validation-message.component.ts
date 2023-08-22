@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {  Component, Input  } from '@angular/core';
+import { FormControl } from '@angular/forms';
 @Component({
   standalone: true,
   selector: 'validation-message',  
@@ -8,5 +9,5 @@ import {  Component, Input  } from '@angular/core';
   imports:[CommonModule]
 })
 export class ValidationMessageComponent {
-  @Input() public validator:any;
+  @Input() public Controller!:FormControl;
 }
