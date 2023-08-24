@@ -87,7 +87,7 @@ export class BaseApiService<T> {
 
   public test(){
     this.http.post(Environment.APIRoot+this.RootURL,{}).subscribe((a)=>{
-      debugger;
+      ;
     })
   }
 }

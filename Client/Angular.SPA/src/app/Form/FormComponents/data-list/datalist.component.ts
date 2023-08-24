@@ -38,7 +38,7 @@ export class DataListComponent extends BaseFormControl implements OnInit {
 
   ClearSelection(): void {
     if (!this.Config?.Value?.Selection) {
-      debugger
+      
       this.Config.Value = { Selection: {} }
     }
   }

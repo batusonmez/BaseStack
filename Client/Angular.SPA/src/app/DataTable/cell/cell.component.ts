@@ -33,7 +33,7 @@ export class CellComponent implements OnInit {
         this.BindData = this.sanitizer.bypassSecurityTrustHtml(content);  
         break;
     case CellType.Link:
-      debugger
+      
       this.BindData=content;
       break;
       default:

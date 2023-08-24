@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Application.Commands;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Models.DTO.Types;
-using Northwind.Application.Queries.GenericQueries;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 
 namespace Northwind.API.Controllers
 {
@@ -25,7 +25,7 @@ namespace Northwind.API.Controllers
         public async Task<IActionResult> Get([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string? keyword)
         {
 
-            QueryResponse<T>? result = await Dispatcher.Send<QueryResponse<T>>(new Query<T>() { Page = page, PageSize = pageSize, QuickSearchKeyword = keyword });
+            ListQueryResponse<T>? result = await Dispatcher.Send<ListQueryResponse<T>>(new ListQuery<T>() { Page = page, PageSize = pageSize, QuickSearchKeyword = keyword });
             return Ok(result);
         }
 

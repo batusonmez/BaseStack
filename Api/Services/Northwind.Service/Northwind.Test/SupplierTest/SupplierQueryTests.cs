@@ -2,10 +2,10 @@
 using EFAdapter;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.Suppliers.ListSuppliers;
-using Northwind.Application.Queries.GenericQueries;
 using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
 using Repository;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 
 namespace Northwind.Test.SupplierTest
 {
@@ -59,10 +59,10 @@ namespace Northwind.Test.SupplierTest
             DB.SaveChanges();
 
             ListSupplierQueryHandler handler = new (mapper, repository, indexService);
-            Query<SupplierDTO> query = new ();
+            ListQuery<SupplierDTO> query = new ();
 
             //Act            
-            QueryResponse<SupplierDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<SupplierDTO> response = await handler.Handle(query, CancellationToken.None);
 
 
 
@@ -151,11 +151,11 @@ namespace Northwind.Test.SupplierTest
             DB.Suppliers.Add(testData3);
             DB.SaveChanges();
             ListSupplierQueryHandler handler = new (mapper, repository, indexService);
-            Query<SupplierDTO> query = new();
+            ListQuery<SupplierDTO> query = new();
             query.QuickSearchKeyword = "temp";
 
             //Act            
-            QueryResponse<SupplierDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<SupplierDTO> response = await handler.Handle(query, CancellationToken.None);
 
 
             //Assert

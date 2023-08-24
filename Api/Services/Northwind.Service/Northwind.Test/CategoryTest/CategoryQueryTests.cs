@@ -2,7 +2,7 @@
 using EFAdapter;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.Categories.ListCategories;
-using Northwind.Application.Queries.GenericQueries;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
 using Repository;
@@ -40,10 +40,10 @@ namespace Northwind.Test.CategoryTest
             DB.Categories.Add(testData2);
             DB.SaveChanges();
             ListCategoriesQueryHandler handler = new ListCategoriesQueryHandler(mapper, repository, indexService);
-            Query<CategoryDTO> query = new Query<CategoryDTO>();
+            ListQuery<CategoryDTO> query = new ListQuery<CategoryDTO>();
 
             //Act            
-            QueryResponse<CategoryDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<CategoryDTO> response = await handler.Handle(query, CancellationToken.None);
 
 
 
@@ -99,11 +99,11 @@ namespace Northwind.Test.CategoryTest
             DB.Categories.Add(testData3);
             DB.SaveChanges();
             ListCategoriesQueryHandler handler = new ListCategoriesQueryHandler(mapper, repository, indexService);
-            Query<CategoryDTO> query = new Query<CategoryDTO>();
+            ListQuery<CategoryDTO> query = new ListQuery<CategoryDTO>();
             query.QuickSearchKeyword = "temp";
 
             //Act            
-            QueryResponse<CategoryDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<CategoryDTO> response = await handler.Handle(query, CancellationToken.None);
 
 
             //Assert

@@ -1,10 +1,11 @@
 ﻿using Northwind.Application.Models.DTO.Types;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 
 namespace Northwind.Application.Queries.GenericQueries.Extansions.IndexQuery
 {
     internal static class QueryToIndexSearch
     {
-        public static IndexQueryParameters? ToIndexQuery<T>(this Query<T> query) where T : class
+        public static IndexQueryParameters? ToIndexQuery<T>(this ListQuery<T> query) where T : class
         {
             if (query == null)
             {

@@ -1,4 +1,4 @@
  <span *ngIf="Config.CellType==CellType.Template" [innerHTML]="BindData" ></span>
  <a *ngIf="Config.CellType==CellType.Link" routerLink class="page-link" [queryParams]="BindData.QueryParams" queryParamsHandling="merge">
-  {{BindData.Label}}
+    {{BindData.Label}}
   </a>

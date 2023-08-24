@@ -211,7 +211,7 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
   LoadData(query: string): void {
  
     this.productService.GetPaged(query).subscribe(res => {
- debugger
+ 
       this.Config.DataTableConfig.Data = res.Data;
       if (res.PagerConfig) {
         this.Config.DataTableConfig.Pager = res.PagerConfig
@@ -230,10 +230,22 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
             this.ToggleEditor(false);
           } 
         }
+      },
+      {
+        parameter: "Edit",
+        action: (prm: string) => {
+          this.LoadProduct(prm) ;
+        }
       }
     ])
   }
- 
+  
+  LoadProduct(id:string):void{
+    this.productService.GetProduct(id).subscribe((res)=>{
+      this.ToggleEditor(true);
+      console.log(res);
+    });
+  }
 
   ToggleEditor(show: boolean): void {
     this.Config.ShowEditor = show;

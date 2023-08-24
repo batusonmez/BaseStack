@@ -2,7 +2,7 @@
 using EFAdapter;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.Customers.ListCustomers;
-using Northwind.Application.Queries.GenericQueries;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
 
@@ -49,7 +49,7 @@ namespace Northwind.Test.CustomerTests
         public async Task  Customer_Query()
         {
             // Arrange   
-            Query<CustomersDTO> query = new();
+            ListQuery<CustomersDTO> query = new();
             if(mapper==null || repository == null)
             {
                 Assert.Fail("Invalid arrangement");
@@ -57,7 +57,7 @@ namespace Northwind.Test.CustomerTests
             ListCustomersQueryHandler handler = new(mapper, repository, indexService);
 
             //Act 
-            QueryResponse<CustomersDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<CustomersDTO> response = await handler.Handle(query, CancellationToken.None);
 
             //Assert
             ClearTestConnection();

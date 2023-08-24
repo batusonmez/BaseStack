@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using EFAdapter;
 using Northwind.Application.Models.DTO;
-using Northwind.Application.Queries.GenericQueries;
+using Northwind.Application.Queries.GenericQueries.ListQueryModels;
+using Northwind.Application.Queries.Products.GetProduct;
 using Northwind.Application.Queries.Products.ListProduct;
 using Northwind.Application.Services.Index;
 using Northwind.Domain.Entities;
@@ -13,7 +14,7 @@ namespace Northwind.Test.ProductTests
     {
 
         Repository.IUOW? uow;
-        IMapper? mapper; 
+        IMapper? mapper;
         EFRepository<Product>? repository;
         IIndexService? indexService;
 
@@ -22,7 +23,7 @@ namespace Northwind.Test.ProductTests
         {
             ResetTestDB();
             uow = InitUOW();
-            mapper = InitNorthwindAPIMapper(); 
+            mapper = InitNorthwindAPIMapper();
             repository = new EFRepository<Product>(uow);
             indexService = MockIndexService();
             DB.Categories.Add(new Category()
@@ -88,42 +89,76 @@ namespace Northwind.Test.ProductTests
         }
 
         [TestMethod]
-        public async Task  Product_Query()
+        public async Task Product_Query()
         {
             // Arrange   
-            Query<ProductsDTO> query = new Query<ProductsDTO>();
-            if(mapper==null || repository == null || indexService==null)
+            ListQuery<ProductsDTO> query = new();
+            if (mapper == null || repository == null || indexService == null)
             {
                 Assert.Fail("Invalid arrangement");
             }
-            ListProductsQueryHandler handler = new ListProductsQueryHandler(mapper, repository, indexService);
+            ListProductsQueryHandler handler = new(mapper, repository, indexService);
 
             //Act 
-            QueryResponse<ProductsDTO> response = await handler.Handle(query, CancellationToken.None);
+            ListQueryResponse<ProductsDTO> response = await handler.Handle(query, CancellationToken.None);
 
             //Assert
             ClearTestConnection();
             uow = InitUOW();
-            Assert.IsTrue(response.Total == 3);
+            Assert.AreEqual(response.Total, 3);
             foreach (var item in DB.Products)
             {
                 var productDto = response.FirstOrDefault(d => d.ProductId == item.ProductId);
-                
+
                 Assert.IsNotNull(productDto);
-                Assert.IsTrue(productDto.ProductName==item.ProductName);
-                Assert.IsTrue(productDto.QuantityPerUnit == item.QuantityPerUnit);
-                Assert.IsTrue(productDto.UnitPrice == item.UnitPrice);
-                Assert.IsTrue(productDto.CategoryId == item.CategoryId);
-                Assert.IsTrue(productDto.SupplierId == item.SupplierId);                
-                Assert.IsTrue(productDto.UnitsOnOrder == item.UnitsOnOrder);
-                Assert.IsTrue(productDto.UnitsInStock == item.UnitsInStock);
+                Assert.AreEqual(productDto.ProductName, item.ProductName);
+                Assert.AreEqual(productDto.QuantityPerUnit, item.QuantityPerUnit);
+                Assert.AreEqual(productDto.UnitPrice, item.UnitPrice);
+                Assert.AreEqual(productDto.CategoryId, item.CategoryId);
+                Assert.AreEqual(productDto.SupplierId, item.SupplierId);
+                Assert.AreEqual(productDto.UnitsOnOrder, item.UnitsOnOrder);
+                Assert.AreEqual(productDto.UnitsInStock, item.UnitsInStock);
                 Supplier? supplier = DB.Suppliers.Find(item.SupplierId);
                 Assert.IsNotNull(supplier);
-                Assert.IsTrue( productDto.SupplierName==supplier.CompanyName);
+                Assert.AreEqual(productDto.SupplierName, supplier.CompanyName);
             }
+        }
+
+
+        [TestMethod]
+        public async Task Product_By_ID_Query()
+        {
+            // Arrange   
+            GetProductQuery query = new()
+            {
+                ProductID=2
+            };
+            if (mapper == null || repository == null || indexService == null)
+            {
+                Assert.Fail("Invalid arrangement");
+            }
+            GetProductQueryHandler handler = new (mapper, repository);
+
+            //Act 
+            ProductsDTO? response = await handler.Handle(query, CancellationToken.None);
+
+            //Assert
+            ClearTestConnection(); 
+            Assert.IsNotNull(response);
+            Product factProduct= DB.Products.First(d => d.ProductId == 2);
+
              
+            Assert.AreEqual(factProduct.ProductName, response.ProductName);
+            Assert.AreEqual(factProduct.QuantityPerUnit, response.QuantityPerUnit);
+            Assert.AreEqual(factProduct.UnitPrice, response.UnitPrice);
+            Assert.AreEqual(factProduct.CategoryId, response.CategoryId);
+            Assert.AreEqual(factProduct.SupplierId, response.SupplierId);
+            Assert.AreEqual(factProduct.UnitsOnOrder, response.UnitsOnOrder);
+            Assert.AreEqual(factProduct.UnitsInStock, response.UnitsInStock);
+       
+          
 
         }
-         
+
     }
 }
