@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {   FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilderService } from '../Core/FormBuilderService';
 import { FieldHostComponent } from '../field-host/field-host.component';
 import { FormConfig } from '../Models/FormConfig';
 import { IFormHost } from '../Models/IFormHost';
@@ -16,18 +15,22 @@ import { FormHostEvents } from './FormHostEvents';
 })
 export class FormHostComponent implements OnInit, IFormHost {
   @Input() public Config!: FormConfig;
+  @Input()  public set Value(val:any){
+    if(val){
+      this.Form.patchValue(val);
+    }
+  };
   public Form: FormGroup = new FormGroup({   }); 
-  constructor(private formBuilder: FormBuilderService) {
+  constructor() {
 
   }
   ngOnInit() {
     this.buildForm();
  
-  }
- 
+  } 
 
   public buildForm(): void {
-    this.Form = this.formBuilder.BuildForm(this); 
+    this.Form = new FormGroup({});
   
   }
   onSubmit() {

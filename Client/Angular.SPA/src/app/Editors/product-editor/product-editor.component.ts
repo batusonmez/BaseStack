@@ -1,8 +1,8 @@
-import { Component, OnInit  } from '@angular/core';
+import { ApplicationRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
- 
+
 import { TableHostComponent } from '../../DataTable/table-host/table-host.component';
-import { FormHostComponent } from '../../Form/form-host/form-host.component'; 
+import { FormHostComponent } from '../../Form/form-host/form-host.component';
 import { TextInputComponent } from '../../Form/FormComponents/text-input/text-input.component';
 import { NumberInputComponent } from '../../Form/FormComponents/number-input/number-input.component';
 import { SwitchInputComponent } from '../../Form/FormComponents/switch-input/switch-input.component';
@@ -16,11 +16,10 @@ import { DataListComponent } from '../../Form/FormComponents/data-list/datalist.
 import { DataListConfig } from '../../Form/FormComponents/data-list/datalist.config';
 import { CategoryService } from '../../services/ApiServices/CategoryService/category.service';
 import { SupplierService } from '../../services/ApiServices/SupplierService/supplier.service';
-import { DataListOption } from '../../Form/FormComponents/data-list/datalist.options';
 import { NumberInputConfig } from '../../Form/FormComponents/number-input/number-input.config';
-import { CellTemplates } from '../../DataTable/templates/CellTemplates';
 import { BaseEditor } from '../base.editor';
 import { CellType } from 'src/app/DataTable/Models/CellType';
+import { Product } from 'src/app/Models/Products/Product';
 
 @Component({
   selector: 'product-editor',
@@ -33,27 +32,27 @@ import { CellType } from 'src/app/DataTable/Models/CellType';
   templateUrl: './product-editor.component.html',
   styleUrls: ['./product-editor.component.scss']
 })
-export class ProductEditorComponent extends BaseEditor implements OnInit {
+export class ProductEditorComponent extends BaseEditor<Product> implements OnInit {
 
   Config: ProductEditorConfig = {
     FormConfig: {
-      Title:$localize `Product Editor`,
+      Title: $localize`Product Editor`,
       Name: "TestForm",
       Fields: [
         {
           Name: "ProductName",
           Component: TextInputComponent,
-          Required:true,
+          Required: true,
           ComponentData: {
-            Label: $localize `Product Name`,
-            Placeholder: $localize `Brand name of product`
+            Label: $localize`Product Name`,
+            Placeholder: $localize`Brand name of product`
           }
         },
         {
           Name: "CategoryId",
           Component: DataListComponent,
-          Required:true,
-          ComponentData: new DataListConfig("Category Name"),
+          Required: true,
+          ComponentData: new DataListConfig("Category Name","CategoryName"),
           Event: (eventType: string, param: any) => {
             switch (eventType) {
               case "query":
@@ -61,23 +60,23 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
                 this.categoryService.GetPaged("keyword=" + param, true).subscribe((rs) => {
                   cd.Options = rs.Data.map((d) => { return { Label: d.CategoryName, Value: d.CategoryId + "", Info: d.Description } });
                   if (!rs.Data.length) {
-                    cd.Options = [{ Label: "", Value: "", Info:  $localize `No Data Found` }]
+                    cd.Options = [{ Label: "", Value: "", Info: $localize`No Data Found` }]
                   }
                 });
                 break;
-                case "optionSelect":
-                   
-                  console.log(param);
+              case "optionSelect":
+
+                console.log(param);
                 break;
             }
 
           }
-        }, 
+        },
         {
           Name: "SupplierId",
           Component: DataListComponent,
-          ComponentData: new DataListConfig("Supplier Name"),
-          Required:true,
+          ComponentData: new DataListConfig("Supplier Name","SupplierName"),
+          Required: true,
           Event: (eventType: string, param: any) => {
             switch (eventType) {
               case "query":
@@ -85,55 +84,55 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
                 this.supplierService.GetPaged("keyword=" + param, true).subscribe((rs) => {
                   cd.Options = rs.Data.map((d) => { return { Label: d.CompanyName, Value: d.SupplierId + "", Info: d.ContactTitle } });
                   if (!rs.Data.length) {
-                    cd.Options = [{ Label: "", Value: "", Info: $localize `No Data Found` }]
+                    cd.Options = [{ Label: "", Value: "", Info: $localize`No Data Found` }]
                   }
                 });
                 break;
-                case "optionSelect":
-                  console.log(param);
+              case "optionSelect":
+                console.log(param);
                 break;
             }
           }
-        }, 
+        },
         {
           Name: "QuantityPerUnit",
           Component: TextInputComponent,
-          Required:true,
+          Required: true,
           ComponentData: {
-            Label: $localize `Quantity Per Unit`,
-            Placeholder: $localize `eg: 10pic, 1LT`
+            Label: $localize`Quantity Per Unit`,
+            Placeholder: $localize`eg: 10pic, 1LT`
           }
         },
         {
           Name: "UnitPrice",
-          Required:true,
+          Required: true,
           Component: NumberInputComponent,
-          ComponentData: new NumberInputConfig($localize `Unit Price`,10000,0, $localize `Cost per unit`) 
+          ComponentData: new NumberInputConfig($localize`Unit Price`, 10000, 0, $localize`Cost per unit`)
         },
         {
           Name: "UnitsInStock",
-          Required:true,
+          Required: true,
           Component: NumberInputComponent,
-          ComponentData: new NumberInputConfig($localize `Units in Stock`,1000,0, $localize `Available stocks to ship`) 
+          ComponentData: new NumberInputConfig($localize`Units in Stock`, 1000, 0, $localize`Available stocks to ship`)
         },
         {
           Name: "UnitsOnOrder",
-          Required:true,
+          Required: true,
           Component: NumberInputComponent,
-          ComponentData: new NumberInputConfig($localize `Units on Order`,1000,0,$localize `Units waiting to deliver`) 
+          ComponentData: new NumberInputConfig($localize`Units on Order`, 1000, 0, $localize`Units waiting to deliver`)
         },
         {
-          Name: "ReorderLevel", 
+          Name: "ReorderLevel",
           Component: NumberInputComponent,
-          ComponentData: new NumberInputConfig($localize `Reorder Level`,1000,0, $localize `Units waiting to reorder`) 
+          ComponentData: new NumberInputConfig($localize`Reorder Level`, 1000, 0, $localize`Units waiting to reorder`)
         },
         {
           Name: "Discontinued",
           Component: SwitchInputComponent,
-          ComponentData:  {
-            Label: "Discontinued" 
+          ComponentData: {
+            Label: "Discontinued"
           },
-          
+
         },
         {
           Name: "CompSb",
@@ -141,8 +140,8 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
           ComponentData: {
             Label: "Submit",
             CancelLabel: "Cancel"
-          },          
-          Event: (eventType?: string, param?: any) => { 
+          },
+          Event: (eventType?: string, param?: any) => {
             switch (eventType) {
               case "Cancel":
                 this.mapper.setQueryParams({ editor: 0 });
@@ -153,37 +152,37 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
       ],
       FormEvent: (eventType: string, FormData?: IFormHost, param?: any) => {
         switch (eventType) {
-          case "Submit": 
-             this.productService.Post(FormData?.Form.value).subscribe(res=>{
+          case "Submit":
+            this.productService.Post(FormData?.Form.value).subscribe(res => {
               this.ToggleEditor(false);
-             });
+            });
             break;
         }
       }
     },
     DataTableConfig: {
       Cells: [
-        {           
+        {
           Binder: "ProductName",
-          HeaderName: $localize `Product Name`
+          HeaderName: $localize`Product Name`
         },
-        {           
+        {
           Binder: "CategoryName",
-          HeaderName:  $localize `Category Name`
+          HeaderName: $localize`Category Name`
         },
-        {           
+        {
           Binder: "SupplierName",
-          HeaderName:$localize `Supplier Name`
+          HeaderName: $localize`Supplier Name`
         },
-        {           
+        {
           Binder: "EditLink",
-          HeaderName:"",
-          CellType:CellType.Link
-        } 
+          HeaderName: "",
+          CellType: CellType.Link
+        }
       ],
       Commands: [
         {
-          Title: $localize `New`,
+          Title: $localize`New`,
           Class: "btn btn-success",
           Command: { editor: 1 }
         }
@@ -202,20 +201,20 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
 
   constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService, private supplierService: SupplierService) {
     super();
-   }
-   
+  }
+
   ngOnInit(): void {
     this.registerQueryCommands();
   }
 
   LoadData(query: string): void {
- 
+
     this.productService.GetPaged(query).subscribe(res => {
- 
+
       this.Config.DataTableConfig.Data = res.Data;
       if (res.PagerConfig) {
         this.Config.DataTableConfig.Pager = res.PagerConfig
-      } 
+      }
     })
   }
 
@@ -224,26 +223,29 @@ export class ProductEditorComponent extends BaseEditor implements OnInit {
       {
         parameter: "editor",
         action: (prm: string) => {
-          if (prm == "1") { 
+          if (prm == "1") {
             this.ToggleEditor(true);
           } else {
             this.ToggleEditor(false);
-          } 
+          }
         }
       },
       {
         parameter: "Edit",
         action: (prm: string) => {
-          this.LoadProduct(prm) ;
+          this.LoadProduct(prm);
         }
       }
     ])
   }
-  
-  LoadProduct(id:string):void{
-    this.productService.GetProduct(id).subscribe((res)=>{
+
+  LoadProduct(id: string): void {
+    this.productService.GetProduct(id).subscribe((res) => {
       this.ToggleEditor(true);
-      console.log(res);
+      setTimeout(() => {
+        this.EditorData = res;
+      }, 100);
+
     });
   }
 

@@ -5,14 +5,24 @@ import { IFormComponent } from "../Models/IFormComponent";
 import { IFormHost } from "../Models/IFormHost";
 
 @Injectable()
-export abstract class BaseFormControl implements IFormComponent {
+export abstract class BaseFormControl implements IFormComponent  {
+
   public Controller: FormControl = new FormControl('');
-  @Input() public Config!: FieldConfig ;
+  @Input() public Config!: FieldConfig;
   @Input() Host?: IFormHost;
 
-  ngAfterViewInit(): void {     
+ 
+  constructor(){
     if (this.Config?.Controller) {
-      this.Controller = this.Config.Controller;      
-    }    
+      this.Controller = this.Config.Controller;
+       this.RegisterForm();
+    }
+  }
+  
+
+  public RegisterForm(): void {
+    if (this.Host?.Form) {
+      this.Host.Form.addControl(this.Config.Name,this.Controller);
+    }
   }
 }

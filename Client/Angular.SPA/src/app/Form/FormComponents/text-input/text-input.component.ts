@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'; 
+import { Component, Input, OnInit } from '@angular/core'; 
 import { BaseFormControl } from '../BaseFormControl';
 
 @Component({
@@ -6,7 +6,10 @@ import { BaseFormControl } from '../BaseFormControl';
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss']
 })
-export class TextInputComponent extends BaseFormControl {
+export class TextInputComponent extends BaseFormControl  implements OnInit{
+  ngOnInit(): void {
+    this.RegisterForm();
+  }
  
   @Input() public TempInput: string = "";
  

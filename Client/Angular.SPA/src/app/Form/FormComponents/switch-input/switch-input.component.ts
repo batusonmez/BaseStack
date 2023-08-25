@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'; 
+import { Component, Input, OnInit } from '@angular/core'; 
 import { BaseFormControl } from '../BaseFormControl';
 
 @Component({
@@ -6,12 +6,15 @@ import { BaseFormControl } from '../BaseFormControl';
   templateUrl: './switch-input.component.html',
   styleUrls: ['./switch-input.component.scss']
 })
-export class SwitchInputComponent extends BaseFormControl {
+export class SwitchInputComponent extends BaseFormControl  implements OnInit{
+  ngOnInit(): void {
+    this.RegisterForm();
+  }
 
   @Input() public TempInput: string = "";
 
- override ngAfterViewInit(): void {     
-   super.ngAfterViewInit();
+   ngAfterViewInit(): void {      
     this.Controller.setValue(false);
   }
+    
 }

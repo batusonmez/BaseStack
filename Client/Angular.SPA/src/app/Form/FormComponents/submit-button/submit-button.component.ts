@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseFormControl } from '../BaseFormControl';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./submit-button.component.scss'],
   imports: [CommonModule]
 })
-export class SubmitButtonComponent extends BaseFormControl {
+export class SubmitButtonComponent extends BaseFormControl  implements OnInit{
+  ngOnInit(): void {
+    this.RegisterForm();
+  }
 
   Cancel(): void {
     if(this.Config?.Event){
