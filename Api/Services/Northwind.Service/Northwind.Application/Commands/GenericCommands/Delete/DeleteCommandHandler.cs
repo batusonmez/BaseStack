@@ -32,7 +32,7 @@ namespace Northwind.Application.Commands.GenericCommands.Delete
                 {
 
                     DeleteCommandResponse resp = new DeleteCommandResponse(request.Data);
-                    repository.Delete(request.Data.IndexKey);
+                    repository.Delete(request.Data.DTOID);
                     SetOutbox(request.Data);
                     await uow.Save();
                     return resp;
@@ -47,7 +47,7 @@ namespace Northwind.Application.Commands.GenericCommands.Delete
             {
                 OutBoxDTO outbox = new OutBoxDTO();
                 outbox.Data = dto;
-                outbox.DataID = dto.IndexKey.ToString();
+                outbox.DataID = dto.DTOID.ToString();
                 outbox.DataType = OutBoxDTO.DELETE;                
                 return outBoxService.SaveOutBox(outbox);
             }

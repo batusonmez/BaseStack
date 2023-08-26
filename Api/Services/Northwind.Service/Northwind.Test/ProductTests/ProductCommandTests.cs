@@ -102,7 +102,7 @@ namespace Northwind.Test.ProductTests
             Assert.IsNotNull(resultDto);
             Assert.IsTrue(resultDto.HasID);
             Product? product = DB.Products.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
-            Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.ProductId.ToString());
+            Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.IndexTrace.ToString());
             Assert.IsNotNull(product);
             Assert.IsNotNull(outbox);
 
@@ -139,7 +139,7 @@ namespace Northwind.Test.ProductTests
             Assert.IsNotNull(resultDto);
             Assert.AreEqual(resultDto.ProductId , 1);
             Product? product = DB.Products.FirstOrDefault(d => d.ProductId == resultDto.ProductId);
-            Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.ProductId.ToString());
+            Outbox? outbox = DB.Outbox.FirstOrDefault(d => d.DataID == resultDto.IndexTrace.ToString());
             Assert.IsNotNull(product);
             Assert.IsNotNull(outbox);
             Assert.AreEqual(product.UnitPrice , testDTO.UnitPrice);

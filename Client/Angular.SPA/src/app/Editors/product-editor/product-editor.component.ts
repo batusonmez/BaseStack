@@ -150,7 +150,7 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
           Event: (eventType?: string, param?: any) => {
             switch (eventType) {
               case "Cancel":
-                this.mapper.setQueryParams({ editor: 0,Edit:-1 });
+                this.Cancel();
                 break;
             }
           }
@@ -160,7 +160,7 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
         switch (eventType) {
           case "Submit":
             this.productService.Post(FormData?.Form.value).subscribe(res => {
-              this.ToggleEditor(false);
+              this.Cancel();
             });
             break;
         }
@@ -258,6 +258,10 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
 
   ToggleEditor(show: boolean): void {
     this.Config.ShowEditor = show;
+  }
+
+  Cancel():void{
+    this.mapper.setQueryParams({ editor: 0,Edit:-1 });
   }
 
 }

@@ -78,7 +78,7 @@ export class BaseApiService<T> {
    public Post<U>(Data:any): Observable<HttpResponse<U>> {        
     this.addWork();             
     return this.http.post<U>(Environment.APIRoot+this.RootURL,Data,{observe:"response"} ).pipe(tap(next=> {      
-       this.success(false);   
+       this.success(true);   
     }), catchError((err)=>{      
       this.error(err)
       return of();

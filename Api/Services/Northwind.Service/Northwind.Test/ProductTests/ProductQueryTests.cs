@@ -129,10 +129,7 @@ namespace Northwind.Test.ProductTests
         public async Task Product_By_ID_Query()
         {
             // Arrange   
-            GetProductQuery query = new()
-            {
-                ProductID=2
-            };
+            GetProductQuery query = new(2);
             if (mapper == null || repository == null || indexService == null)
             {
                 Assert.Fail("Invalid arrangement");
