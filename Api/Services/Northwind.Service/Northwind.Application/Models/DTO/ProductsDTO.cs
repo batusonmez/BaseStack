@@ -16,14 +16,20 @@ namespace Northwind.Application.Models.DTO
         public bool Discontinued { get; set; }
         public string? CategoryName { get; set; }
         public string? SupplierName { get; set; }
-
+        public Guid? IndexTrace { get; set; }
 
         [JsonIgnore]
-        public override object IndexKey => ProductId;
+        public override object IndexKey => "products";
         [JsonIgnore]
         public override bool IndexEnabled => true;
         [JsonIgnore]
         public override bool HasID => ProductId > 0;
-        
+
+        public override object? DTOID => ProductId;
+        public ProductsDTO()
+        {
+            IndexTrace = Guid.NewGuid();
+        }
+
     }
 }

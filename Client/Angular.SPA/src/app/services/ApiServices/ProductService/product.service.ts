@@ -32,5 +32,13 @@ export class ProductService extends BaseApiService<Product> {
     }));
   }
 
+  public override Post<U>(Data: any): Observable<HttpResponse<U>> {
+    debugger
+    if(!Data.ProductId){
+      delete Data.ProductId;
+    }
+   return super.Post(Data);
+  }
+
 }
 

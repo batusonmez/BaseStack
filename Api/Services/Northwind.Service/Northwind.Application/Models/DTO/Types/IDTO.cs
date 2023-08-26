@@ -20,6 +20,9 @@
         /// </summary>
         bool HasID { get; }
 
-        object? DTOID { get; }
+        /// <summary>
+        /// Gets database object primary key
+        /// </summary>
+        object DTOID { get; }
     }
 }

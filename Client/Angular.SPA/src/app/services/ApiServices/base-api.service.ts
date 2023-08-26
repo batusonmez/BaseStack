@@ -84,10 +84,5 @@ export class BaseApiService<T> {
       return of();
     })); 
   }
-
-  public test(){
-    this.http.post(Environment.APIRoot+this.RootURL,{}).subscribe((a)=>{
-      ;
-    })
-  }
+ 
 }

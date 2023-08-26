@@ -10,7 +10,5 @@ export class TextInputComponent extends BaseFormControl  implements OnInit{
   ngOnInit(): void {
     this.RegisterForm();
   }
- 
-  @Input() public TempInput: string = "";
- 
+  
 }

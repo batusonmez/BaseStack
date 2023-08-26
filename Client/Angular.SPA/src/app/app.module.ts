@@ -11,14 +11,14 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
 import { ToasterComponent } from './Toaster/toaster.component';
 import { DataListComponent } from './Form/FormComponents/data-list/datalist.component'; 
 import { SwitchInputComponent } from './Form/FormComponents/switch-input/switch-input.component';
+import { HiddenInputComponent } from './Form/FormComponents/hidden-input/hidden-input.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TextInputComponent,
-  
-    SwitchInputComponent
+    TextInputComponent,  
+    
   ],
   imports: [   
     ReactiveFormsModule,
@@ -28,7 +28,9 @@ import { SwitchInputComponent } from './Form/FormComponents/switch-input/switch-
     LoadingScreenComponent,
     ToasterComponent,
     DataListComponent,
-    NumberInputComponent  
+    NumberInputComponent,
+    HiddenInputComponent,
+    SwitchInputComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

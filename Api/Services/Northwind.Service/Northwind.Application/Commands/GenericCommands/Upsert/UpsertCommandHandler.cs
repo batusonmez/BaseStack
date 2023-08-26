@@ -50,10 +50,10 @@ namespace Northwind.Application.Commands
 
         public virtual  async Task<UpsertCommandResponse> PostExecute(E entity)
         {
-            T dto = mapper.Map<T>(entity);
-            UpsertCommandResponse resp = new UpsertCommandResponse(dto);
+            T dto = mapper.Map<T>(entity);            
             SetOutbox(dto);
             await uow.Save();
+            UpsertCommandResponse resp = new UpsertCommandResponse(dto);
             return resp;
         }
 
@@ -61,7 +61,7 @@ namespace Northwind.Application.Commands
         {
             if (dto.HasID)
             {
-                E? entity = repository.GetByID(dto.IndexKey);
+                E? entity = repository.GetByID(dto.DTOID);
                 BaseException.ThrowIf(entity == null, "Argument null exception :" + typeof(E));
                 entity = mapper.Map(dto, entity);
                 if (entity != null)
@@ -75,9 +75,7 @@ namespace Northwind.Application.Commands
         {
             if (dto.IndexEnabled)
             {
-                OutBoxDTO outbox = new OutBoxDTO();
-                outbox.Data = dto;
-                outbox.DataID = dto.IndexKey.ToString();
+                OutBoxDTO outbox= mapper.Map<OutBoxDTO>(dto); ;                                
                 return outBoxService.SaveOutBox(outbox);
             }
             return null;

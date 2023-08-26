@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
 import { RouteMap } from './RouteMap';
 
 @Injectable({
@@ -22,8 +22,8 @@ export class RouteMapperService {
     });
   }
 
-  setQueryParams(queryParams:any):void{
-    this.router.navigate([], { queryParams, relativeTo: this.route, queryParamsHandling: 'merge' });
+  setQueryParams(queryParams:any,handler:QueryParamsHandling='merge'  ):void{
+    this.router.navigate([], { queryParams, relativeTo: this.route, queryParamsHandling: handler });
   }
   
 }

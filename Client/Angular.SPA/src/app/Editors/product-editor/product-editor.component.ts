@@ -20,6 +20,7 @@ import { NumberInputConfig } from '../../Form/FormComponents/number-input/number
 import { BaseEditor } from '../base.editor';
 import { CellType } from 'src/app/DataTable/Models/CellType';
 import { Product } from 'src/app/Models/Products/Product';
+import { HiddenInputComponent } from 'src/app/Form/FormComponents/hidden-input/hidden-input.component';
 
 @Component({
   selector: 'product-editor',
@@ -39,6 +40,11 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
       Title: $localize`Product Editor`,
       Name: "TestForm",
       Fields: [
+        {
+          Name: "ProductId",
+          Component: HiddenInputComponent,          
+          ComponentData: {}
+        },
         {
           Name: "ProductName",
           Component: TextInputComponent,
@@ -144,7 +150,7 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
           Event: (eventType?: string, param?: any) => {
             switch (eventType) {
               case "Cancel":
-                this.mapper.setQueryParams({ editor: 0 });
+                this.mapper.setQueryParams({ editor: 0,Edit:-1 });
                 break;
             }
           }
@@ -233,6 +239,7 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
       {
         parameter: "Edit",
         action: (prm: string) => {
+          if(prm=="-1")return;
           this.LoadProduct(prm);
         }
       }

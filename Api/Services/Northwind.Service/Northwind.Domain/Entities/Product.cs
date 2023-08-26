@@ -6,6 +6,7 @@ namespace Northwind.Domain.Entities
         public Product()
         {
             OrderDetails = new HashSet<OrderDetail>();
+            IndexTrace = Guid.NewGuid();
         }
 
         public int ProductId { get; set; }
@@ -18,7 +19,7 @@ namespace Northwind.Domain.Entities
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
-
+        public Guid? IndexTrace { get; set; }
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; private set; }
