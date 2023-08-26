@@ -17,11 +17,11 @@ using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
 using System.CommandLine;
-using Microsoft.AspNetCore.Authentication;
-using Northwind.API.Handlers.ExceptionManagement;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
+using Serilog; 
+using Serilog.Events;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -89,11 +89,25 @@ builder.Services.AddScoped<IUOW, EFUnitOfWork>(sp =>
 });
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 #endregion
- 
+
 #region MassTransit
+builder.Services.AddOptions<MassTransitHostOptions>()
+            .Configure(options =>
+            {
+                // if specified, waits until the bus is started before
+                // returning from IHostedService.StartAsync
+                // default is false
+                options.WaitUntilStarted = true;
+
+                // if specified, limits the wait time when starting the bus
+                options.StartTimeout = TimeSpan.FromSeconds(30);
+
+                // if specified, limits the wait time when stopping the bus
+                options.StopTimeout = TimeSpan.FromSeconds(30);
+            });
 builder.Services.AddMassTransit(d =>
 {
-    d.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+    d.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(configuration["EventBusConnection"]);
         cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
@@ -103,7 +117,7 @@ builder.Services.AddMassTransit(d =>
             ep.UseMessageRetry(r => r.Interval(100, 10000));
 
         });
-    }));
+    }); 
 });
 #endregion
 
@@ -111,6 +125,14 @@ builder.Services.AddMassTransit(d =>
 builder.Services.AddTransient<Command, ReindexCategoriesCommand>();
 builder.Services.AddTransient<Command, ReindexSupplierCommand>();
 builder.Services.AddCLI(args);
+#endregion
+
+#region Serilog
+var logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration).Filter.ByIncludingOnly(evt => evt.Level != LogEventLevel.Information)
+        .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 #endregion
 
 builder.Services.AddCors(options =>
@@ -131,27 +153,27 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseCors();
-app.UseExceptionHandler(
-                options =>
-                {
-                    options.Run(
-                        async context =>
-                        {
-                            //TODO implement log provider here
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            context.Response.ContentType = "text/html";
-                            var ex = context.Features.Get<IExceptionHandlerFeature>();
-                            if (ex != null)
-                            {
-                                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
-                                await context.Response.WriteAsync(err).ConfigureAwait(false);
-                            }
-                        });
-                }
-            );
-//app.UseMiddleware<ExceptionHandler>();
+//app.UseExceptionHandler(
+//                options =>
+//                {
+//                    options.Run(
+//                        async context =>
+//                        {
+//                            //TODO implement log provider here
+//                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+//                            context.Response.ContentType = "text/html";
+//                            var ex = context.Features.Get<IExceptionHandlerFeature>();
+//                            if (ex != null)
+//                            {
+//                                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+//                                await context.Response.WriteAsync(err).ConfigureAwait(false);
+//                            }
+//                        });
+//                }
+//            );
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MessageBusDomainEvents;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Northwind.Application.Models.Configuration;
 using Northwind.Infrastructure.BackgroundServices;
@@ -15,8 +16,9 @@ namespace Northwind.Infrastructure.Services.Outbox
         private readonly IOptions<IndexConfig> indexConfig;
 
         public OutboxIntegrationService(IServiceScopeFactory scopeFactory,
-            IOptions<IndexConfig> indexConfig
-            ) : base(indexConfig.Value.Delay)
+            IOptions<IndexConfig> indexConfig,
+            ILogger<OutboxIntegrationService> logger
+            ) : base(indexConfig.Value.Delay,logger)
         {
             this.scopeFactory = scopeFactory;
             this.indexConfig = indexConfig;
@@ -38,9 +40,9 @@ namespace Northwind.Infrastructure.Services.Outbox
         }
 
 
-        private Task proccessIndexRequest(DomainEntities.Outbox outbox)
+        private   Task proccessIndexRequest(DomainEntities.Outbox outbox)
         {
-            return Task.Run(async () =>
+            return   Task.Run(async () =>
             {
                 using (IServiceScope scope = scopeFactory.CreateScope())
                 {

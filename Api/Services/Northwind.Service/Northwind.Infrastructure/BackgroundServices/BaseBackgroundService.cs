@@ -1,14 +1,17 @@
 ﻿using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Logging;
+using Northwind.Infrastructure.Logging;
 namespace Northwind.Infrastructure.BackgroundServices
 {
     public abstract class BaseBackgroundService : BackgroundService, IBackgroundService
     {
         private readonly int delay;
+        private readonly ILogger<BaseBackgroundService> logger;
 
-        public BaseBackgroundService(int delay)
+        public BaseBackgroundService(int delay, ILogger<BaseBackgroundService> logger)
         {
             this.delay = delay;
+            this.logger = logger;
             if (delay < 1000)
             {
                 throw new ArgumentException("Invalid delay time");
@@ -25,8 +28,7 @@ namespace Northwind.Infrastructure.BackgroundServices
                 }
                 catch (Exception ex)
                 {
-
-
+                    logger.LogException(ex);               
                 }
                 finally
                 {

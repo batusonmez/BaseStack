@@ -21,6 +21,7 @@ namespace Northwind.API.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
@@ -28,6 +29,7 @@ namespace Northwind.API.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+         
         }
     }
 }
