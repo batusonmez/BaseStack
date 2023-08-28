@@ -14,14 +14,15 @@ namespace Northwind.Infrastructure.Services.Outbox
 
         private readonly IServiceScopeFactory scopeFactory;
         private readonly IOptions<IndexConfig> indexConfig;
+ 
 
         public OutboxIntegrationService(IServiceScopeFactory scopeFactory,
             IOptions<IndexConfig> indexConfig,
-            ILogger<OutboxIntegrationService> logger
-            ) : base(indexConfig.Value.Delay,logger)
+            ILogger<OutboxIntegrationService> logger 
+            ) : base(indexConfig.Value.Delay, logger)
         {
             this.scopeFactory = scopeFactory;
-            this.indexConfig = indexConfig;
+            this.indexConfig = indexConfig; 
         }
 
         public override async Task Execute()
@@ -35,14 +36,13 @@ namespace Northwind.Infrastructure.Services.Outbox
                 awaitingJobs = repository.Get(d => !d.ProcessDate.HasValue
                ).OrderBy(d => d.CreationDate).Take(indexConfig.Value.BatchSize).ToList();
             }
-
             await Task.WhenAll(awaitingJobs.Select(d => proccessIndexRequest(d)));
         }
 
 
-        private   Task proccessIndexRequest(DomainEntities.Outbox outbox)
+        private Task proccessIndexRequest(DomainEntities.Outbox outbox)
         {
-            return   Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 using (IServiceScope scope = scopeFactory.CreateScope())
                 {
@@ -52,8 +52,8 @@ namespace Northwind.Infrastructure.Services.Outbox
                     outbox.RequestDate = DateTime.Now;
                     repository.Update(outbox);
                     await uow.Save();
-
-                    var resp = await eventBus.GetResponse<DataIndexed>(new ()
+                    
+                    var resp = await eventBus.GetResponse<DataIndexed>(new()
                     {
                         ID = outbox.DataID,
                         Name = outbox.DataType,

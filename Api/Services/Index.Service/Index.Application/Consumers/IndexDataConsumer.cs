@@ -3,6 +3,7 @@ using Index.Application.Common;
 using Index.Application.Models;
 using MassTransit;
 using MessageBusDomainEvents;
+using Microsoft.Extensions.Logging;
 
 namespace Index.Application.Consumers
 {
@@ -10,28 +11,49 @@ namespace Index.Application.Consumers
     {
         private readonly IPublishEndpoint eventBus;
         private readonly IIndexer indexer;
+        private readonly ILogger<IndexDataConsumer> logger;
 
-        public IndexDataConsumer(IPublishEndpoint eventBus, IIndexer indexer)
+        public IndexDataConsumer(IPublishEndpoint eventBus, IIndexer indexer, ILogger<IndexDataConsumer> logger)
         {
             this.eventBus = eventBus;
             this.indexer = indexer;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<IndexData> context)
         {
-            var data = context.Message;
-
-            if (!string.IsNullOrEmpty(data.Name) && data.Value != null)
+            try
             {
-                var resp = await indexer.Index(data.Name, data.ID, data.Value);
-                IndexException.ThrowIf(!resp, $"Unable to create Index {data.ID}");
-            }
+                var data = context.Message;
 
-            await context.RespondAsync<DataIndexed>(new {
-                ID = context.Message.ID
-                
-            });
-            
+                if (!string.IsNullOrEmpty(data.Name) && data.Value != null)
+                {
+                    var resp = await indexer.Index(data.Name, data.ID, data.Value);
+                    IndexException.ThrowIf(!resp, $"Unable to create Index {data.ID}");
+                }
+
+                await context.RespondAsync<DataIndexed>(new
+                {
+                    ID = context.Message.ID
+
+                });
+            }
+            catch(Exception ex)
+            {
+                HandleException(ex);
+                throw;                
+            }
+                 
+        }
+
+
+        private void HandleException(Exception ex)
+        {
+            logger.LogError(ex.Message);
+            if (ex.InnerException != null)
+            {
+                logger.LogError(ex.InnerException.Message);
+            }
         }
     }
 }

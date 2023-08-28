@@ -93,22 +93,16 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 #region MassTransit
 builder.Services.AddOptions<MassTransitHostOptions>()
             .Configure(options =>
-            {
-                // if specified, waits until the bus is started before
-                // returning from IHostedService.StartAsync
-                // default is false
-                options.WaitUntilStarted = true;
-
-                // if specified, limits the wait time when starting the bus
-                options.StartTimeout = TimeSpan.FromSeconds(30);
-
-                // if specified, limits the wait time when stopping the bus
-                options.StopTimeout = TimeSpan.FromSeconds(30);
+            {                                
+                options.WaitUntilStarted = true;                                                
             });
 builder.Services.AddMassTransit(d =>
 {
     d.UsingRabbitMq((context, cfg) =>
     {
+        cfg.AutoStart = true;    
+        
+        cfg.QueueExpiration=TimeSpan.FromDays(1);
         cfg.Host(configuration["EventBusConnection"]);
         cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
         cfg.ReceiveEndpoint("IndexDataQueue", ep =>
@@ -119,6 +113,7 @@ builder.Services.AddMassTransit(d =>
         });
     }); 
 });
+
 #endregion
 
 #region CLI Commands
@@ -155,24 +150,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseCors();
-//app.UseExceptionHandler(
-//                options =>
-//                {
-//                    options.Run(
-//                        async context =>
-//                        {
-//                            //TODO implement log provider here
-//                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-//                            context.Response.ContentType = "text/html";
-//                            var ex = context.Features.Get<IExceptionHandlerFeature>();
-//                            if (ex != null)
-//                            {
-//                                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
-//                                await context.Response.WriteAsync(err).ConfigureAwait(false);
-//                            }
-//                        });
-//                }
-//            );
+ 
 
 app.UseHttpsRedirection();
 

@@ -8,13 +8,16 @@ using MassTransit;
 using MediatR;
 using MediatRDispatcher;
 using Nest;
+using Serilog;
+using Serilog.Events;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddControllers();
 
-#region Masstransit
+#region Swagger
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,23 +26,16 @@ builder.Services.AddSwaggerGen();
 #region Masstransit
 builder.Services.AddOptions<MassTransitHostOptions>()
             .Configure(options =>
-            {                
-                // if specified, waits until the bus is started before
-                // returning from IHostedService.StartAsync
-                // default is false
-                options.WaitUntilStarted = true;
-
-                // if specified, limits the wait time when starting the bus
-                options.StartTimeout = TimeSpan.FromSeconds(30);
-
-                // if specified, limits the wait time when stopping the bus
-                options.StopTimeout = TimeSpan.FromSeconds(30);
+            {                                
+                options.WaitUntilStarted = true;                            
             });
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<IndexDataConsumer>();
     x.UsingRabbitMq((context, cfg) =>
      {
+         cfg.AutoStart = true;                       
+         cfg.QueueExpiration = TimeSpan.FromDays(1);
          cfg.SendTopology.ConfigureErrorSettings = settings => settings.SetQueueArgument("x-message-ttl", 60000 * 60 * 24 * 2);
          cfg.ReceiveEndpoint("IndexDataQueue", ep =>
          {
@@ -68,6 +64,14 @@ builder.Services.AddScoped(typeof(IIndexer), typeof(ESIndexer));
 
 #region gRPC
 builder.Services.AddGrpc();
+#endregion
+
+#region Serilog
+var logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration).Filter.ByIncludingOnly(evt => evt.Level != LogEventLevel.Information)
+        .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 #endregion
 
 var app = builder.Build();
