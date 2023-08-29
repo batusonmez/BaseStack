@@ -1,8 +1,5 @@
 ﻿using Dispatcher;
 using Microsoft.AspNetCore.Mvc;
-using Northwind.Application.Commands;
-using Northwind.Application.Models.DTO;
-using Northwind.Application.Models.DTO.Types;
 using Northwind.Application.Queries.GenericQueries.ListQueryModels;
 
 namespace Northwind.API.Controllers

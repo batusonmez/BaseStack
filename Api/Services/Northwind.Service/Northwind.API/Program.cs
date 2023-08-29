@@ -17,11 +17,12 @@ using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
 using System.CommandLine;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Net;
 
-using Serilog; 
+using Serilog;
 using Serilog.Events;
+using Northwind.Application.Services.Token;
+using Northwind.Infrastructure.Services.Token;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -40,12 +41,7 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddHttpContextAccessor();
-
-//builder.Services.AddAuthentication().AddOAuth("oauth", o =>
-//{
-//    o.Events.OnTicketReceived
-//});
-
+ 
 #region Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -73,6 +69,11 @@ builder.Services.AddHostedService<OutboxIntegrationService>(provider =>
 #pragma warning restore CS8603 // Possible null reference return.
 
 });
+#endregion
+
+#region Token
+builder.Services.Configure<TokenConfig>(builder.Configuration.GetSection("TokenConfig"));
+builder.Services.AddScoped(typeof(ITokenService), typeof(TokenService));
 #endregion
 
 #region EntityFramework
