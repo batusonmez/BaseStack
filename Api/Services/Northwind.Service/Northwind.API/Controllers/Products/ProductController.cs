@@ -1,5 +1,8 @@
 ﻿using Dispatcher;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.API.Handlers.Policies;
 using Northwind.Application.Commands;
 using Northwind.Application.Models.DTO;
 using Northwind.Application.Queries.GenericQueries.ListQueryModels;
@@ -31,6 +34,7 @@ namespace Northwind.API.Controllers.Products
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(JwtBearerDefaults.AuthenticationScheme,Policy = PolicyConst.WRITE)]
         public async Task<IActionResult> GetProduct(int id)
         {
             ProductsDTO? product =await Dispatcher.Send<ProductsDTO>(new GetProductQuery(id));

@@ -17,11 +17,18 @@ using Northwind.Infrastructure.Services.Outbox;
 using Northwind.Persistence;
 using Repository;
 using System.CommandLine;
-
+ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 using Serilog.Events;
 using Northwind.Application.Services.Token;
 using Northwind.Infrastructure.Services.Token;
+using System.Security.Claims;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Tokens;
+using Northwind.API.Handlers.Policies;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +48,40 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddHttpContextAccessor();
- 
+
+#region Auth
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.MetadataAddress = builder.Configuration["TokenConfig:MetaURL"];
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidAudience = builder.Configuration["TokenConfig:Audience"]
+    };   
+    options.Audience = builder.Configuration["TokenConfig:Audience"]; 
+    options.Events = new()
+    {
+        OnTokenValidated = async context =>
+        {
+            if (context.Principal?.Identity is ClaimsIdentity claimsIdentity)
+            {
+                Claim? scopeClaim = claimsIdentity.FindFirst("scope");
+                if (scopeClaim is not null)
+                {
+                    claimsIdentity.RemoveClaim(scopeClaim);
+                    claimsIdentity.AddClaims(scopeClaim.Value.Split(" ").Select(s => new Claim("scope", s)).ToList());
+                }
+            }
+            await Task.CompletedTask;
+        }
+    };
+});
+  
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy(PolicyConst.READ, policy => policy.RequireClaim("scope", "read"));
+    options.AddPolicy(PolicyConst.WRITE, policy => policy.RequireClaim("scope", "write"));        
+});
+#endregion
+
 #region Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -149,14 +189,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//app.UseHttpsRedirection();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseCors();
  
 
-app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseHttpMetrics();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseMetricServer();
+app.UseEndpoints(endpoints =>
+{ 
+    endpoints.MapControllers();
+    endpoints.MapMetrics();
+});
 
+//app.MapMetrics();
 app.Run();

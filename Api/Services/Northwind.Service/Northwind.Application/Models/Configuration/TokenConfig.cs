@@ -1,7 +1,10 @@
 ﻿namespace Northwind.Application.Models.Configuration
 {
     public class TokenConfig
-    {
+    {        
+        public string? MetaURL { get; set; }
+        public string? Authority { get; set; }
+        public string? Audience { get; set; }
         public string? TokenURL { get; set; }
         public string? ClientID { get; set; }
         public string? ClientSecret { get; set; }

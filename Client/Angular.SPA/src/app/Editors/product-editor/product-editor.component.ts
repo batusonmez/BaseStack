@@ -21,6 +21,7 @@ import { BaseEditor } from '../base.editor';
 import { CellType } from 'src/app/DataTable/Models/CellType';
 import { Product } from 'src/app/Models/Products/Product';
 import { HiddenInputComponent } from 'src/app/Form/FormComponents/hidden-input/hidden-input.component';
+import { AuthenticationService } from 'src/app/services/ApiServices/AuthenticationService/authentication.service';
 
 @Component({
   selector: 'product-editor',
@@ -34,6 +35,17 @@ import { HiddenInputComponent } from 'src/app/Form/FormComponents/hidden-input/h
   styleUrls: ['./product-editor.component.scss']
 })
 export class ProductEditorComponent extends BaseEditor<Product> implements OnInit {
+
+
+  constructor(private route: ActivatedRoute, 
+    private mapper: RouteMapperService, 
+    private productService: ProductService, 
+    private categoryService: CategoryService,
+    private supplierService: SupplierService,
+    private authenticationService:AuthenticationService
+    ) {
+    super();
+  }
 
   Config: ProductEditorConfig = {
     FormConfig: {
@@ -205,12 +217,11 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
 
   }
 
-  constructor(private route: ActivatedRoute, private mapper: RouteMapperService, private productService: ProductService, private categoryService: CategoryService, private supplierService: SupplierService) {
-    super();
-  }
+
 
   ngOnInit(): void {
     this.registerQueryCommands();
+    this.GetToken();
   }
 
   LoadData(query: string): void {
@@ -262,6 +273,21 @@ export class ProductEditorComponent extends BaseEditor<Product> implements OnIni
 
   Cancel():void{
     this.mapper.setQueryParams({ editor: 0,Edit:-1 });
+  }
+
+  SetToken():void{
+    this.authenticationService.SetToken().subscribe((token)=>{
+      this.GetToken();
+    });
+  }
+
+  GetToken():void{
+    this.Config.SampleToken=this.authenticationService.GetToken()??undefined;
+  }
+
+  DeleteToken():void{
+    this.authenticationService.DeleteToken();
+    this.GetToken();
   }
 
 }

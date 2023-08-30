@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Environment } from 'src/environments/environment';
 import { LoadingService } from './loading.service';
 import { ToastService } from '../ToastService/toast.service';
 import { PagedResult } from 'src/app/Models/PagedResult';
+import { AuthenticationService } from './AuthenticationService/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseApiService<T> {
   
-  constructor(public router: Router, public route: ActivatedRoute, public http: HttpClient,private loadingService:LoadingService,private toastService:ToastService) {
+  constructor(public router: Router, 
+     public route: ActivatedRoute,
+     public http: HttpClient,
+     private loadingService:LoadingService,
+     private toastService:ToastService,
+     private authService:AuthenticationService
+     ) {
 
   }
 
@@ -20,7 +27,8 @@ export class BaseApiService<T> {
     if(!hidebackdrop){
       this.addWork();     
     }    
-    return this.http.get<U>(Environment.APIRoot + path,{observe:"response"} ).pipe(tap(next=> {      
+    let defaultHeaders=this.GetDefaultHeaders();
+    return this.http.get<U>(Environment.APIRoot + path,{observe:"response",headers:defaultHeaders} ).pipe(tap(next=> {      
        this.success(false,hidebackdrop);   
     }), catchError((err)=>{      
       this.error(err)
@@ -43,6 +51,19 @@ export class BaseApiService<T> {
     if(!hideBackDrop){
       this.doneWork();
     }    
+  }
+
+
+  public GetDefaultHeaders():HttpHeaders{
+    
+    let headers:any={};
+    let token=this.authService.GetToken();
+    if(token){
+      headers['Authorization']="Bearer "+token;
+    }
+    
+    return new HttpHeaders(headers);
+  
   }
 
   private error(err:any):void{

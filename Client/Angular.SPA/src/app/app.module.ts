@@ -17,8 +17,7 @@ import { HiddenInputComponent } from './Form/FormComponents/hidden-input/hidden-
 @NgModule({
   declarations: [
     AppComponent,
-    TextInputComponent,  
-    
+    TextInputComponent,      
   ],
   imports: [   
     ReactiveFormsModule,

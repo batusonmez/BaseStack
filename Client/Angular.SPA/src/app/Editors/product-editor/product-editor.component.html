@@ -1,5 +1,13 @@
  
-     
+     <button class="btn btn-info" *ngIf="!Config.SampleToken" (click)="SetToken()" i18n>Set Token</button>
+     <button class="btn btn-danger" *ngIf="Config.SampleToken" (click)="DeleteToken()" i18n>Delete Token</button>
+     <br> <br>
+     <div class="card" *ngIf="Config.SampleToken">
+        <div class="card-body">
+         <b i18n>Token : </b> {{Config.SampleToken}}
+        </div>
+      </div>
+     <hr>
 <form-host *ngIf="Config.ShowEditor" [Config]="Config.FormConfig"  [Value]="EditorData"  ></form-host>
 <br />
 <br />
