@@ -21,6 +21,7 @@ namespace Northwind.API.Controllers.Products
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(JwtBearerDefaults.AuthenticationScheme, Policy = PolicyConst.WRITE)]
         public async Task<IActionResult> Post([FromBody] ProductsDTO data)
         {
 
@@ -34,7 +35,7 @@ namespace Northwind.API.Controllers.Products
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(JwtBearerDefaults.AuthenticationScheme,Policy = PolicyConst.WRITE)]
+        [Authorize(JwtBearerDefaults.AuthenticationScheme,Policy = PolicyConst.READ)]
         public async Task<IActionResult> GetProduct(int id)
         {
             ProductsDTO? product =await Dispatcher.Send<ProductsDTO>(new GetProductQuery(id));
