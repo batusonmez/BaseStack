@@ -32,11 +32,12 @@ namespace Index.Application.Consumers
                     IndexException.ThrowIf(!resp, $"Unable to create Index {data.ID}");
                 }
 
-                await context.RespondAsync<DataIndexed>(new
+                await eventBus.Publish<DataIndexed>(new
                 {
+                    OutboxID=context.Message.OutboxID,
                     ID = context.Message.ID
 
-                });
+                });                
             }
             catch(Exception ex)
             {

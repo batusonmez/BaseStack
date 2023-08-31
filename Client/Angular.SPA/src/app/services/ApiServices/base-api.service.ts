@@ -98,7 +98,8 @@ export class BaseApiService<T> {
 
    public Post<U>(Data:any): Observable<HttpResponse<U>> {        
     this.addWork();             
-    return this.http.post<U>(Environment.APIRoot+this.RootURL,Data,{observe:"response"} ).pipe(tap(next=> {      
+    let defaultHeaders=this.GetDefaultHeaders();
+    return this.http.post<U>(Environment.APIRoot+this.RootURL,Data,{observe:"response",headers:defaultHeaders} ).pipe(tap(next=> {      
        this.success(true);   
     }), catchError((err)=>{      
       this.error(err)

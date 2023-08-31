@@ -29,6 +29,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
 using Northwind.API.Handlers.Policies;
 using Prometheus;
+using Northwind.Application.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -139,6 +140,7 @@ builder.Services.AddOptions<MassTransitHostOptions>()
             });
 builder.Services.AddMassTransit(d =>
 {
+    d.AddConsumer<DataIndexedConsumer>();
     d.UsingRabbitMq((context, cfg) =>
     {
         cfg.AutoStart = true;    
@@ -150,6 +152,7 @@ builder.Services.AddMassTransit(d =>
         {
             ep.PrefetchCount = 16;
             ep.UseMessageRetry(r => r.Interval(100, 10000));
+            ep.ConfigureConsumer<DataIndexedConsumer>(context);
 
         });
     }); 

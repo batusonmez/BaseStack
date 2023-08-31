@@ -7,6 +7,7 @@ using Index.Infrastructure.ElasticSearch;
 using MassTransit;
 using MediatR;
 using MediatRDispatcher;
+using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Serilog;
 using Serilog.Events;
@@ -41,9 +42,11 @@ builder.Services.AddMassTransit(x =>
          {
              ep.PrefetchCount = 16;
              ep.UseMessageRetry(r => r.Interval(100, 10000));
-             ep.ConfigureConsumer<IndexDataConsumer>(context);
+             ep.ConfigureConsumer<IndexDataConsumer>(context);            
 
          });
+
+         
      });    
 }); 
 

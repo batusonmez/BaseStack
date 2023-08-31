@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.API.Handlers.Policies;
 using Northwind.Application.Commands;
-using Northwind.Application.Models.DTO;
-using Northwind.Application.Queries.GenericQueries.ListQueryModels;
+using Northwind.Application.Models.DTO; 
 using Northwind.Application.Queries.Products.GetProduct;
 
 namespace Northwind.API.Controllers.Products

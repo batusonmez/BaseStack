@@ -49,20 +49,20 @@ namespace Northwind.Infrastructure.Services.Outbox
                     IUOW uow = scope.ServiceProvider.GetRequiredService<IUOW>();
                     IRepository<DomainEntities.Outbox> repository = scope.ServiceProvider.GetRequiredService<IRepository<DomainEntities.Outbox>>();
                     IRequestClient<IndexData> eventBus = scope.ServiceProvider.GetRequiredService<IRequestClient<IndexData>>();
-                    outbox.RequestDate = DateTime.Now;
+                    IPublishEndpoint bus = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
+
+                    outbox.RequestDate = DateTime.Now;                                        
                     repository.Update(outbox);
-                    await uow.Save();
-                    
-                    var resp = await eventBus.GetResponse<DataIndexed>(new()
+                    await bus.Publish<IndexData>(new()
                     {
+                        OutboxID=outbox.ID,
                         ID = outbox.DataID,
                         Name = outbox.DataType,
                         Value = outbox.Data
                     });
-
-                    outbox.ProcessDate = DateTime.Now;
-                    repository.Update(outbox);
                     await uow.Save();
+                    
+                   
 
                 }
             });
