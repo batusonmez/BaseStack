@@ -55,6 +55,7 @@ export class DataListComponent extends BaseFormControl implements OnInit {
     if (this.Config?.Event) {
       this.Config.Event("optionSelect", option);
     }
+    this.Clear();
   }
 
   SetValues(label?:string,value?:string):void{
