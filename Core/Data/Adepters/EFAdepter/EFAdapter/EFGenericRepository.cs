@@ -47,7 +47,10 @@ namespace EFAdapter
         {
             return dbSet.Find(id);
         }
-
+        public T? GetByID(object id, string includeProperties)
+        {
+            return dbSet.AddInclude(includeProperties).Find(id);
+        }
         public void Insert(T entity)
         {
            dbSet.Add(entity);

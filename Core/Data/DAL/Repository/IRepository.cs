@@ -13,7 +13,7 @@ namespace Repository
         IPagedData<T> GetPaged(IDataQuery<T> queryModel);
 
         T? GetByID(object id);
-
+        T? GetByID(object id, string includeProperties);
         void Insert(T entity);
         void Insert(IEnumerable<T> entities);
         void Delete(object id);

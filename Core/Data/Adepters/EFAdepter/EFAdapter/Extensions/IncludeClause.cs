@@ -18,5 +18,20 @@ namespace EFAdapter.Extensions
             }
             return source;
         }
+
+        public static DbSet<T> AddInclude<T>(this DbSet<T> source, string includeProperties) where T : class
+        {
+            if (string.IsNullOrEmpty(includeProperties))
+            {
+                return source;
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                          (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                source.Include(includeProperty);
+            }
+            return source;
+        }
     }
 }
