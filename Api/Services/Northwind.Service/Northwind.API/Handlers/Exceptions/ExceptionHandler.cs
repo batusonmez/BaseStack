@@ -21,7 +21,8 @@
             {
                 message += Environment.NewLine + ex.InnerException.Message;
             }
-            logger.LogError(message);           
+            logger.LogError(message);
+            throw;
         }
     }
 }
