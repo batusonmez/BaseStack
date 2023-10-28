@@ -35,6 +35,19 @@ export class BaseApiService<T> {
       return of();
     }));
   }
+  
+  public Delete(path: string,hidebackdrop:boolean=false): Observable<HttpResponse<any>> {    
+    if(!hidebackdrop){
+      this.addWork();     
+    }    
+    let defaultHeaders=this.GetDefaultHeaders();
+    return this.http.delete(Environment.APIRoot + path,{observe:"response",headers:defaultHeaders} ).pipe(tap(next=> {      
+       this.success(false,hidebackdrop);   
+    }), catchError((err)=>{      
+      this.error(err)
+      return of();
+    }));
+  }
 
   private addWork():void{
     this.loadingService.AddWork();    
@@ -95,6 +108,15 @@ export class BaseApiService<T> {
       return result;
    }
 
+   public GetByID(ID:string): Observable<T> {    
+    return this.Get<T>(this.RootURL+"/ID/"+ID,false).pipe(map((resp) =>{ 
+      return resp.body as T;        
+    }));
+   }
+   
+   public DeleteByID(ID:string): Observable<HttpResponse<any>> {    
+    return this.Delete(this.RootURL+"/ID/"+ID,false);
+   }
 
    public Post<U>(Data:any): Observable<HttpResponse<U>> {        
     this.addWork();             
