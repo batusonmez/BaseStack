@@ -1,17 +1,24 @@
 <div class="form-group datalist">
-  <label>{{Config.ComponentData?.Title}} </label> 
-  <input class="form-control" [name]="Config.ComponentData?.LabelFor" [id]="Config.ComponentData?.LabelFor"  placeholder="{{Config.ComponentData?.Placeholder}}"
+  <label>{{DataListConfig?.Title}} </label> 
+  <input class="form-control" [name]="DataListConfig?.LabelFor" [id]="DataListConfig?.LabelFor"  placeholder="{{Config.ComponentData?.Placeholder}}"
     (keyup)="SetQuery($event)"  [formControl]="AcBoxController"  autocomplete="off"  > 
-    <input  type="hidden" class="form-control" [name]="Config.Name" [id]="Config.Name" [formControl]="Controller" [required]="Config.Required??false"  autocomplete="off" >    
-  <ul class="list-group items" *ngIf="Config.ComponentData?.Options" >
-    <li class="list-group-item" *ngFor="let dt of Config.ComponentData?.Options" (click)="SetSelection(dt)" >
+    <input *ngIf="!DataListConfig?.Multiple" type="hidden" class="form-control" [name]="Config.Name" [id]="Config.Name" [formControl]="Controller" [required]="Config.Required??false"  autocomplete="off" >      
+ 
+    <ul class="list-group items" *ngIf="DataListConfig?.Options" >
+    <li class="list-group-item" *ngFor="let dt of DataListConfig?.Options" (click)="SetSelection(dt)" >
       <div class="ms-2 me-auto">
         <div class="fw-bold">{{dt.Label}}</div>
         {{dt.Info}}
       </div>
       </li> 
   </ul>    
-  <validation-message [Controller]="Controller" ></validation-message>
+  
+  <ng-container *ngIf="DataListConfig?.Multiple && Controller?.value?.length" >
+    <span  *ngFor="let dt of Controller?.value" class="badge text-bg-secondary">{{dt[DataListConfig?.LabelFor??"_"]}} <span class="removeBadge" (click)="RemoveMultipleSelection(dt)" >x</span></span>
+  </ng-container>
+   
+  <select style="display:none;" *ngIf="DataListConfig?.Multiple"  [name]="Config.Name" [id]="Config.Name"  multiple name="countries" [formControl]="Controller" [required]="Config.Required??false" >  </select>
+  <validation-message [Controller]="Controller" ></validation-message> 
 </div> 
  
  

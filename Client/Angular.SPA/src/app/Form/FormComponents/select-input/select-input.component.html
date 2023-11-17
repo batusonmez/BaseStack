@@ -1,0 +1,14 @@
+ 
+<div class="form-group">
+  <label>{{Config.ComponentData.Label}}</label> 
+  <select   class="form-control" 
+   name="{{Config.Name}}"
+   [id]="Config?.Name"   
+   [formControl]="Controller"
+   [required]="Config.Required??false" 
+    >
+    <option *ngFor="let dt of Config.ComponentData.Options" [value]="dt.Value" >{{dt.Label}}</option>
+  </select>
+    <validation-message [Controller]="Controller" ></validation-message> 
+    
+</div>
