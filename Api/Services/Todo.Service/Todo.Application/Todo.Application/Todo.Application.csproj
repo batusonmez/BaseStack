@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Core\API\Dispatchers\Mediatr\MediatRDispatcher.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Core\API\MessageBus\Domain\MessageBusDomainEvents\MessageBusDomainEvents.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Core\API\MessageBus\MessageBusManager\MessageBusManager.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Core\Data\DAL\Repository\Repository.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Core\Data\Mapper\Mapper.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Core\Helpers\Exceptions\Exceptions.csproj" />
+    <ProjectReference Include="..\..\Todo.Domain\Todo.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
