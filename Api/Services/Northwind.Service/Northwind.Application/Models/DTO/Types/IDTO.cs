@@ -19,10 +19,6 @@
         /// Gets if object has a database primary key
         /// </summary>
         bool HasID { get; }
-
-        /// <summary>
-        /// Gets database object primary key
-        /// </summary>
-        object DTOID { get; }
+         
     }
 }
